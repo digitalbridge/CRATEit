@@ -4,9 +4,9 @@ namespace OCA\crate_it\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
-use \OCP\AppFramework\Http\TextResponse;
 use \OCP\AppFramework\Http;
 
+use OCA\crate_it\lib\ErrorResponse;
 use OCA\crate_it\lib\ZipDownloadResponse;
 use OCA\crate_it\lib\XSendFileDownloadResponse;
 
@@ -211,8 +211,7 @@ class CrateController extends Controller {
         } catch(\Exception $e) {
             $message = 'Internal Server Error: '.$e->getMessage();
             \OCP\Util::writeLog('crate_it', $message, \OCP\Util::ERROR);
-            $response = new TextResponse($message);
-            $response->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
+            $response = new ErrorResponse($message);
         }
         return $response;
     }
@@ -233,8 +232,7 @@ class CrateController extends Controller {
         } catch(\Exception $e) {
             $message = 'Internal Server Error: '.$e->getMessage();
             \OCP\Util::writeLog('crate_it', $message, \OCP\Util::ERROR);
-            $response = new TextResponse($message);
-            $response->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
+            $response = new ErrorResponse($message);
         }
         return $response;
     }
@@ -249,7 +247,7 @@ class CrateController extends Controller {
     public function readmePreview() {
         \OCP\Util::writeLog('crate_it', "CrateController::readmePreview()", \OCP\Util::DEBUG);
         $readme = $this->crateManager->getReadme($_SESSION['selected_crate']);
-        return new TextResponse($readme, 'html');
+        return new ErrorResponse($readme, Http::STATUS_OK);
     }
 
     /**
@@ -261,7 +259,7 @@ class CrateController extends Controller {
     public function xml() {
         \OCP\Util::writeLog('crate_it', "CrateController::readmePreview()", \OCP\Util::DEBUG);
         $readme = $this->crateManager->getReadme($_SESSION['selected_crate']);
-        return new TextResponse($readme, 'html');
+        return new ErrorResponse($readme, Http::STATUS_OK);
     }
 
 

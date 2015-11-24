@@ -3,8 +3,8 @@
 require_once 'mocks/MockController.php';
 require_once 'mocks/MockZipDownloadResponse.php';
 require_once 'mocks/MockXSendFileDownloadResponse.php';
-require_once 'mocks/MockTextResponse.php';
 require_once 'mocks/MockJSONResponse.php';
+require_once 'mocks/MockErrorResponse.php';
 require_once 'mocks/MockUtil.php';
 require_once 'mocks/MockHttp.php';
 require_once 'mocks/MockUser.php';
@@ -17,7 +17,7 @@ require_once 'controller/cratecontroller.php';
 use \OCA\crate_it\Controller\CrateController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\TextResponse;
+use OCA\crate_it\lib\ErrorResponse;
 use OCA\crate_it\lib\ZipDownloadResponse;
 use OCA\crate_it\lib\XSendFileDownloadResponse;
 
@@ -34,8 +34,7 @@ class CrateControllerTest extends PHPUnit_Framework_TestCase {
     $errorMessage = 'Server has caught on fire';
     $this->exception = new Exception($errorMessage);
     $this->jsonErrorResponse = new JSONResponse(array('msg' => $errorMessage), Http::STATUS_INTERNAL_SERVER_ERROR);
-    $this->textErrorResponse = new TextResponse("Internal Server Error: $errorMessage");
-    $this->textErrorResponse->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
+    $this->textErrorResponse = new ErrorResponse("Internal Server Error: $errorMessage");
     $this->crateManager = $crateManager = $this->getMockBuilder('OCA\crate_it\manager\crateManager')->disableOriginalConstructor()->setMethods($this->crateManagerMethods)->getMock();
     $this->crateController = new CrateController(NULL, NULL, $crateManager);
   }
