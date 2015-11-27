@@ -23,19 +23,23 @@
         <h1>Description</h1>
         <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
 
-        <h1>Data Retention Period</h1>
-        <span><?php p($_['data_retention_period']) ?> (years)</span>
+        <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] != "") { ?>
+            <h1>Data Retention Period</h1>
+            <span><?php p($_['data_retention_period']) ?> (years)</span>
+        <?php } ?>
 
-        <h1>Embargo Details</h1>
-        <h2>Embargo Enabled</h2>
-        <span><?php if ($_['embargo_enabled']) {p($_['embargo_enabled'] === 'true' ? 'Yes' : 'No');} ?></span>
+        <?php if (array_key_exists('embargo_enabled', $_)) { ?>
+            <h1>Embargo Details</h1>
+            <h2>Embargo Enabled</h2>
+            <span><?php if ($_['embargo_enabled']) {p($_['embargo_enabled'] === 'true' ? 'Yes' : 'No');} ?></span>
 
-        <?php if ($_['embargo_enabled'] === 'true') { ?>
-            <h2>Embargo Until</h2>
-            <span><?php p($_['embargo_date']) ?></span>
+            <?php if ($_['embargo_enabled'] === 'true') { ?>
+                <h2>Embargo Until</h2>
+                <span><?php p($_['embargo_date']) ?></span>
 
-            <h2>Embargo Note</h2>
-            <span><?php p(nl2br($_['embargo_details'])) ?></span>
+                <h2>Embargo Note</h2>
+                <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
+            <?php } ?>
         <?php } ?>
 
         <h1>Creators</h1>
