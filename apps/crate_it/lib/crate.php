@@ -114,10 +114,8 @@ class Crate extends BagIt {
             // ' ' in the name
             $text = str_replace(' ', '_', $node['name']);
             // change the filename part of the path to the 'underscored' version
-            $filename = str_replace($node['name'], $text, $node['filename']);
-            $rootfolder = $this->getRootFolderName();
             if($node['valid'] == 'true') {
-                $tree = $tree."<li><a href='./$rootfolder/$filename'>$text</a></li>";
+                $tree = $tree."<li>$text</a></li>";
             } else {
                 $tree = $tree."<li>$text (invalid)</li>";
             }
