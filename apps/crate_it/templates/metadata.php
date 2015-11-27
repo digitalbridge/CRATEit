@@ -206,7 +206,7 @@
                     <div id="embargo-summary">
                         <div class='embargo-enabled'>
                             <h6 class="info">
-                                Embargo Enabled <?php p($_['embargo_enabled']) ?>
+                                Embargo Enabled
                             </h6>
                             <span id="embargo_enabled" class="standard"><?php if ($_['embargo_enabled']) {p($_['embargo_enabled'] === 'true' ? 'Yes' : 'No');} ?></span>
                         </div>
