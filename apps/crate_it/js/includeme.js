@@ -11,7 +11,7 @@ function setupEditDesriptionOp() {
     $('#crate_description').keyup(function () {
         var description_length = templateVars['description_length'];
         if ($(this).val().length > description_length) {
-            $("#edit_description_validation_error").text('Crate Description has reached the limit of 6,000 characters');
+            $("#edit_description_validation_error").text('Crate Description has reached the limit of ' + description_length + ' characters');
             $("#edit_description_validation_error").show();
             $(this).val($(this).val().substr(0, description_length));
         } else {
