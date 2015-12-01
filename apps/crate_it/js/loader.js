@@ -55,12 +55,12 @@ $(document).ready(function() {
                     file: getFileName($('#dir').val(), filename)
                 };
                 var c_url = OC.generateUrl('apps/crate_it/crate/add');
-                console.log(c_url);
                 $.ajax({
                     url: c_url,
                     type: 'post',
                     dataType: 'json',
                     data: payload,
+                    async: true,
                     complete: function(jqXHR) {
                         OC.Notification.show(jqXHR.responseJSON.msg);
                         setTimeout(function() {

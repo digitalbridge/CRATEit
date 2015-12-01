@@ -79,6 +79,7 @@ class CrateController extends Controller {
                 throw new \Exception("$file ignored by Crate it");
             }
             $crateName = $_SESSION['selected_crate'];
+            session_write_close();
             // TODO: naming consistency, add vs addToBag vs addToCrate
             $this->crateManager->addToCrate($crateName, $file);
             return new JSONResponse(array('msg' => "$file added to crate $crateName"));
