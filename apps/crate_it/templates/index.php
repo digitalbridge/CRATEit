@@ -23,10 +23,10 @@
 
     <div class="pull-right">
 
-      <a id="publish" class="button" data-toggle="modal" data-target="#publishModal">
+      <button id="publish" type="button" data-toggle="modal">
         <i class="fa fa-envelope"></i>
         Submit
-      </a>
+      </button>
 
       <a id="check" class="button" data-toggle="modal" data-target="#checkCrateModal">
          <i class="fa fa-check-circle"></i>
@@ -34,7 +34,7 @@
       </a>  
       
       <div class="btn-group">      
-        <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+        <button id="download" type="button" class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-download"></i>
           Download
         </button>
@@ -48,7 +48,7 @@
             </li>
           <?php } ?>
           <li>
-            <a id="download" class="dropdown-btn">
+            <a id="download-zip" class="dropdown-btn">
               <i class="fa fa-archive"></i>
                Zip
             </a>
