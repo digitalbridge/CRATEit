@@ -95,7 +95,7 @@ class PublishController extends Controller {
             $metadata['submitted_date'] = Util::getTimestamp("Y-m-d");
             $metadata['submitted_time'] = Util::getTimestamp("H:i:s");
             $this->alertingService->alert($metadata);
-            $data['msg'] = "Crate '$crateName' successfully submitted.";
+            $data['msg'] = "The Crate '$crateName' has been successfully submitted and a confirmation eMail has been sent to you.";
             $this->loggingService->logPublishedDetails($cratePath, $crateName);
             # Publish complete. Email the submitter if an email address has been configured.
             if(!array_key_exists('submitter',$metadata)) {

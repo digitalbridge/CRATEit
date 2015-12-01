@@ -8,8 +8,8 @@
       <div class="modal-body">
         <h4>Status</h4>
         <span id="publish-confirm-status"></span>
-        <h4>Email Status</h4>
-        <p>Enter an email address to send the submission report to</p>
+        <h4>Additional Confirmation Email</h4>
+        <p>If another individual requires confirmation of the submission of this Crate, please enter their email address:</p>
         <label for="publish-confirm-email" class="element-invisible">Email address</label>
         <input id="publish-confirm-email" type="text" class="modal-input"></input>
         <p>
