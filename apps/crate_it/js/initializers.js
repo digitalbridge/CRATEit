@@ -212,7 +212,11 @@ function initCrateActions() {
     });
   });
 
-  $('#download').click(downloadCrate);
+  $('#download-zip').click(downloadCrate);
+
+  $('#publish').click(function(e) {
+    $('#publishModal').modal();
+  });
 
 
   var publishCrate = function(crateName, endpoint, collection){

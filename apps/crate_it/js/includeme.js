@@ -300,6 +300,7 @@ function updateCrateSize() {
             var notify = false;
             var disablePublish = false;
             var disableDownload = false;
+
             // TODO: The max SWORD limit was disabled as a quick fix
             // for publishing taking a long time. Also not that the limits
             // don't seem to prevent large crates from being published.
@@ -308,17 +309,20 @@ function updateCrateSize() {
             if (swordEnabled && maxSwordMB > 0 && crate_size_mb > maxSwordMB) {
                 warnings.push('exceeds SWORD limit');
                 disablePublish = true;
+                disableDownload = true;
                 notify = true;
             }
             if (maxZipMB > 0 && crate_size_mb > maxZipMB) {
                 warnings.push('exceeds ZIP file limit');
+                warnings.push('submit and download operations are disabled');
                 disableDownload = true;
+                disablePublish = true;
                 notify = true;
-            }
-            if (publishWarningMB > 0 && crate_size_mb > publishWarningMB) {
+            } else if (publishWarningMB > 0 && crate_size_mb > publishWarningMB) {
                 warnings.push('will cause publishing to take a long time');
                 notify = true;
             }
+
             var msg = 'WARNING: Crate size ' + warnings.join(', and ') + '.';
 
             if (disablePublish) {
