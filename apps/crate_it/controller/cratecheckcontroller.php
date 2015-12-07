@@ -28,6 +28,7 @@ class CrateCheckController extends Controller {
         \OCP\Util::writeLog('crate_it', "CrateController::checkCrate()", \OCP\Util::DEBUG);
         try {
             $selected_crate = $_SESSION['selected_crate'];
+            session_commit();
             $this->loggingService->log("Beginning Consistency Check for crate '$selected_crate'..");
             $result = $this->crateManager->checkCrate($selected_crate);
             if(empty($result)) {

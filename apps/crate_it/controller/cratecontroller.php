@@ -79,7 +79,7 @@ class CrateController extends Controller {
                 throw new \Exception("$file ignored by Crate it");
             }
             $crateName = $_SESSION['selected_crate'];
-            session_write_close();
+            session_commit();
             // TODO: naming consistency, add vs addToBag vs addToCrate
             $this->crateManager->addToCrate($crateName, $file);
             return new JSONResponse(array('msg' => "$file added to crate $crateName"));
@@ -118,7 +118,9 @@ class CrateController extends Controller {
     {
         \OCP\Util::writeLog('crate_it', "CrateController::getCrateSize()", \OCP\Util::DEBUG);
         try {
-            $data = $this->crateManager->getCrateSize($_SESSION['selected_crate']);
+            $selectedCrate = $_SESSION['selected_crate'];
+            session_commit();
+            $data = $this->crateManager->getCrateSize($selectedCrate);
             return new JSONResponse($data);
         } catch(\Exception $e) {
             return new JSONResponse(array('msg' => $e->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -274,6 +276,7 @@ class CrateController extends Controller {
         \OCP\Util::writeLog('crate_it', "CrateController::checkCrate()", \OCP\Util::DEBUG);
         try {
             $selected_crate = $_SESSION['selected_crate'];
+            session_commit();
             $result = $this->crateManager->checkCrate($selected_crate);
             if (empty($result)) {
                 $msg = 'All items are valid.';
