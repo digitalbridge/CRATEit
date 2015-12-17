@@ -53,19 +53,24 @@
                 </thead>
                 <tbody>
                 <?php foreach ($_['creators'] as $creator) {
+                    if (array_key_exists('overrides', $creator)) {
+                        $c = $creator['overrides'];
+                    } else {
+                        $c = $creator;
+                    }
                     print_unescaped('<tr>');
                     print_unescaped('<td>');
-                    p($creator['name']);
+                    p($c['name']);
                     print_unescaped('</td>');
                     print_unescaped('<td>');
-                    p($creator['email']);
+                    p($c['email']);
                     print_unescaped('</td>');
                     print_unescaped('<td xmlns:dc="http://purl.org/dc/elements/1.1/">');
-                    if (array_key_exists('url',$creator)) {
+                    if (array_key_exists('url',$c)) {
                         print_unescaped();
-                        print_unescaped('<a href="'.$creator['identifier'].'"><span property="dc:identifier">'.$creator['identifier'].'</span></a>');
+                        print_unescaped('<a href="'.$c['identifier'].'"><span property="dc:identifier">'.$c['identifier'].'</span></a>');
                     } else {
-                        print_unescaped('<span property="dc:identifier">'.$creator['identifier'].'</span>');
+                        print_unescaped('<span property="dc:identifier">'.$c['identifier'].'</span>');
                     }
                     print_unescaped('</td>');
                     print_unescaped('<td>'.$creator['source'].'</td>');
@@ -99,27 +104,33 @@
                 </thead>
                 <tbody>
                 <?php foreach ($_['activities'] as $activity) {
+                    if (array_key_exists('overrides', $activity)) {
+                        $a = $activity['overrides'];
+                    } else {
+                        $a = $activity;
+                    }
+
                     print_unescaped('<tr>');
                     print_unescaped('<td>');
-                    p($activity['grant_number']);
+                    p($a['grant_number']);
                     print_unescaped('</td>');
                     print_unescaped('<td>');
-                    p($activity['title']);
+                    p($a['title']);
                     print_unescaped('</td>');
                     print_unescaped('<td>');
-                    p($activity['description']);
+                    p($a['description']);
                     print_unescaped('</td>');
                     print_unescaped('<td>');
-                    p($activity['date']);
+                    p($a['date']);
                     print_unescaped('</td>');
                     print_unescaped('<td>');
-                    p($activity['date_submitted']);
+                    p($a['date_submitted']);
                     print_unescaped('</td>');
                     print_unescaped('<td>');
-                    p($activity['institution']);
+                    p($a['institution']);
                     print_unescaped('</td>');
 
-                    $activity_identifier = $activity['identifier'];
+                    $activity_identifier = $a['identifier'];
                     $http = substr($activity_identifier, 0, strlen('http')) === 'http';
                     $https = substr($activity_identifier, 0, strlen('https')) === 'https';
 
@@ -129,7 +140,7 @@
                         print_unescaped('</td>');
                     } else {
                         print_unescaped('<td>');
-                        print_unescaped($activity['identifier']);
+                        print_unescaped($a['identifier']);
                         print_unescaped('</td>');
                     }
 
@@ -138,31 +149,31 @@
                     print_unescaped('</td>');
 
                     print_unescaped('<td>');
-                    p($activity['subject']);
+                    p($a['subject']);
                     print_unescaped('</td>');
 
                     print_unescaped('<td>');
-                    p($activity['format']);
+                    p($a['format']);
                     print_unescaped('</td>');
 
                     print_unescaped('<td>');
-                    p($activity['oai_set']);
+                    p($a['oai_set']);
                     print_unescaped('</td>');
 
                     print_unescaped('<td>');
-                    p($activity['repository_name']);
+                    p($a['repository_name']);
                     print_unescaped('</td>');
 
                     print_unescaped('<td>');
-                    p($activity['repository_type']);
+                    p($a['repository_type']);
                     print_unescaped('</td>');
 
                     print_unescaped('<td>');
-                    p($activity['display_type']);
+                    p($a['display_type']);
                     print_unescaped('</td>');
 
                     print_unescaped('<td>');
-                    p($activity['contributors']);
+                    p($a['contributors']);
                     print_unescaped('</td>');
 
                     print_unescaped('</tr>');
