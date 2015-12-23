@@ -46,11 +46,25 @@ $(document).ready(function() {
             }
         });
        return selected_crate;
-    }
+    };
 
     if (location.pathname.indexOf("files") != -1) {
+        $('body').append(
+            '<div class="modal" id="addingToCrateModal" tabindex="-1" role="dialog" aria-labelledby="addingToCrateModalLabel" aria-hidden="true">' +
+                '<div class="modal-dialog">' +
+                    '<div class="modal-content">' +
+                        '<div class="modal-header">' +
+                            '<h4 class="modal-title" id="addingToCrateModalLabel">Adding file(s) to crate...</h4>' +
+                        '</div>' +
+                        '<div class="modal-body" style="text-align: center">' +
+                            '<img class="center-block" src="/owncloud/apps/crate_it/img/ajax-spinner-loader.gif" style="width: 50px">' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>');
         if (typeof FileActions !== 'undefined') {
             FileActions.register('all', 'Add to crate', OC.PERMISSION_READ, '', function(filename) {
+                $('div#addingToCrateModal').modal();
                 var payload = {
                     file: getFileName($('#dir').val(), filename)
                 };
@@ -62,6 +76,7 @@ $(document).ready(function() {
                     data: payload,
                     async: true,
                     complete: function(jqXHR) {
+                        $('div#addingToCrateModal').modal('hide');
                         OC.Notification.show(jqXHR.responseJSON.msg);
                         setTimeout(function() {
                             OC.Notification.hide();
