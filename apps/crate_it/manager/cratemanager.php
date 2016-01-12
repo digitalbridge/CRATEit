@@ -190,8 +190,7 @@ class CrateManager {
         }
         else {
             $filename = $node['filename'];
-            $filepath = \OC\Files\Filesystem::getLocalFile($filename);
-            $valid = file_exists($filepath); 
+            $valid = \OC\Files\Filesytem::file_exists($filename);
             $node['valid'] = var_export($valid, true);
             $crate->setManifest($manifest);
         }
