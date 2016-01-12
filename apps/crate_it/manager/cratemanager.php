@@ -209,6 +209,7 @@ class CrateManager {
             \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - checking ".$filepath, \OCP\Util::DEBUG);
             $file_exist = \OC\Files\Filesystem::file_exists($filepath);
             if (!$file_exist) {
+                \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - file does not exist: ".$filepath, \OCP\Util::DEBUG);
                 $result[basename($filepath)] = $file_exist;
             }
         }

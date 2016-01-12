@@ -25,7 +25,7 @@ class CrateCheckController extends Controller {
      * @NoAdminRequired
      */
     public function checkCrate() {
-        \OCP\Util::writeLog('crate_it', "CrateController::checkCrate()", \OCP\Util::DEBUG);
+        \OCP\Util::writeLog('crate_it', "CrateCheckController::checkCrate()", \OCP\Util::DEBUG);
         try {
             $selected_crate = $_SESSION['selected_crate'];
             session_commit();
