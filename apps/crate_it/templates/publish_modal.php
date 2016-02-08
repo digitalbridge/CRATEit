@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="modal-body">
-        <strong>NOTE:</strong> For the submission of data sets (i.e. Crates) larger than 16Gbytes you are advised to contact a Data Librarian for assistance by sending an email to
+        <strong>NOTE:</strong> For the submission of data sets (i.e. Crates) larger than 4Gbytes you are advised to contact a Data Librarian for assistance by sending an email to
         <a href="mailto:researchdata@newcastle.edu.au">researchdata@newcastle.edu.au</a>
       </div>
       <div class="modal-footer">

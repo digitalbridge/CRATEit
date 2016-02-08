@@ -46,7 +46,8 @@ function initCrateActions() {
   };
   
   var checkCrate = function() {
-      $('#result-message').text('');
+    $("div#checkingCrateModal").modal();
+    $('#result-message').text('');
       $('#check-results-table').empty();
       var c_url = OC.generateUrl('apps/crate_it/crate/check');
       $.ajax({
@@ -67,6 +68,8 @@ function initCrateActions() {
               // TODO Format errors
           }
       });
+    $("div#checkingCrateModal").modal("hide");
+    $("div#checkCrateModal").modal();
   };
 
   var crateEmpty = function() {
@@ -214,11 +217,6 @@ function initCrateActions() {
 
   $('#download-zip').click(downloadCrate);
 
-  $('#publish').click(function(e) {
-    $('#publishModal').modal();
-  });
-
-
   var publishCrate = function(crateName, endpoint, collection){
     var c_url = OC.generateUrl('apps/crate_it/crate/publish');
     var postData = {
@@ -275,6 +273,7 @@ function initCrateActions() {
   $('#publish').click(function() {
     // TODO: Migrate to a single  client side shared model of the manifest
     // TODO: let this be handled by the search managers perhaps?
+    $("div#checkingCrateModal").modal();
     $('#publish-consistency').text('');
     $('#publish-consistency-table').empty();
     updateCrateSize();
@@ -323,6 +322,9 @@ function initCrateActions() {
       var html = ActivitySearchManager.renderSummary(record);
       $('#publish-activities').append(html);
     });
+
+    $("div#checkingCrateModal").modal("hide");
+    $('#publishModal').modal();
 
   });
 

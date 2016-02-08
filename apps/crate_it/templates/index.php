@@ -28,7 +28,7 @@
         Submit
       </button>
 
-      <a id="check" class="button" data-toggle="modal" data-target="#checkCrateModal">
+      <a id="check" class="button" data-toggle="modal">
          <i class="fa fa-check-circle"></i>
          Check Crate
       </a>  
@@ -116,5 +116,6 @@
   print_unescaped($this->inc('javascript_vars'));
   print_unescaped($this->inc('publishing_crate_modal'));
   print_unescaped($this->inc('embargo_error_modal'));
+  print_unescaped($this->inc('checking_crate_modal'));
 
 ?>
