@@ -48,28 +48,30 @@ function initCrateActions() {
   var checkCrate = function() {
     $("div#checkingCrateModal").modal();
     $('#result-message').text('');
-      $('#check-results-table').empty();
-      var c_url = OC.generateUrl('apps/crate_it/crate/check');
-      $.ajax({
-          url: c_url,
-          type: 'get',
-          dataType: 'json',
-          async: false,
-          success: function(data) {
-              $('#result-message').text(data.msg);
-              res = data.result;
-              var key;
-              for (key in res) {
-                newRow = '<tr><td>' + key + '</td></tr>';
-                 $("#check-results-table").last().append(newRow); 
-              }              
-          },
-          error: function(data) {
-              // TODO Format errors
-          }
-      });
-    $("div#checkingCrateModal").modal("hide");
-    $("div#checkCrateModal").modal();
+    $('#check-results-table').empty();
+    var c_url = OC.generateUrl('apps/crate_it/crate/check');
+    $.ajax({
+        url: c_url,
+        type: 'get',
+        dataType: 'json',
+        async: true,
+        success: function(data) {
+            $('#result-message').text(data.msg);
+            res = data.result;
+            var key;
+            for (key in res) {
+              newRow = '<tr><td>' + key + '</td></tr>';
+               $("#check-results-table").last().append(newRow);
+            }
+        },
+        error: function(data) {
+            // TODO Format errors
+        },
+        complete: function(data) {
+          $("div#checkingCrateModal").modal("hide");
+          $("div#checkCrateModal").modal();
+        }
+    });
   };
 
   var crateEmpty = function() {
@@ -282,7 +284,7 @@ function initCrateActions() {
         url: c_url,
         type: 'get',
         dataType: 'json',
-        async: false,
+        async: true,
         success: function(data) {
           var inconsistencies = Object.keys(data.result);
           if(inconsistencies.length > 0) {
@@ -294,6 +296,10 @@ function initCrateActions() {
         },
         error: function(jqXHR) {
           $('#publish-consistency').text('Unable ot determine crate consistency');
+        },
+        complete: function() {
+          $("div#checkingCrateModal").modal("hide");
+          $('#publishModal').modal();
         }
     });
 
@@ -322,10 +328,6 @@ function initCrateActions() {
       var html = ActivitySearchManager.renderSummary(record);
       $('#publish-activities').append(html);
     });
-
-    $("div#checkingCrateModal").modal("hide");
-    $('#publishModal').modal();
-
   });
 
   if($('#publish-collection > option').length == 0) {
