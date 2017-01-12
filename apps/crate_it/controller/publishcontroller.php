@@ -47,8 +47,8 @@ class PublishController extends Controller {
             $to = $this->params('address');
             $metadata = $this->params('metadata');
             // TODO: This should be configurable
-            $from = 'no-reply@cr8it.app';
-            $subject = 'Cr8it Submit Status Receipt';
+            $from = 'no-reply@CRATEit.app';
+            $subject = 'CRATEit Submit Status Receipt';
             try {
                 $content = $this->getEmailContent($metadata);
 
@@ -105,8 +105,8 @@ class PublishController extends Controller {
             }
             $data['metadata'] = $metadata;
             if($to != '') {
-                $from = 'no-reply@cr8it.app';
-                $subject = 'Cr8it Submit Status Receipt';
+                $from = 'no-reply@CRATEit.app';
+                $subject = 'CRATEit Submit Status Receipt';
                 $content = $this->getEmailContent($metadata);
 
                 $this->mailer->sendHtml($to, $from, $subject, $content);

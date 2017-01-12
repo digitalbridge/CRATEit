@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <info>
 	<id>crate_it</id>
-	<name>Cr8It</name>
+	<name>CRATEit</name>
 	<description>Plugin for packaging files with metadata so that they can by published to an Institutional repository for curation.</description>
-	<version>1.0.4</version>
+	<version>1.0.1</version>
 	<licence>AGPL</licence>
 	<author>Ilya Anisimoff, Veronica Luke, Sean Lin, and Lloyd Harischandra</author>
 	<require>7.0</require>

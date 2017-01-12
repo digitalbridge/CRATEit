@@ -190,7 +190,7 @@
                 <tbody>
                 <tr>
                     <td>Generating Software Application</td>
-                    <td property="http://schema.org/name">Cr8it</td>
+                    <td property="http://schema.org/name">CRATEit</td>
                 </tr>
                 <tr>
                     <td>Software Version</td>

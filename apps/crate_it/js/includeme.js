@@ -305,7 +305,7 @@ function updateCrateSize() {
             // for publishing taking a long time. Also not that the limits
             // don't seem to prevent large crates from being published.
             // There should also be a check to see if sword is actually enabled in
-            // the cr8it_config.json, and perhaps allow other publishers to set limits too
+            // the CRATEit_config.json, and perhaps allow other publishers to set limits too
             if (swordEnabled && maxSwordMB > 0 && crate_size_mb > maxSwordMB) {
                 warnings.push('exceeds SWORD limit');
                 disablePublish = true;

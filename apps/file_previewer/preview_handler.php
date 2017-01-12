@@ -36,7 +36,7 @@ if (\OC\Files\Filesystem::isReadable($file)) {
 	if ($storage instanceof \OC\Files\Storage\Local) {
 		$full_path = \OC\Files\Filesystem::getLocalFile($file);
 		$current_content = file_get_contents($full_path);
-		$inject = '<script type="text/javascript" src="/owncloud/apps/file_previewer/js/j5slide_embed.js"></script>';
+		$inject = '<script type="text/javascript" src="/apps/file_previewer/js/j5slide_embed.js"></script>';
 		
 		$val = preg_match('/<head>.*<\/head>/s',$current_content, $matches);
 		if ($val) {

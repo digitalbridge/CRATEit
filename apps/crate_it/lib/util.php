@@ -23,7 +23,7 @@ class Util {
     }
 
     public static function getConfig() {
-        $configFile = Util::joinPaths(Util::getDataPath(),'cr8it_config.json');
+        $configFile = Util::joinPaths(Util::getDataPath(),'CRATEit_config.json');
         $config = NULL; // Allows tests to work
         // TODO: Throw a better error when there is invalid json or the config is not found
         if (file_exists($configFile)) {
@@ -43,7 +43,7 @@ class Util {
     }
 
     public static function getTempPath() {
-        return Util::joinPaths(ini_get('upload_tmp_dir'), 'cr8it', 'crates');
+        return Util::joinPaths(ini_get('upload_tmp_dir'), 'CRATEit', 'crates');
     }
 
     public static function joinPaths() {

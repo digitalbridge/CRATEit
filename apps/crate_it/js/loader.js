@@ -57,7 +57,7 @@ $(document).ready(function() {
                             '<h4 class="modal-title" id="addingToCrateModalLabel">Adding file(s) to crate...</h4>' +
                         '</div>' +
                         '<div class="modal-body" style="text-align: center">' +
-                            '<img class="center-block" src="/owncloud/apps/crate_it/img/ajax-spinner-loader.gif" style="width: 50px">' +
+                            '<img class="center-block" src="/apps/crate_it/img/ajax-spinner-loader.gif" style="width: 50px">' +
                         '</div>' +
                     '</div>' +
                 '</div>' +

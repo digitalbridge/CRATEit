@@ -3,14 +3,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="helpModalLabel">Cr8it Help</h2>
+        <h2 class="modal-title" id="helpModalLabel">CRATEit Help</h2>
       </div>
 
       <div class="modal-body">
 
-        <h2 class="modal-title">About Cr8it</h2>
+        <h2 class="modal-title">About CRATEit</h2>
         <section>
-          <p>Cr8it has been developed through a collaboration between the University of Newcastle, the University of Western Sydney, and Intersect Australia Ltd.</p>
+          <p>CRATEit if fork of the Cr8It project. It has been developed through a collaboration between the University of Newcastle, the University of Western Sydney, and Intersect Australia Ltd.</p>
         </section>
         <section>
           Version <?php p($_['version']) ?>.

@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Cr8it;
+namespace OCA\CRATEit;
 
 // dont break owncloud when the appframework is not enabled
 // if (\OCP\App::isEnabled('appframework')) {
@@ -44,7 +44,7 @@ namespace OCA\Cr8it;
     
         // the title of your application. This will be used in the
         // navigation or on the settings page of your app
-        'name' => \OC_L10N::get('crate_it')->t('Cr8It')
+        'name' => \OC::$server->getL10N('crate_it')->t('CRATEit')
         )
     );
     //add project root folder to include path   
@@ -88,6 +88,6 @@ namespace OCA\Cr8it;
     \OCP\Util::addScript('crate_it', 'jquery.mockjax');
 
 // } else {
-//     $msg = 'Can not enable the Cr8it app because the App Framework ' . 'App is disabled';
+//     $msg = 'Can not enable the CRATEit app because the App Framework ' . 'App is disabled';
 //     \OCP\Util::writeLog('crate_it', $msg, \OCP\Util::ERROR);
 // }

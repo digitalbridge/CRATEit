@@ -88,13 +88,13 @@ Feature: Publish crates to an endpoint
       Then the "Send" button in the popup dialog should be disabled
 
     #CRATEIT-248
-    Scenario: Redbox alert xml should contains cr8it identifier
+    Scenario: Redbox alert xml should contains CRATEit identifier
       When I click the new crate button
       And I fill in "New Crate Name" with "feature_test_crate"
       Then I press "Create" on the popup dialog
       When I click on "publish"
       And I press "Submit" on the popup dialog
-      Then redbox alerts xml file "feature_test_crate" should have field WorkflowSource with value "Owncloud-Cr8IT"
+      Then redbox alerts xml file "feature_test_crate" should have field WorkflowSource with value "Owncloud-CRATEit"
 
       #CRATEIT-269
     Scenario: Data retention period exists in Redbox xml file

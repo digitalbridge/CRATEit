@@ -12,7 +12,7 @@
     <my:Location><?php print_unescaped($_['location']) ?></my:Location>
     <my:URL><?php print_unescaped($_['url']) ?></my:URL>
     <my:Type>dataset</my:Type>
-    <my:WorkflowSource>Owncloud-Cr8IT</my:WorkflowSource>
+    <my:WorkflowSource>Owncloud-CRATEit</my:WorkflowSource>
     <my:WorkflowSourceVersion><?php p($_['version']) ?></my:WorkflowSourceVersion>
     <?php if (array_key_exists('creators', $_)) { ?>
         <my:Creators>
