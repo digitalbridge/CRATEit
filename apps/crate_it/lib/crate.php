@@ -234,7 +234,7 @@ class Crate extends BagIt {
     }
 
     private function createTempClone() {
-        $tmpFolder = \OC_Helper::tmpFolder();
+        $tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
         $tmpCrate = new Crate($tmpFolder, $this->crateName);
         $manifest = $this->getManifest();
         $tmpCrate->setManifest($manifest);
@@ -368,7 +368,7 @@ class Crate extends BagIt {
         $files = $this->getPreviewPaths();
         $params = array('files' => $files);
         $epub = Util::renderTemplate('epub', $params);
-        $tmpFolder = \OC_Helper::tmpFolder();
+        $tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
         $htmlPath = $tmpFolder.'/'.$this->crateName.'.html';
         file_put_contents($htmlPath, $epub);
         $htmlPath = str_replace(' ', '\ ', $htmlPath);
