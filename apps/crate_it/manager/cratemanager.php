@@ -181,7 +181,7 @@ class CrateManager {
         $valid = true;
         if ($node['id'] == 'folder') {
             $children = &$node['children'];
-            foreach($children as &$child) {
+            foreach($children as $child) {
                 $childValid = $this->validateNode($child, $crate, $manifest);
                 $valid = $valid && $childValid;                            
             }
