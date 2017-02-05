@@ -32,7 +32,7 @@ class Crate extends BagIt {
             'description' => $description,
             'data_retention_period' => $data_retention_period,
             'submitter' => array(
-                'email' => \OCP\IConfig::getUserValue(\OC::$server->getUserSession()->getUser()->getUID(), 'settings', 'email', ''),
+                'email' => \OC::$server->getUserSession()->getUser()->getEMailAddress(),
                 'displayname' => \OC::$server->getUserSession()->getUser()->getDisplayName(),
             ),
             'creators' => array(),

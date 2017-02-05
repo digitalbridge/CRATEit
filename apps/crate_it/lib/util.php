@@ -33,7 +33,7 @@ class Util {
     }
 
     public static function getDataPath() {
-        return \OCP\IConfig::getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
+    	return Util::getDataPath();    	   
     }
 
     public static function getUserPath() {
