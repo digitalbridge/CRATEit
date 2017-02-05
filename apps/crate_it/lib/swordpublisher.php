@@ -36,7 +36,7 @@ class SwordPublisher implements Publisher {
             $this->serviceDocument = $this->getServiceDocument();
         }
         $result = array();
-        if ($this->serviceDocument->sac_statusmessage === 'OK') {
+        if ($this->serviceDocument->sac_statusmessage == 'OK') {
             foreach ($this->serviceDocument->sac_workspaces as $workspace) {
                 foreach ($workspace->sac_collections as $collection) {
                     $result["$workspace->sac_workspacetitle - $collection->sac_colltitle"] = $collection->sac_href;
@@ -52,7 +52,7 @@ class SwordPublisher implements Publisher {
         \OCP\Util::writeLog('crate_it', "SwordPublisher::publishCrate($package, $this->endpoint, $collection)", \OCP\Util::DEBUG);
         $response = $this->swordClient->deposit($collection, $this->endpoint['username'], $this->endpoint['password'],
             $this->endpoint['obo'], $package, self::$packagingFormat, self::$contentType, false);
-        if ($response->sac_status !== 201) {
+        if ($response->sac_status != 201) {
             throw \Exception("Error: failed to publish crate '".basname($package)."' to $collection: ");
         }
         // TODO: return that actual deposited item URL,

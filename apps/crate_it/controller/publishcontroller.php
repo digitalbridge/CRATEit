@@ -104,7 +104,7 @@ class PublishController extends Controller {
                 $to = $metadata['submitter']['email'];
             }
             $data['metadata'] = $metadata;
-            if($to !== '') {
+            if($to != '') {
                 $from = 'no-reply@CRATEit.app';
                 $subject = 'CRATEit Submit Status Receipt';
                 $content = $this->getEmailContent($metadata);

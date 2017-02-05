@@ -23,7 +23,7 @@
         <h1>Description</h1>
         <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
 
-        <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] !== "") { ?>
+        <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] != "") { ?>
             <h1>Data Retention Period</h1>
             <span><?php p($_['data_retention_period']) ?> (years)</span>
         <?php } ?>

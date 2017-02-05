@@ -33,11 +33,11 @@ class Util {
     }
 
     public static function getDataPath() {
-        return \OCP\IConfig::getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
+        return \OCP\Config::getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
     }
 
     public static function getUserPath() {
-        $userId = \OC::$server->getUserSession()->getUser();
+        $userId = \OCP\User::getUser();
         $config = Util::getConfig();
         return Util::joinPaths($config['crate path'], $userId);
     }

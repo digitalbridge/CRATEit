@@ -6,7 +6,6 @@
 	<version>1.0.1</version>
 	<licence>AGPL</licence>
 	<author>Ilya Anisimoff, Veronica Luke, Sean Lin, and Lloyd Harischandra</author>
-	<dependencies>
-		<owncloud min-version="9.0" max-version="9.1.4"></owncloud>
-	</dependencies>
+	<require>7.0</require>
+	<shipped>false</shipped>
 </info>

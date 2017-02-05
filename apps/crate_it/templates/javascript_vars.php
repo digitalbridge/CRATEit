@@ -10,7 +10,7 @@
         $publish_endpoints = ($_['publish endpoints']);
         $sword_endpoints = $publish_endpoints['sword'];
         foreach ($sword_endpoints as $sword_endpoint) {
-            if ($sword_endpoint['enabled'] === true) {
+            if ($sword_endpoint['enabled'] == true) {
                 $swordEnabled = true;
             }
         }

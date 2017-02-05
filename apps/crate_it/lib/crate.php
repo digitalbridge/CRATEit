@@ -32,8 +32,8 @@ class Crate extends BagIt {
             'description' => $description,
             'data_retention_period' => $data_retention_period,
             'submitter' => array(
-                'email' => \OCP\IConfig::getUserValue(\OC::$server->getUserSession()->getUser()->getUID(), 'settings', 'email', ''),
-                'displayname' => \OC::$server->getUserSession()->getUser()->getDisplayName(),
+                'email' => \OCP\Config::getUserValue(\OCP\User::getUser(), 'settings', 'email', ''),
+                'displayname' => \OCP\User::getDisplayName(),
             ),
             'creators' => array(),
             'activities' => array(),
@@ -101,7 +101,7 @@ class Crate extends BagIt {
     }
 
     private function buildFileTreeHtml($node, $tree = '') {
-        if($node['id'] === 'folder') {
+        if($node['id'] == 'folder') {
             $text = $node['name'];
             $tree = $tree."<li>$text</li><ul>";
             $children = $node['children'];
@@ -114,7 +114,7 @@ class Crate extends BagIt {
             // ' ' in the name
             $text = str_replace(' ', '_', $node['name']);
             // change the filename part of the path to the 'underscored' version
-            if($node['valid'] === 'true') {
+            if($node['valid'] == 'true') {
                 $tree = $tree."<li>$text</a></li>";
             } else {
                 $tree = $tree."<li>$text (invalid)</li>";
@@ -336,8 +336,8 @@ class Crate extends BagIt {
             $paths = \OC\Files\Filesystem::getDirectoryContent($folder);
             foreach($paths as $path) {
                 $relativePath = $path->getPath();
-                if(Util::startsWith($relativePath, '/'.\OC::$server->getUserSession()->getUser().'/files/')) {
-                    $relativePath = substr($relativePath, strlen('/'.\OC::$server->getUserSession()->getUser().'/files/'));
+                if(Util::startsWith($relativePath, '/'.\OCP\User::getUser().'/files/')) {
+                    $relativePath = substr($relativePath, strlen('/'.\OCP\User::getUser().'/files/'));
                 }
                 $this->addPath($relativePath, $vfsContents);
             }
