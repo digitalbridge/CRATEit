@@ -75,7 +75,7 @@ class CrateController extends Controller {
             // TODO check if this error handling works
             $file = $this->params('file');
             \OCP\Util::writeLog('crate_it', "Adding ".$file, \OCP\Util::DEBUG);
-            if($file == '_html' && \OC\Files\Filesystem::is_dir($file)) {
+            if($file === '_html' && \OC\Files\Filesystem::is_dir($file)) {
                 throw new \Exception("$file ignored by Crate it");
             }
             $crateName = $_SESSION['selected_crate'];
@@ -147,7 +147,7 @@ class CrateController extends Controller {
 
                 // TODO: This is an ugly workaround to avoid the max_input_vars ceiling
                 // the vfs field is a json string inside a json object
-                if ($field == 'vfs') {
+                if ($field === 'vfs') {
                     $value = json_decode($value, true);
                 }
                 try {

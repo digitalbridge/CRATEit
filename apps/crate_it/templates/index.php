@@ -11,7 +11,7 @@
     <select id="crates">
       
       <?php foreach($_['crates'] as $crate) {   
-          if($_['selected_crate'] == $crate) { ?>
+          if($_['selected_crate'] === $crate) { ?>
             <option id="<?php p($crate) ?>" value="<?php p($crate) ?>" selected>
          <?php } else { ?>
             <option id="<?php p($crate) ?>" value="<?php p($crate) ?>">
@@ -39,7 +39,7 @@
           Download
         </button>
         <ul class="dropdown-menu">
-          <?php if($_['previews'] == "on") { ?>
+          <?php if($_['previews'] === "on") { ?>
             <li>
               <a id="epub" class="dropdown-btn" href="crate/epub">
                 <i class="fa fa-book"></i>

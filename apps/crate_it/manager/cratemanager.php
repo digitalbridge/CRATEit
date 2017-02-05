@@ -142,7 +142,7 @@ class CrateManager {
     public function packageCrate($crateName){
         $this->updateCrateCheckIcons($crateName);
         $crate = $this->getCrate($crateName);
-        $tempdir = Util::joinPaths(Util::getTempPath(), \OCP\User::getUser());
+        $tempdir = Util::joinPaths(Util::getTempPath(), \OC::$server->getUserSession()->getUser());
         if (!file_exists($tempdir)) {
             mkdir($tempdir, 0755, true);
         }
@@ -160,7 +160,7 @@ class CrateManager {
         $manifest = $crate->getManifest();
         $rootfolder = &$manifest['vfs'][0];
         $children = &$rootfolder['children'];    
-        if ($children == null) {
+        if ($children === null) {
             $children = array();
             $rootfolder['valid'] = var_export(true, true);
             $crate->setManifest($manifest);
@@ -179,7 +179,7 @@ class CrateManager {
     private function validateNode(&$node, $crate, &$manifest) {
         \OCP\Util::writeLog('crate_it', "CrateManager::validateNode() - ".$node['name'], \OCP\Util::DEBUG); 
         $valid = true;
-        if ($node['id'] == 'folder') {
+        if ($node['id'] === 'folder') {
             $children = &$node['children'];
             foreach($children as $child) {
                 $childValid = $this->validateNode($child, $crate, $manifest);

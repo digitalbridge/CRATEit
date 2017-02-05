@@ -28,25 +28,29 @@ namespace OCA\CRATEit;
     // Check if the user is logged in
     // $api = new \OC\AppFramework\Core\API('crate_it');
 
-    \OCP\App::addNavigationEntry(array(
-        // the string under which your app will be referenced in owncloud
-        'id' => 'crate_it',
-    
-        // sorting weight for the navigation. The higher the number,
-        // the higher will it be listed in the navigation
-        'order' => 250,
-    
-        // the route that will be shown on startup
-        'href' => \OCP\Util::linkToRoute('crate_it.page.index'),
-    
-        // the icon that will be shown in the navigation
-        "icon" => \OCP\Util::imagePath('crate_it', 'milk-crate-grey.png'),
-    
-        // the title of your application. This will be used in the
-        // navigation or on the settings page of your app
-        'name' => \OC::$server->getL10N('crate_it')->t('CRATEit')
-        )
-    );
+    \OC::$server->getNavigationManager()->add(function () {
+    	$urlGenerator = \OC::$server->getURLGenerator();
+    	return [
+    		// the string under which your app will be referenced in owncloud
+    		'id' => 'crate_it',
+    		
+    		// sorting weight for the navigation. The higher the number, the higher
+    		// will it be listed in the navigation
+    		'order' => 250,
+    		
+    		// the route that will be shown on startup
+    		'href' => $urlGenerator->linkToRoute('crate_it.page.index'),
+    		
+    		// the icon that will be shown in the navigation
+    		// this file needs to exist in img/
+    		'icon' => $urlGenerator->imagePath('crate_it', 'milk-crate-grey.png'),
+    		
+    		// the title of your application. This will be used in the
+    		// navigation or on the settings page of your app
+    		'name' => \OC::$server->getL10N('crate_it')->t('CRATEit'),
+    	];
+    });
+	
     //add project root folder to include path   
     $dir = dirname(dirname(__FILE__)) . '/';
     set_include_path(get_include_path() . PATH_SEPARATOR . $dir);

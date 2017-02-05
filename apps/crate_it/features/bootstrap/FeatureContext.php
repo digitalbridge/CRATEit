@@ -92,7 +92,7 @@ class FeatureContext extends MinkContext
 			throw new Exception('No default value specified in the crate select dropdown');
 		}
 		$selectedDefaultValue = (string)$optionElement->getText();
-		if ($selectedDefaultValue != "default_crate")
+		if ($selectedDefaultValue !== "default_crate")
 		{
 			throw new Exception('Default value is "' . $selectedDefaultValue . '" , not "default_crate"');
 		}
@@ -484,7 +484,7 @@ class FeatureContext extends MinkContext
         $page = $this->getSession()->getPage();
 		$notification = $page->find('xpath', '//div[@id="notification"]');
     	$text = $notification->getText();
-		if ($text!=$arg1) {
+		if ($text!==$arg1) {
 			throw new Exception('Notification should say "'.$arg1.'", but instead it says "'.$text.'"');
 		}
     	if (!$notification->isVisible()) {
@@ -499,7 +499,7 @@ class FeatureContext extends MinkContext
         $page = $this->getSession()->getPage();
     	$optionElement = $page->find('css', '#crates');
 		$selectedDefaultValue = (string)$optionElement->getValue();
-		if ($selectedDefaultValue != $arg1)
+		if ($selectedDefaultValue !== $arg1)
 		{
 			throw new Exception('Selected value is "' . $selectedDefaultValue . '" , not "'. $arg1 .'".');
 		}
@@ -543,7 +543,7 @@ class FeatureContext extends MinkContext
 			throw new Exception('Error message not visible');
 		}
 		$msg = $error_label->getText();
-		if ($msg != $arg1)
+		if ($msg !== $arg1)
 		{
 			throw new Exception('Error message is "' . $msg . '" , not "'. $arg1 .'".');
 		}
@@ -559,7 +559,7 @@ class FeatureContext extends MinkContext
         $label = $el->find('xpath', '//div[@class="modal-body"]/p');
 
         $msg = $label->getText();
-        if ($msg != $arg1)
+        if ($msg !== $arg1)
         {
             throw new Exception('Message is "' . $msg . '" , not "'. $arg1 .'".');
         }
@@ -578,7 +578,7 @@ class FeatureContext extends MinkContext
 			throw new Exception('Validation message not visible');
 		}
 		$msg = $validation_error_label->getText();
-		if ($msg != $arg2)
+		if ($msg !== $arg2)
 		{
 			throw new Exception('Validation message is "' . $msg . '" , not "'. $arg2 .'".');
 		}
@@ -594,7 +594,7 @@ class FeatureContext extends MinkContext
         $xpath = '//div[@id="description_box"]/div[@id="description"]';
         $desc = $page->find('xpath', $xpath);
         $str_desc = (string)$desc->getText() ;
-        if ($str_desc!= $arg1)
+        if ($str_desc !== $arg1)
         {
             throw new Exception("The crate should have description '$arg1', but it's '$str_desc'");
         }    
@@ -615,7 +615,7 @@ class FeatureContext extends MinkContext
      */
     public function iFillInWithALongStringOfCharacters($field, $stringLength) {
         $value = str_repeat('a', $stringLength);
-		if (strlen($value) != $stringLength) {
+		if (strlen($value) !== $stringLength) {
 			throw new Exception('Repeat characters fail');
 		}
         $script = "$('#$field').val('$value').keyup();";
@@ -631,7 +631,7 @@ class FeatureContext extends MinkContext
     	$optionElement = $page->find('css', '#crates');		
     	$name_text =  (string)$optionElement->getValue();
 		$name_len = strlen($name_text);
-		if ($name_len != $arg1)
+		if ($name_len !== $arg1)
 		{
 			throw new Exception('Crate name is not "'. $arg1 .'" characters long. It is ' .$name_len);
 		}
@@ -648,7 +648,7 @@ class FeatureContext extends MinkContext
 		$desc = $page->find('xpath', $xpath);
 		$desc_text = (string)$desc->getText();
 		$desc_len = strlen($desc_text);
-		if ($desc_len != $arg1)
+		if ($desc_len !== $arg1)
 		{
 			throw new Exception('Crate description is not '. $arg1 .' characters long. It is '.$desc_len);
 		}
@@ -1035,7 +1035,7 @@ JS;
 	{
 		$actual_val = $el->getText();
 	    $expected_val = $hashval;
-        if ($actual_val != $expected_val)
+        if ($actual_val !== $expected_val)
 	    {
 	 	   throw new Exception('Mismatch result ('.$count.'). Expected: '.$expected_val.', actual: '.$actual_val);
 	    }
@@ -1369,7 +1369,7 @@ JS;
 
 
     private function exec_sh_command($command) {
-        if(getenv('TEST_ENV') == 'vagrant') {
+        if(getenv('TEST_ENV') === 'vagrant') {
             $command = self::$SSH_COMMAND."'$command'";
         } else {
             $command = 'sudo '.$command;
@@ -1494,7 +1494,7 @@ JS;
     {
         $command = 'grep -oPm1 "(?<=:WorkflowSource>)[^<]+" '.self::$DATA_ROOT . 'alerts/' . "*$arg1*.xml";
         $workflowsource= $this->exec_sh_command($command);
-        if ($workflowsource[0] != $arg2)
+        if ($workflowsource[0] !== $arg2)
         {
             throw new Exception("The redbox alert xml file should have tag WorkflowSource with value '$arg2', but it's '$workflowsource'");
         }
@@ -1721,7 +1721,7 @@ JS;
         $retention= $this->exec_sh_command($command);
         if (!empty($retention)){
             $retention = $retention[0];
-        } elseif (empty($retention) && $arg2 == '') {
+        } elseif (empty($retention) && $arg2 === '') {
             $retention = '';
         } else {
             $retention = 'Error';
