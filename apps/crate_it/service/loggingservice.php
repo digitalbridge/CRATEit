@@ -53,10 +53,10 @@ class LoggingService {
 
         for($i = 0; $i < $za->numFiles; $i++) {
             $stat = $za->statIndex($i);
-            if($stat['size'] != 0) {
+            if($stat['size'] !== 0) {
                 $this->log($stat['name']);
             }
-            if($stat['name'] == 'manifest-sha1.txt') {
+            if($stat['name'] === 'manifest-sha1.txt') {
                 $sha_content = $za->getFromIndex($i);
             }
         }
