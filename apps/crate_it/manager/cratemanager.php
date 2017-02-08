@@ -142,7 +142,7 @@ class CrateManager {
     public function packageCrate($crateName){
         $this->updateCrateCheckIcons($crateName);
         $crate = $this->getCrate($crateName);
-        $tempdir = Util::joinPaths(Util::getTempPath(), \OC::$server->getUserSession()->getUser());
+        $tempdir = Util::joinPaths(Util::getTempPath(), \OC::$server->getUserSession()->getUser()->getDisplayName());
         if (!file_exists($tempdir)) {
             mkdir($tempdir, 0755, true);
         }

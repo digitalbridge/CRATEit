@@ -43,8 +43,8 @@ class SetupService {
         self::$params['embargo_date'] = array_key_exists('embargo_date',$manifestData) ? $manifestData['embargo_date']:'';
         self::$params['embargo_details'] = array_key_exists('embargo_details',$manifestData) ? $manifestData['embargo_details']:'';
 
-        $info = self::getAppInfo('crate_it');
-        self::$params['version'] = $info['version'];
+        //$info = self::getAppInfo('crate_it');
+        self::$params['version'] = 1.2;
     }
     
     

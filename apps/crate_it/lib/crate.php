@@ -5,7 +5,7 @@ namespace OCA\crate_it\lib;
 require '3rdparty/BagIt/bagit.php';
 use BagIt;
 use OC\Files\Filesystem;
-//use OCP\Util;
+#use OCP\Util;
 
 class Crate extends BagIt {
 
@@ -196,7 +196,7 @@ class Crate extends BagIt {
         $total = 0;
         $checked = array();
         foreach($files as $file) {
-            \OCP\Util::writeLog('crate_it', "Crate::getSize() - checking: ".$file, \OCP\Util::DEBUG);
+        	\OCP\Util::writeLog('crate_it', "Crate::getSize() - checking: ".$file, \OCP\Util::DEBUG);
             if(!in_array($file, $checked)) {
                 $total += \OC\Files\Filesystem::filesize($file);
             }
@@ -216,7 +216,7 @@ class Crate extends BagIt {
         $res = array();
         foreach($flat as $elem) {
             $path = $elem['filename'] ? $elem['filename'] : $elem['folderpath'];
-            $res[] = $path;
+        	$res[] = $path;
         }
         return $res;
     }
@@ -336,7 +336,7 @@ class Crate extends BagIt {
             $paths = \OC\Files\Filesystem::getDirectoryContent($folder);
             foreach($paths as $path) {
                 $relativePath = $path->getPath();
-                if(Util::startsWith($relativePath, '/'.\OC::$server->getUserSession()->getUser().'/files/')) {
+                if(Util::startsWith($relativePath, '/'. \OC::$server->getUserSession()->getUser().'/files/')) {
                     $relativePath = substr($relativePath, strlen('/'.\OC::$server->getUserSession()->getUser().'/files/'));
                 }
                 $this->addPath($relativePath, $vfsContents);

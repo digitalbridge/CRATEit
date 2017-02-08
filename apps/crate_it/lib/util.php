@@ -3,9 +3,10 @@
 namespace OCA\crate_it\lib;
 
 use OCP\Template;
+use OCP\IConfig;
 
 class Util {
-
+		
     public static function renderTemplate($template, $params) {
         // TODO: Use util method to get appName
         $template = new Template('crate_it', $template);
@@ -23,7 +24,7 @@ class Util {
     }
 
     public static function getConfig() {
-        $configFile = Util::joinPaths(Util::getDataPath(),'CRATEit_config.json');
+        $configFile = Util::joinPaths(Util::getDataPath(), 'CRATEit_config.json');
         $config = NULL; // Allows tests to work
         // TODO: Throw a better error when there is invalid json or the config is not found
         if (file_exists($configFile)) {
@@ -32,18 +33,18 @@ class Util {
         return $config;
     }
 
-    public static function getDataPath() {
-    	return Util::getDataPath();    	   
-    }
-
     public static function getUserPath() {
-        $userId = \OC::$server->getUserSession()->getUser();
+        $userId = \OC::$server->getUserSession()->getUser()->getDisplayName();
         $config = Util::getConfig();
-        return Util::joinPaths($config['crate path'], $userId);
+        return Util::joinPaths(Util::getDataPath(), $userId);
     }
 
+    public static function getDataPath() {
+    	return \OCP\Config::getSystemValue('datadirectory','/var/www/html/owncloud');
+    }
+    
     public static function getTempPath() {
-        return Util::joinPaths(ini_get('upload_tmp_dir'), 'CRATEit', 'crates');
+    	return Util::joinPaths(Util::getDataPath(), 'CRATEit', 'crates');
     }
 
     public static function joinPaths() {
