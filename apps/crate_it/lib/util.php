@@ -44,6 +44,7 @@ class Util {
     }
     
     public static function getTempPath() {
+    	//return \OC::$server->getTempManager()->getTemporaryFolder();
     	return Util::joinPaths(Util::getDataPath(), 'CRATEit', 'crates');
     }
 

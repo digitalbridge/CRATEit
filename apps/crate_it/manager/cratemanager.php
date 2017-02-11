@@ -10,7 +10,7 @@ class CrateManager {
     public function __construct(){
         
     	session_start();
-    	\OCP\Util::writeLog('CRATE Manager SESSION', $_SESSION['selected_crate'] . " Id " . session_id(), \OCP\Util::DEBUG);
+    	//\OCP\Util::writeLog('CRATE Manager SESSION', $_SESSION['selected_crate'] . " Id " . session_id(), \OCP\Util::DEBUG);
     	 
     	if (\OCP\User::isLoggedIn()) {
         	$this->ensureDefaultCrateExists();
