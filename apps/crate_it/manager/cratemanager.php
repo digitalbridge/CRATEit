@@ -8,13 +8,16 @@ use OCA\crate_it\lib\Util;
 class CrateManager {
     
     public function __construct(){
-        if (\OCP\User::isLoggedIn()) {
-            $this->ensureDefaultCrateExists();
+        
+    	session_start();
+    	\OCP\Util::writeLog('CRATE Manager SESSION', $_SESSION['selected_crate'] . " Id " . session_id(), \OCP\Util::DEBUG);
+    	 
+    	if (\OCP\User::isLoggedIn()) {
+        	$this->ensureDefaultCrateExists();
             $this->ensureCrateIsSelected();
         }
     }
     
-
     // TODO: getCrate and createCrate do just about the same thing, perhaps they can be rolled into one
     public function createCrate($crateName, $description, $data_retention_period) {
         \OCP\Util::writeLog('crate_it', "CrateManager::createCrate($crateName, $description, $data_retention_period)", \OCP\Util::DEBUG);
@@ -77,18 +80,21 @@ class CrateManager {
 
     private function ensureCrateIsSelected() {
         $crateList = $this->getCrateList();
+                
         if (!array_key_exists('selected_crate',$_SESSION)) {
-            $_SESSION['selected_crate'] = 'default_crate';
+        	$_SESSION['selected_crate'] = 'default_crate';
+        	session_commit();
         }
         elseif (!in_array($_SESSION['selected_crate'], $crateList)) {
             if (in_array('default_crate', $crateList)) {
-                $_SESSION['selected_crate'] = 'default_crate';
-                session_commit();
+            	$_SESSION['selected_crate'] = 'default_crate';
+            	session_commit(); 
             } else {
-                $_SESSION['selected_crate'] = $crateList[0];               
-                session_commit();
+            	$_SESSION['selected_crate'] = $crateList[0];        
+            	session_commit();
             }
         }
+               
     }
 
     public function getReadme($crateName) {
@@ -104,7 +110,7 @@ class CrateManager {
     public function getManifest($crateName) {
         \OCP\Util::writeLog('crate_it', "CrateManager::getManifest(".$crateName.")", \OCP\Util::DEBUG);
         $crate = $this->getCrate($crateName);
-        return $crate->getManifest();
+		return $crate->getManifest();
     }
 
     public function addToCrate($crateName, $path) {

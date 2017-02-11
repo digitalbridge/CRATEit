@@ -52,9 +52,10 @@ class CrateController extends Controller {
         \OCP\Util::writeLog('crate_it', "CrateController::get_manifest()", \OCP\Util::DEBUG);
         try {
             $crateName = $this->params('crate_id');
+            session_start();
             $_SESSION['selected_crate'] = $crateName;
             session_commit();
-            \OCP\Util::writeLog('crate_it', "selected_crate:: ".$_SESSION['selected_crate'], \OCP\Util::DEBUG);
+            \OCP\Util::writeLog('Get Manifest SESSION', $crateName . " Id: " . session_id(), \OCP\Util::DEBUG);
             $data = $this->crateManager->getManifest($crateName);
             return new JSONResponse($data);
         } catch (\Exception $e) {
@@ -96,8 +97,9 @@ class CrateController extends Controller {
      */
     public function getCrateName()
     {
-        \OCP\Util::writeLog('crate_it', "CrateController::getCrateName()", \OCP\Util::DEBUG);
-
+    	
+    	\OCP\Util::writeLog('Get Crate Name', \OC::$server->getUserSession()->getSession()->get('crateName'), \OCP\Util::DEBUG);
+    	 
         $status = Http::STATUS_OK;
         if (array_key_exists('selected_crate',$_SESSION)) {
             $content = $_SESSION['selected_crate'];
@@ -115,8 +117,10 @@ class CrateController extends Controller {
      * @NoAdminRequired
      */
     public function getCrateSize()
-    {
-        \OCP\Util::writeLog('crate_it', "CrateController::getCrateSize()", \OCP\Util::DEBUG);
+    {        
+    	\OCP\Util::writeLog('Get Crate Size', \OC::$server->getUserSession()->getSession()->get('crateName'), \OCP\Util::DEBUG);
+    	
+    	\OCP\Util::writeLog('crate_it', "CrateController::getCrateSize()", \OCP\Util::DEBUG);
         try {
             $selectedCrate = $_SESSION['selected_crate'];
             session_commit();

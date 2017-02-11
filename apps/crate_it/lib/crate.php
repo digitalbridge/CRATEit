@@ -22,7 +22,7 @@ class Crate extends BagIt {
         if(!file_exists($this->manifestPath)) {
             $this->createManifest($description, $data_retention_period);
         }
-    }
+   }
 
     private function createManifest($description,$data_retention_period) {
         \OCP\Util::writeLog('crate_it', "Crate::createManifest(".$description.",".$data_retention_period.")", \OCP\Util::DEBUG);
