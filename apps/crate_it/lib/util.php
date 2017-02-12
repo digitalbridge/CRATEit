@@ -40,7 +40,7 @@ class Util {
     }
 
     public static function getDataPath() {
-    	return \OCP\Config::getSystemValue('datadirectory','/var/www/html/owncloud');
+    	return \OC::$server->getConfig()->getSystemValue('datadirectory', 'var/www/html/owncloud/');
     }
     
     public static function getTempPath() {
