@@ -53,9 +53,9 @@ class CrateController extends Controller {
         try {
             $crateName = $this->params('crate_id');
             session_start();
-            $_SESSION['selected_crate'] = $crateName;
+            $_SESSION['selected_crate'] = urldecode($crateName);
             session_commit();
-            //\OCP\Util::writeLog('Get Manifest SESSION', $crateName . " Id: " . session_id(), \OCP\Util::DEBUG);
+            //\OCP\Util::writeLog('Get Manifest SESSION', urldecode($crateName) . " Id: " . session_id(), \OCP\Util::WARN);
             $data = $this->crateManager->getManifest($crateName);
             return new JSONResponse($data);
         } catch (\Exception $e) {

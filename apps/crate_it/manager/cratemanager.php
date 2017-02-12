@@ -10,7 +10,7 @@ class CrateManager {
     public function __construct(){
         
     	session_start();
-    	//\OCP\Util::writeLog('CRATE Manager SESSION', $_SESSION['selected_crate'] . " Id " . session_id(), \OCP\Util::DEBUG);
+    	//\OCP\Util::writeLog('CRATE Manager SESSION', $_SESSION['selected_crate'] . " Id " . session_id(), \OCP\Util::WARN);
     	 
     	if (\OCP\User::isLoggedIn()) {
         	$this->ensureDefaultCrateExists();
@@ -34,10 +34,10 @@ class CrateManager {
     public function getCrate($crateName) {
       \OCP\Util::writeLog('crate_it', "CrateManager::getCrate(".$crateName.")", \OCP\Util::DEBUG);
       $crateRoot = $this->getCrateRoot();
-      if (!file_exists($crateRoot.'/'.$crateName)) {
+      if (!file_exists($crateRoot.'/'.urldecode($crateName))) {
         throw new \Exception("Crate $crateName not found");
       }
-      return new Crate($crateRoot, $crateName);
+      return new Crate($crateRoot, urldecode($crateName));
     }
 
     public function getCrateList() {
