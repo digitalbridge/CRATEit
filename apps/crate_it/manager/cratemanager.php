@@ -9,7 +9,10 @@ class CrateManager {
     
     public function __construct(){
         
-    	session_start();
+    	if (session_status() === PHP_SESSION_NONE){
+    		session_start();
+    	}
+    	
     	//\OCP\Util::writeLog('CRATE Manager SESSION', $_SESSION['selected_crate'] . " Id " . session_id(), \OCP\Util::WARN);
     	 
     	if (\OCP\User::isLoggedIn()) {
