@@ -142,7 +142,8 @@
                                     placeholder="Choose"><i class="fa fa-edit"></i></button>
                         </h6>
                         <div id="retention_period_value" style="white-space: pre-wrap;"
-                             class="metadata"><?php p($_['data_retention_period']) ?></div>
+                             class="metadata"><?php p(($_['data_retention_period'] != null) || ($_['data_retention_period'] != '') ? $_['data_retention_period'] : 'Perpetuity') ?>
+                        </div>
                     </div>
                 </div>
             </div>
