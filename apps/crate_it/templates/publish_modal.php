@@ -3,11 +3,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="publishModalLabel">Submit Crate</h2>
+        <h2 class="modal-title" id="publishModalLabel">Publish Crate</h2>
         <p>
           <br />
           Please review the metadata associated with your Crate as detailed below. <br />
-          Click Submit to proceed or click Cancel to return to your Crate and update your metadata.
+          Click Publish to proceed or click Cancel to return to your Crate and update your metadata.
         </p>
       </div>
       <div class="modal-body">
@@ -75,7 +75,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-primary">Publish</button>
       </div>
     </div>
   </div>

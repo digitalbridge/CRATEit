@@ -25,7 +25,7 @@
 
       <button id="publish" type="button" data-toggle="modal">
         <i class="fa fa-envelope"></i>
-        Submit
+        Publish
       </button>
 
       <a id="check" class="button" data-toggle="modal">
