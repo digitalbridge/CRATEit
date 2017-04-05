@@ -1,10 +1,10 @@
 function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notification, $editModal) {
+
   var _self = this;
   var searchResultsList = [];
   var eventListeners = [];
 
   this.search = function(keywords) {
-
     var c_url = OC.generateUrl('apps/crate_it/crate/search');
     $.ajax({
       url: c_url,

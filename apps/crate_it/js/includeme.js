@@ -435,31 +435,6 @@ function activateRemoveCreatorButton(buttonObj) {
     });
 }
 
-function activateRemoveContactButton(buttonObj) {
-    buttonObj.click('click', function (event) {
-        // Remove people from backend
-        var id = $(this).attr("id");
-        contact_id = id.replace("contact_", "");
-
-        $.ajax({
-            url: OC.linkTo('crate_it', 'ajax/bagit_handler.php'),
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'action': 'remove_people',
-                'creator_id': contact_id,
-                'full_name': $(this).parent().text()
-            },
-            success: function (data) {
-                buttonObj.parent().remove();
-            },
-            error: function (data) {
-                displayError(data.statusText);
-            }
-        });
-    });
-}
-
 // TODO: Migrate the clients of the following to the validations.js framework
 function validateEmail($input, $error, $confirm) {
     validateTextLength($input, $error, $confirm, 128);
@@ -601,7 +576,6 @@ function reloadCrateData(manifest) {
     indentTree();
     // TODO Have a registry of search managers and loop over them
     CreatorSearchManager.loadManifestData(manifest);
-    ContactSearchManager.loadManifestData(manifest);
     ActivitySearchManager.loadManifestData(manifest);
 }
 

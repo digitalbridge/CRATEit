@@ -58,26 +58,6 @@ class CrateManager {
         }
         return $cratelist;
     }
-
-    public function getPublishedCrateList() {
-    	\OCP\Util::writeLog("crate_it", 'CrateManager::getPublishedCrateList()', \OCP\Util::DEBUG);
-    	$cratelist = array();
-    	$crateRoot = $this->getCrateRoot();
-    	$tempdir = Util::joinPaths(Util::getTempPath(), \OC::$server->getUserSession()->getUser()->getDisplayName());
-    	//Check if CRATE has been published
-    	if (file_exists($tempdir)) {
-    		if ($handle = opendir($crateRoot)) {
-    			$filteredlist = array('.', '..', 'packages', '.Trash');
-    			while (false !== ($file = readdir($handle))) {
-    				if (!in_array($file, $filteredlist)) {
-    					array_push($cratelist, $file);
-    				}
-    			}
-    			closedir($handle);
-    		}
-    	}
-    	return $cratelist;
-    }
     
     public function getCrateFiles($crateName) {
         \OCP\Util::writeLog('crate_it', "CrateManager::getCrateFiles(".$crateName.")", \OCP\Util::DEBUG);
@@ -129,13 +109,6 @@ class CrateManager {
         \OCP\Util::writeLog('crate_it', "CrateManager::getCrateRoot()", \OCP\Util::DEBUG);
         return Util::joinPaths(Util::getUserPath(), 'crates');
     }
-    
-    private function getPublishedCrateRoot() {
-    	
-    	//\OCP\Util::writeLog('crate_it', "CrateManager::getCrateRoot()", \OCP\Util::DEBUG);
-    	//return Util::joinPaths(Util::getUserPath(), 'crates');
-    }
-    
 
     public function getManifest($crateName) {
         \OCP\Util::writeLog('crate_it', "CrateManager::getManifest(".$crateName.")", \OCP\Util::DEBUG);

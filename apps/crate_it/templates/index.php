@@ -92,8 +92,8 @@
 
 </div>
 
-<div id="files"></div>
 
+<div id="files"></div>
 <?php
 
   print_unescaped($this->inc('metadata'));       
@@ -109,8 +109,6 @@
   print_unescaped($this->inc('clear_metadata_modal'));  
   print_unescaped($this->inc('add_creator_modal'));
   print_unescaped($this->inc('edit_creator_modal'));
-  print_unescaped($this->inc('add_contact_modal'));
-  print_unescaped($this->inc('edit_contact_modal'));
   print_unescaped($this->inc('add_grant_modal'));
   print_unescaped($this->inc('edit_activities_modal'));
   print_unescaped($this->inc('check_crate_modal'));

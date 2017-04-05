@@ -35,9 +35,8 @@ class Crate extends BagIt {
                 'email' => \OC::$server->getUserSession()->getUser()->getEMailAddress(),
                 'displayname' => \OC::$server->getUserSession()->getUser()->getDisplayName(),
             ),
-            'contacts' => array(),
-        	'creators' => array(),
-        	'activities' => array(),
+            'creators' => array(),
+            'activities' => array(),
             'vfs' => array(
                 array(
                     'id' => 'rootfolder',
@@ -67,7 +66,6 @@ class Crate extends BagIt {
         $metadata = $this->getManifest();
         $metadata['crate_name'] = $this->crateName;
         $metadata['files'] = $this->flatList();
-        $metadata['contacts'] = $this->isContactIdUrl($metadata['contacts']);
         $metadata['creators'] = $this->isCreatorIdUrl($metadata['creators']);
         // TODO: Update to use utility method
         date_default_timezone_set('Australia/Sydney');
@@ -91,18 +89,6 @@ class Crate extends BagIt {
         return $creators;
     }
 
-    // NOTE: workaround for non-functioning twig operators 'starts with' and 'matches'
-    private function isContactIdUrl($contacts) {
-    	$protocol = '/^https?\:\/\//';
-    	foreach($contacts as &$contact) {
-    		$identifier = $contact['identifier'];
-    		if(!empty($identifier) && preg_match($protocol, $identifier)) {
-    			$contact['url'] = true;
-    		}
-    	}
-    	return $contact;
-    }
-    
     private function buildFileTreeFromRoot($rootnode) {
         $tree = '';
         // if we get to this point, then the crate has files for sure, so no need to

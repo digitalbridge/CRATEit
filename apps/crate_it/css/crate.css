@@ -156,6 +156,14 @@ height: 44px;
 
 #content {
 }
+#files {
+	position: absolute;
+	margin-top: 45px;
+	min-width: 800px;
+	overflow-x: auto;
+	left: 0;
+	right: 290px;
+}
 
 #files ul {
 	margin: 0;
@@ -409,20 +417,6 @@ border-top-right-radius: 0;
 	border-bottom: 1px solid #EEE;
 }
 
-.container-metadata .data-contacts ul#contacts {
-	padding: 0 0 20px 0;
-}
-
-.container-metadata .data-contacts li {
-	padding: 14px 0;
-	border-bottom: 1px solid #EEE;
-}
-
-.container-metadata .data-c li {
-	padding: 14px 0;
-	border-bottom: 1px solid #EEE;
-}
-
 .container-metadata li .metadata_heading {
   padding-right:34px;
   font-weight:bold;
@@ -454,13 +448,14 @@ border-top-right-radius: 0;
 	border-bottom: 1px solid #EEE;
 }
 
-.container-metadata .grant-numbers label, .container-metadata .data-creators label, .container-metadata .data-contacts label, .container-metadata .crate-size label, .container-metadata .embargo-enabled label, .container-metadata .embargo-until label, .container-metadata .embargo-info label  {
+.container-metadata .grant-numbers label, .container-metadata .data-creators label, .container-metadata .crate-size label, .container-metadata .embargo-enabled label, .container-metadata .embargo-until label, .container-metadata .embargo-info label  {
 	font-weight: bold;	
 }
 .container-metadata .nothing-selected {
 	color:#777;
 	margin-top:15px;
 }
+
 
 /*
 // PANELS //////////////////////////////////////////////////////////////////////

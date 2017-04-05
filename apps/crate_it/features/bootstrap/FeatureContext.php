@@ -431,7 +431,7 @@ class FeatureContext extends MinkContext
      */
     public function iHaveCrate($crateName) {
         // $mainfest = '{"description":"","creators":[],"activities":[],"vfs":[{"id":"rootfolder","name":"'.$crateName.'","folder":true,"children":[]}]}';
-        $mainfest = '"{\"description\":\"\",\"data_retention_period\":\"\",\"creators\":[],\"contacts\":[],\"activities\":[],\"vfs\":[{\"id\":\"rootfolder\",\"name\":\"'.$crateName.'\",\"folder\":true,\"children\":[]}]}"';
+        $mainfest = '"{\"description\":\"\",\"data_retention_period\":\"\",\"creators\":[],\"activities\":[],\"vfs\":[{\"id\":\"rootfolder\",\"name\":\"'.$crateName.'\",\"folder\":true,\"children\":[]}]}"';
         $data_path = self::$CRATE_ROOT.$crateName.'/data';
         $command = "mkdir -m 755 -p $data_path\\";
         $this->exec_sh_command($command);
@@ -751,35 +751,7 @@ JS;
 	   		
 	}
 	
-	private function mockContactLookup()
-	{
-		// TODO: Look at way to load mockjax dynamically so that is isn't loaded in production
-		// NOTE: DO NOT INDENT THE FOLLOWING BLOCK - leave it how it is!
-		$js = <<<JS
-var result = '[' +
-  			      '{\"result-metadata\":{\"all\": {\"id\": [\"1\"], \"Email\": [\"john@smith.com\"], \"Honorific\": [\"Prof\"], \"Given_Name\": [\"John\"], \"Family_Name\": [\"Smith\"]}}}'
-  			       + ',' +
-  			      '{\"result-metadata\":{\"all\": {\"id\": [\"2\"], \"Email\": [\"john@doe.org\"], \"Honorific\": [\"Mr\"], \"Given_Name\": [\"John\"], \"Family_Name\": [\"Doe\"]}}}'
-  			       + ',' +
-  			      '{\"result-metadata\":{\"all\": {\"id\": [\"3\"], \"Email\": [\"dan@silverchair.com\"], \"Honorific\": [\"Mr\"], \"Given_Name\": [\"Daniel\"], \"Family_Name\": [\"Johns\"]}}}'
-  			    +']';
-var c_url = OC.generateUrl('apps/crate_it/crate/search');
-$.mockjax({
-    url: c_url,
-    type: 'post',
-    dataType: 'json',
-    data: {
-        'type': 'people',
-        'keywords': 'John'
-      },
-    responseText : result
-  });
-JS;
-		$this->getSession()->executeScript($js);
-	
-	}
-	
-	
+
     private function resultlessMockActivityLookup() {
         $js = <<<JS
 var c_url = OC.generateUrl('apps/crate_it/crate/search');                   
@@ -814,24 +786,6 @@ JS;
         $this->getSession()->executeScript($js);
     }
 
-    private function resultlessMockContactLookup() {
-    	$js = <<<JS
-var c_url = OC.generateUrl('apps/crate_it/crate/search');
-$.mockjax({
-    url: c_url,
-    type: 'post',
-    dataType: 'json',
-    data: {
-        'type': 'people',
-        'keywords': 'John'
-      },
-    responseText : '[]'
-  });
-JS;
-    	$this->getSession()->executeScript($js);
-    }
-    
-    
     /**
      * @Given /^I expand the grant number metadata section$/
      */
@@ -863,21 +817,6 @@ JS;
         $this->waitForPageToLoad();
     }
 
-    /**
-     * @Given /^I expand the contact metadata section$/
-     */
-    public function iExpandTheContactMetadataSection()
-    {
-    	$this->spin(function($context) {
-    		$page = $context->getSession()->getPage();
-    		$xpath = '//a[@href="#data-contacts"]/i';
-    		$expand_trigger = $page->find('xpath', $xpath);
-    		$expand_trigger->click();
-    		return true;
-    	});
-    		$this->waitForPageToLoad();
-    }
-    
     /**
      * @Given /^I expand the description metadata section$/
      */
@@ -1002,21 +941,6 @@ JS;
             return true;
         });
     }
-    
-    /**
-     * @When /^I clear all creators$/
-     */
-    public function iClearAllContacts()
-    {
-    	// TODO: A lot of these methods just search by xpath and click and element,
-    	// The can probably be refactored and remove to be a lot DRYer
-    	$this->spin(function($context) {
-    		$page = $context->getSession()->getPage();
-    		$button = $page->find('css', '#clear_contacts');
-    		$button->click();
-    		return true;
-    	});
-    }
 
     /**
      * @Then /^I should see these entries in the result list$/
@@ -1097,26 +1021,6 @@ JS;
         }
     }
 
-    /**
-     * @Then /^I should see these entries in the selected contacts list$/
-     */
-    public function iShouldSeeTheseEntriesInTheSelectedcontactsList(TableNode $table)
-    {
-    	sleep(1);
-    	$page = $this->getSession()->getPage();
-    	$xpath = '//ul[@id="selected_contacts"]//p[@class="metadata_heading"]';
-    	$name = $this->checkSearchResult($xpath, $page);
-    
-    	$xpath = '//ul[@id="selected_contacts"]//p[2]';
-    	$email = $this->checkSearchResult($xpath, $page);
-    
-    	$hash = $table->getHash();
-    	for ($count = 0; $count < count($hash); $count++ ){
-    		$this->matchTableValue($hash[$count]['name'], $name[$count], $count);
-    		$this->matchTableValue($hash[$count]['email'], $email[$count], $count);
-    	}
-    }
-    
 	private function checkSearchResult($xpath, $page)
 	{
 		$el_array = $page->findAll('xpath', $xpath);
@@ -1204,20 +1108,6 @@ JS;
             return true;
         });
     }
-    
-    /**
-     * @Then /^I should have no selected contacts$/
-     */
-    public function iShouldNoSelectedContacts()
-    {
-    	$this->spin(function($context) {
-    		$page = $context->getSession()->getPage();
-    		$grants = $page->findAll('css', '#selected_contacts > li');
-    		assertEquals(0, count($grants));
-    		return true;
-    	});
-    }
-    
 
     /**
      * @Then /^I should see these entries in the selected grant number list$/
@@ -1772,16 +1662,6 @@ JS;
         $page->find('xpath', $xpath)->click();
     }
 
-    /**
-     * @Given /^I click to wrap Contacts$/
-     */
-    public function iClickToWrapContacts()
-    {
-    	$page = $this->getSession()->getPage();
-    	$xpath = '//a[@id="data-contacts-head"]';
-    	$page->find('xpath', $xpath)->click();
-    }
-    
     /**
      * @Given /^I click to wrap Grants$/
      */
