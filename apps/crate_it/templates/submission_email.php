@@ -7,7 +7,7 @@
     <div>
         <p>You have submitted your Crate which will enable your dataset to be published and archived on University
             storage.</p>
-        The metadata associated with your Crate (data creators, description, grant, etc) has been sent to the Library.
+        The metadata associated with your Crate (data creators, data contacts, description, grant, etc) has been sent to the Library.
         A metadata record describing your dataset and the conditions under which other researchers can access or use the
         data will be created and sent to Research Data Australia (<a href="https://researchdata.ands.org.au/">researchdata.ands.org.au</a>)
         by the Library.
@@ -88,6 +88,47 @@
                         }
                         print_unescaped('</td>');
                         print_unescaped('<td>' . $creator['source'] . '</td>');
+                        print_unescaped('</tr>');
+                    } ?>
+                    </tbody>
+                </table>
+            <?php } else { ?>
+                <span>None.</span>
+
+            <?php } ?>
+            
+            <h4>Contacts</h4>
+            <?php if (array_key_exists('contacts', $_) && !empty($_['contacts']))  { ?>
+                <table border="1">
+                    <thead>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Identifier</th>
+                    <th>Source</th>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_['contacts'] as $contact) {
+                        if (array_key_exists('overrides', $contact)) {
+                            $c = $contact['overrides'];
+                        } else {
+                            $c = $contact;
+                        }
+                        print_unescaped('<tr>');
+                        print_unescaped('<td>');
+                        p($c['name']);
+                        print_unescaped('</td>');
+                        print_unescaped('<td>');
+                        p($c['email']);
+                        print_unescaped('</td>');
+                        print_unescaped('<td xmlns:dc="http://purl.org/dc/elements/1.1/">');
+                        if (array_key_exists('url', $c)) {
+                            print_unescaped();
+                            print_unescaped('<a href="' . $c['identifier'] . '"><span property="dc:identifier">' . $c['identifier'] . '</span></a>');
+                        } else {
+                            print_unescaped('<span property="dc:identifier">' . $c['identifier'] . '</span>');
+                        }
+                        print_unescaped('</td>');
+                        print_unescaped('<td>' . $contact['source'] . '</td>');
                         print_unescaped('</tr>');
                     } ?>
                     </tbody>

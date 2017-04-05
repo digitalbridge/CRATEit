@@ -36,11 +36,14 @@ class Util {
     public static function getUserPath() {
         $userId = \OC::$server->getUserSession()->getUser()->getDisplayName();
         $config = Util::getConfig();
+        //echo Util::joinPaths(Util::getDataPath(), $userId);
+        //die();
         return Util::joinPaths(Util::getDataPath(), $userId);
     }
 
     public static function getDataPath() {
-    	return \OC::$server->getConfig()->getSystemValue('datadirectory', 'var/www/html/owncloud/');
+    	//return \OC::$server->getConfig()->getSystemValue('datadirectory', 'var/www/html/owncloud/');
+    	return \OC::$server->getConfig()->getSystemValue('datadirectory');
     }
     
     public static function getTempPath() {

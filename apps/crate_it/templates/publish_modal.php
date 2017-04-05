@@ -30,9 +30,17 @@
              <h4 class="margin-bottom">Description</h4>
              <h6>Crate Size: <span id="crate_size_human_publish" class="standard"></span></h6>
              <div id='publish-description'></div>
+             <br />
+             <h4>Field of Research (FOR):</h4> 
+             <h6><span id="publish-for" class="standard"></span></h6>
+             <div id='publish-for'></div>
           </div>
 
           <div class="col-4">
+            <h4 class="margin-bottom">Contacts</h4>
+            <ul id="publish-contacts">
+            </ul>
+
             <h4 class="margin-bottom">Creators</h4>
             <ul id="publish-creators">
             </ul>
@@ -48,7 +56,7 @@
             <h4 class="margin-bottom">Data Retention Period</h4>
             <div id='publish-data-retention-period'></div>
 
-            <h4 class="margin-top margin-bottom">Embargo Details</h4>
+            <h4 class="margin-top margin-bottom">Access Details</h4>
             <div>
               <h6>Embargo Enabled:</h6>
               <div id="publish-embargo-enabled"></div>
@@ -62,7 +70,7 @@
               <div id="publish-embargo-note"></div>
             </div>
           </div>
-        </div>
+        </div> 
           
         <div style="color:red; font-weight:bold;">
           <span id="publish-consistency"></span>

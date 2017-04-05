@@ -80,7 +80,7 @@ class PublishController extends Controller {
         $crateName = $this->params('name');
         $endpoint = $this->params('endpoint');
         $collection = $this->params('collection');
-        $this->loggingService->log("Attempting to publish crate $crateName to collection: $collection");
+        $this->loggingService->log("Attempting to submit crate $crateName to collection: $collection");
         $this->loggingService->logManifest($crateName);
         $config = Util::getConfig();
         $data = array();

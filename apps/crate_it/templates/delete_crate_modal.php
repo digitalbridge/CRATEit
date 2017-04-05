@@ -6,7 +6,7 @@
         <h4 class="modal-title" id="deleteCrateLabel">Delete Crate</h4>
       </div>
       <div class="modal-body">
-        <p id="deleteCrateMsg"></p>
+        <p id="deleteCrateMsg">The Crate will be permanently deleted, Continue?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

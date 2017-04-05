@@ -321,7 +321,15 @@ function initCrateActions() {
       var html = CreatorSearchManager.renderSummary(record);
       $('#publish-creators').append(html);
     });
-
+    
+    $('#publish-contacts').children().remove();
+    // TODO: create proper render functions
+    var records = ContactSearchManager.getSelected();
+    records.forEach(function(record){
+      var html = ContactSearchManager.renderSummary(record);
+      $('#publish-contacts').append(html);
+    });
+    
     $('#publish-activities').children().remove();
     records = ActivitySearchManager.getSelected();
     records.forEach(function(record){
@@ -570,6 +578,8 @@ function initSearchHandlers() {
   manifest = getMaifest();
   $clearMetadataModal = $('#clearMetadataModal');
 
+  console.log($clearMetadataModal);
+
   var creatorDefinition = {
     manifestField: 'creators',
     actions: {
@@ -589,11 +599,14 @@ function initSearchHandlers() {
   // TODO: a lot of these elements could be pushed into the SearchManager constructor
   //      so it creates the widget
   var creatorSelectedList = manifest.creators;
-  var creator$resultsUl = $('#search_people_results');
+  var creator$resultsUl = $('#search_creators_results');
   var creator$selectedUl = $('#selected_creators');
   var creator$notification = $('#creators_search_notification');
   var creator$editModal = $('#editCreatorsModal');
 
+  console.log("creatorSelectedList", creatorSelectedList);
+
+  
   // TODO: for add it's 'creator', but edit it's 'creators'
   // logic works on field name, so make them call creators
   var editCreatorValidator = new CrateIt.Validation.FormValidator(creator$editModal);
@@ -611,7 +624,7 @@ function initSearchHandlers() {
 
   // TODO: add this to a namespace rather than exposing globally
   CreatorSearchManager = new SearchManager(creatorDefinition, creatorSelectedList, creator$resultsUl, creator$selectedUl, creator$notification, creator$editModal);
-  $('#search_people').click(function() {
+  $('#search_creators').click(function() {
     CreatorSearchManager.search($.trim($('#keyword_creator').val()));
   });
   $('#keyword_creator').keyup(function(e) {
@@ -660,6 +673,98 @@ function initSearchHandlers() {
     attachModalHandlers($addCreatorModal, addCreator);
   });
 
+  //Contacts
+  var contactDefinition = {
+    manifestField: 'contacts',
+    actions: {
+      search: 'people'
+    },
+    mapping: {
+      'id': 'id',
+      'identifier': 'dc_identifier',
+      'name': ['Honorific', 'Given_Name', 'Family_Name'],
+      'email': 'Email'
+    },
+    displayFields: ['name', 'email'],
+    editFields: ['name', 'email', 'identifier'],
+    editableRecords: ['manual', 'mint']
+  };
+  
+  // TODO: a lot of these elements could be pushed into the SearchManager constructor
+  //      so it creates the widget
+  var contactSelectedList = manifest.contacts;
+  var contact$resultsUl = $('#search_contacts_results');
+  var contact$selectedUl = $('#selected_contacts');
+  var contact$notification = $('#contacts_search_notification');
+  var contact$editModal = $('#editContactsModal');
+
+  // TODO: for add it's 'contact', but edit it's 'contacts'
+  // logic works on field name, so make them call contacts
+  var editContactValidator = new CrateIt.Validation.FormValidator(contact$editModal);
+  editContactValidator.addValidator($('#edit-contacts-name'), new CrateIt.Validation.RequiredValidator('Name'));
+  editContactValidator.addValidator($('#edit-contacts-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+
+  editContactValidator.addValidator($('#edit-contacts-email'), new CrateIt.Validation.RequiredValidator('Email'));
+  editContactValidator.addValidator($('#edit-contacts-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+  editContactValidator.addValidator($('#edit-contacts-email'), new CrateIt.Validation.EmailValidator());
+  
+  var editContactUrlValidator = new CrateIt.Validation.UrlValidator();
+  editContactUrlValidator = new CrateIt.Validation.OptionalValidator(editContactUrlValidator);
+  editContactValidator.addValidator($('#edit-contacts-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+  editContactValidator.addValidator($('#edit-contacts-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editContactUrlValidator));
+
+  // TODO: add this to a namespace rather than exposing globally
+  ContactSearchManager = new SearchManager(contactDefinition, contactSelectedList, contact$resultsUl, contact$selectedUl, contact$notification, contact$editModal);
+  $('#search_contacts').click(function() {
+	  ContactSearchManager.search($.trim($('#keyword_contact').val()));
+  });
+  $('#keyword_contact').keyup(function(e) {
+    if (e.keyCode == 13) {
+    	ContactSearchManager.search($.trim($(this).val()));
+    }
+  });
+  var contactsCount = function(e) {
+    $('#contacts_count').text(e.selected);
+  };
+  ContactSearchManager.addEventListener(contactsCount);
+  ContactSearchManager.notifyListeners();
+  $('#clear_contacts').click(function() {
+    $('#clearMetadataField').text('contacts');
+    attachModalHandlers($clearMetadataModal, ContactSearchManager.clearSelected);
+  });
+
+  var addContact = function() {
+    var name = $('#add-contact-name').val();
+    var email = $('#add-contact-email').val();
+    var identifier = $('#add-contact-identifier').val();
+    var overrides = {
+      'name': name,
+      'email': email,
+      'identifier': identifier
+    };
+    ContactSearchManager.addRecord(overrides);
+  };
+  var $addContactModal = $('#addContactModal');
+  var $addContactConfirm = $addContactModal.find('.btn-primary');
+
+  var addContactValidator = new CrateIt.Validation.FormValidator($addContactModal);
+  addContactValidator.addValidator($('#add-contact-name'), new CrateIt.Validation.RequiredValidator('Name'));
+  addContactValidator.addValidator($('#add-contact-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+
+  addContactValidator.addValidator($('#add-contact-email'), new CrateIt.Validation.RequiredValidator('Email'));
+  addContactValidator.addValidator($('#add-contact-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+  addContactValidator.addValidator($('#add-contact-email'), new CrateIt.Validation.EmailValidator());
+
+  var addContactUrlValidator = new CrateIt.Validation.UrlValidator();
+  addContactValidator.addValidator($('#add-contact-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+  addContactValidator.addValidator($('#add-contact-identifier'), new CrateIt.Validation.OptionalValidator(addContactUrlValidator));
+
+  // TODO: this doesn't need to be dynamically attached, maybe create a second helper
+  $('#add-contact').click(function() {
+    attachModalHandlers($addContactModal, addContact);
+  });
+  
+  //Activities / Grants
   var activityDefinition = {
     manifestField: 'activities',
     actions: {

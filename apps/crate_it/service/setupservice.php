@@ -36,6 +36,8 @@ class SetupService {
         $this->publisher->registerPublishers(self::$params['publish endpoints']);
         self::$params['collections'] = $this->publisher->getCollections();
         self::$params['crates'] = $this->crateManager->getCrateList();
+        self::$params['published_crates'] = $this->crateManager->getPublishedCrateList();
+        
         $manifestData = $this->crateManager->getManifest($selectedCrate);
         self::$params['description'] = $manifestData['description'];
         self::$params['data_retention_period'] = $manifestData['data_retention_period'];

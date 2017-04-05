@@ -39,6 +39,31 @@
             <?php } ?>
         </my:Creators>
     <?php } ?>
+    <?php if (array_key_exists('contacts', $_)) { ?>
+        <my:Contacts>
+            <?php foreach ($_['contacts'] as $contact) { ?>
+                <?php $isOverride = isset($contact["overrides"]) ?>
+                <my:Contact>
+                    <my:ContactName>
+                        <?php if ($isOverride) {
+                            print_unescaped($contact['overrides']['name']);
+                        } else {
+                            print_unescaped($contact['name']);
+                        }
+                        ?>
+                    </my:ContactName>
+                    <my:ContactEmail>
+                        <?php if ($isOverride) {
+                            print_unescaped($contact['overrides']['email']);
+                        } else {
+                            print_unescaped($contact['email']);
+                        }
+                        ?>
+                    </my:ContactEmail>
+                </my:Contact>
+            <?php } ?>
+        </my:Contact>
+    <?php } ?>
     <?php if (array_key_exists('activities', $_)) { ?>
         <my:GrantNumbers>
             <?php foreach ($_['activities'] as $activity) { ?>
