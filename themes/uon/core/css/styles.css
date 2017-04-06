@@ -1,0 +1,173 @@
+/**
+ * @author Jan-Christoph Borchardt, http://jancborchardt.net
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+
+
+
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	background-color: #000000;
+}
+
+
+#app-navigation,
+.nav-trashbin,
+.settings-button,
+#app-settings-content {
+	background-color: #f4f0ea;
+}
+#notification-container {
+	width: 100%;
+	z-index: 9000;
+	display: block;
+	position: fixed;
+}
+#notification {
+	width: 100%;
+	background: #393838;
+}
+#notification a {
+	color: #00aeff;
+	text-decoration: underline;
+}
+
+.settings-button {
+	background-image: url('../img/actions/settings.svg');
+	color: #000000;
+	opacity: 0.57;
+}
+.settings-button:hover,
+.settings-button.active {
+	background-color: #d9d5cf;
+	opacity: 1;
+}
+
+#app-settings-content {
+	background-color: #d9d5cf;	
+}
+
+#app-settings-content em {
+	font-size: 0.8em;
+}
+
+/* use logos from theme */
+#header .logo {
+	background-image: url('../img/university-of-newcastle.svg');
+	width: 250px;
+	height: 250px;
+	background-size: contain;
+	background-position: center center;
+}
+#header .logo-icon {
+	background-image: url('../img/uon-logo.png');
+	width: 62px;
+	height: 34px;
+	background-size: contain;
+	background-position: center center;
+}
+
+#selectedCrate {
+	display: inline-block;
+	padding: 12px 10px;
+	float: right;
+	font-weight: 700;
+	color: #a3a3a3;
+}
+
+#body-login {
+	background: #f4f0ea;
+}
+#body-login .wrapper {
+	width: auto;
+	max-width: 600px;
+}
+#body-login form {
+	background: #000000;
+	border-radius: 0.5em;
+	padding: 3em 4em;
+	width: auto;
+	box-sizing: border-box;
+}
+#body-login form input {
+	width: 100% !important;
+	padding: 0.5em 1em !important;
+	box-sizing: border-box !important;
+	margin: 0 !important;
+}
+#body-login #submit.login {
+	width: auto !important;
+}
+#body-login form fieldset {
+	margin: 0;
+}
+#body-login .remember-login-container {
+	margin-top: 2em;
+}
+#body-login form input[type="checkbox"]+label {
+	padding: 1em;
+}
+#body-login p.info {
+	color: #000000;
+}
+
+#body-login p.info a {
+	color: #00aeff;
+	text-decoration: underline;
+}
+
+.button.new {
+	border-color: #81aa12;
+	background-color: #81aa12;
+	opacity: 0.5;
+}
+
+/* primary action button, use sparingly */
+/* header color as border, brighter shade again, here as background */
+.primary,
+input[type="submit"].primary,
+input[type="button"].primary,
+button.primary,
+.button.primary,
+.primary:active,
+input[type="submit"].primary:active,
+input[type="button"].primary:active,
+button.primary:active,
+.button.primary:active {
+	border-color: #81aa12;
+	background-color: #81aa12;
+}
+.primary:hover,
+input[type="submit"].primary:hover,
+input[type="button"].primary:hover,
+button.primary:hover,
+.button.primary:hover,
+.primary:focus,
+input[type="submit"].primary:focus,
+input[type="button"].primary:focus,
+button.primary:focus,
+.button.primary:focus {
+	background-color: #8b75e4;
+}
+.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,
+.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,
+.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,
+.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {
+	background-color: #745bca;
+}
+
