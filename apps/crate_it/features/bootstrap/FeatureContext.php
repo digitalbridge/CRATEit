@@ -1589,7 +1589,7 @@ JS;
     {
         $this->waitForPageToLoad();
         $page = $this->getSession()->getPage();
-        $xpath = '//div[@id="retention_peroid_list"]/div[@id="retention_period_value"]';
+        $xpath = '//div[@id="retention_period_list"]/div[@id="retention_period_value"]';
         $desc = $page->find('xpath', $xpath);
         $str_desc = (string)$desc->getText() ;
         assertEquals($arg1, $str_desc);

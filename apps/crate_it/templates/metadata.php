@@ -135,15 +135,21 @@
             </div>
             <div id="data-retention-period" class="panel-collapse collapse standard">
                 <div class="panel-body">
-                    <div id='retention_peroid_list'>
+                    <div id='retention_period_list'>
                         <h6>
                             DATA RETENTION PERIOD (YEARS)
                             <button id="choose_retention_period" class="pull-right trans-button" type="button"
                                     placeholder="Choose"><i class="fa fa-edit"></i></button>
                         </h6>
                         <div id="retention_period_value" style="white-space: pre-wrap;"
-                             class="metadata"><?php p(($_['data_retention_period'] !== null) || ($_['data_retention_period'] !== '') ? $_['data_retention_period'] : 'Perpetuity') ?>
-                        </div>
+                             class="metadata"><?php 
+                             if (($_['data_retention_period'] !== null) && ($_['data_retention_period'] !== '')) {
+                             	echo $_['data_retention_period'];
+                             }
+                             else {
+                             	echo 'Please Select';
+                        	 }
+                             ?></div>
                     </div>
                 </div>
             </div>

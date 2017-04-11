@@ -431,7 +431,9 @@ function setupRetentionPeriodOps() {
     $('#retention_period_value').html(html);
     $('#choose_retention_period').addClass('hidden');
 
-    $("input[value=" + old_retention_period + "]").prop('checked', true);
+    if (old_retention_period!="Please Select") {
+    	$("input[value=" + old_retention_period + "]").prop('checked', true);
+  	}
     $('#save_retention_period').click(function(event) {
       var c_url = OC.generateUrl('apps/crate_it/crate/update');
       $.ajax({
