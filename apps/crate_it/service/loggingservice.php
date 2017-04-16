@@ -40,8 +40,9 @@ class LoggingService {
         $this->log($text);
     }
 
-    public function logPublishedDetails($zip, $crateName) {
-        $filesize = filesize($zip);
+    public function logPublishedDetails($zip, $crateName) {    	 
+    	$zip = urldecode($zip);
+    	$filesize = filesize($zip);
         $zipname = basename($zip);
         $this->log("Zipped file size for '$zipname': $filesize bytes");
         $this->log("Package content for '$zipname':");

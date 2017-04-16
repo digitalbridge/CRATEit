@@ -47,7 +47,7 @@ class PublishController extends Controller {
             $to = $this->params('address');
             $metadata = $this->params('metadata');
             // TODO: This should be configurable
-            $from = 'no-reply@CRATEit.app';
+            $from = 'no-reply@crateit.app';
             $subject = 'CRATEit Submit Status Receipt';
             try {
                 $content = $this->getEmailContent($metadata);
@@ -98,14 +98,14 @@ class PublishController extends Controller {
             $data['msg'] = "The Crate '$crateName' has been successfully submitted and a confirmation eMail has been sent to you.";
             $this->loggingService->logPublishedDetails($cratePath, $crateName);
             # Publish complete. Email the submitter if an email address has been configured.
-            if(!array_key_exists('submitter',$metadata)) {
+            if(!$metadata['submitter']['email']) {
                 $to = '';
             } else {
                 $to = $metadata['submitter']['email'];
             }
             $data['metadata'] = $metadata;
             if($to !== '') {
-                $from = 'no-reply@CRATEit.app';
+            	$from = 'no-reply@crateit.app';
                 $subject = 'CRATEit Submit Status Receipt';
                 $content = $this->getEmailContent($metadata);
 
@@ -118,6 +118,7 @@ class PublishController extends Controller {
             $status = 500;
         }
         $this->loggingService->log($data['msg']);
+        session_start();
         $_SESSION['last_published_status'] = $data['msg'];
         return new JSONResponse($data, $status);
     }
