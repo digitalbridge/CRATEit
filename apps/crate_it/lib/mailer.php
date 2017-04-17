@@ -5,7 +5,7 @@ namespace OCA\crate_it\lib;
 class Mailer {
   
   public function send($to, $from, $subject, $content) {
-    $result = mail($to, $subject, $content, "From: $from\n");
+    $result = mail($to, $subject, $content, "From: " . $from,  '-f ' . $from);
   	if(!$result) {
   		\OCP\Util::writeLog('Unable to send email: ', $result, \OCP\Util::ERROR);
   	}
@@ -13,15 +13,18 @@ class Mailer {
   }
 
   public function sendHtml($to, $from, $subject, $content) {
-    $headers = 'From: $from' . "\r\n";
-  	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-  	$result = mail($to, $subject, $content, $headers);
+  	if (!$from) {
+  		$from = 'noreply@crateit.app';
+  	}
+  	$headers = "From: " . $from . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $result = mail($to, $subject, $content, $headers, '-f ' . $from);
     if(!$result) {
     	\OCP\Util::writeLog('Unable to send email: ', $result, \OCP\Util::ERROR);
     	//\OCP\Util::writeLog('To: ', $to, \OCP\Util::ERROR);
     	//\OCP\Util::writeLog('Subject: ', $subject, \OCP\Util::ERROR);
     	//\OCP\Util::writeLog('Content: ', $content, \OCP\Util::ERROR);
-    	//\OCP\Util::writeLog('Headers: ', $headers, \OCP\Util::ERROR);
+    	\OCP\Util::writeLog('Headers: ', $headers, \OCP\Util::ERROR);
     }
     return $result;
   }

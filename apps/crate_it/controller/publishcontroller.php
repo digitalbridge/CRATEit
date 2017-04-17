@@ -47,7 +47,8 @@ class PublishController extends Controller {
             $to = $this->params('address');
             $metadata = $this->params('metadata');
             // TODO: This should be configurable
-            $from = 'no-reply@crateit.app';
+            //$from = 'no-reply@crateit.app';
+            
             $subject = 'CRATEit Submit Status Receipt';
             try {
                 $content = $this->getEmailContent($metadata);
@@ -56,7 +57,7 @@ class PublishController extends Controller {
                     $data['msg'] = "A confirmation email has been sent to $to";
                     $status = 200;
                 } else {
-                    throw new \Exception('Unable to send email at this time');
+                	\OCP\Util::writeLog('Unable to send email: ', $result, \OCP\Util::DEBUG);
                 }
             } catch(\Exception $e) {
                 $data['msg'] = 'Error: '.$e->getMessage();
@@ -98,19 +99,20 @@ class PublishController extends Controller {
             $data['msg'] = "The Crate '$crateName' has been successfully submitted and a confirmation eMail has been sent to you.";
             $this->loggingService->logPublishedDetails($cratePath, $crateName);
             # Publish complete. Email the submitter if an email address has been configured.
-            if(!$metadata['submitter']['email']) {
-                $to = '';
+            if($metadata['submitter']['email']) {
+            	$to = $metadata['submitter']['email'];
             } else {
-                $to = $metadata['submitter']['email'];
+            	$to = $config['crate_to_email'];
+            }
+            if ($config['crate_from_email']) { 
+            	$from = $config['crate_from_email'];
+            } else {
+            	$from = 'noreply@crate.app';
             }
             $data['metadata'] = $metadata;
-            if($to !== '') {
-            	$from = 'no-reply@crateit.app';
-                $subject = 'CRATEit Submit Status Receipt';
-                $content = $this->getEmailContent($metadata);
-
-                $this->mailer->sendHtml($to, $from, $subject, $content);
-            }
+            $subject = 'CRATEit Submit Status Receipt';
+            $content = $this->getEmailContent($metadata);
+            $this->mailer->sendHtml($to, $from, $subject, $content);
             $status = 201;
         } catch (\Exception $e) {
             $this->loggingService->log("Submitting crate '$crateName' failed.");
