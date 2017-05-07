@@ -408,6 +408,19 @@ border-top-right-radius: 0;
 	width: 230px !important;
 }
 
+.container-metadata #name_box label {
+	height: 49px;
+	font-size: 14px;
+	font-weight: bold;
+}
+.container-metadata .metadata {
+	margin:15px 0 20px 0;
+}
+.container-metadata #name_box textarea {
+	margin: 0;
+	width: 230px !important;
+}
+
 .container-metadata .data-creators ul#creators {
 	padding: 0 0 20px 0;
 }

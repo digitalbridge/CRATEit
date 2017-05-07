@@ -2,8 +2,28 @@
   "max_sword_mb": 1,
   "max_zip_mb": 2000,
   "publish_warning_mb": 2000,
-  "description_length": 6000,
+  "name_length": 50,
+  "description_length": 255,
   "previews": "off",
+  "crate_to_email_fallback": "defaultto@crateit.dev",
+  "crate_from_email": "from@crateit.dev",
+  "crate_cc_email": "ccemail@crateit.dev",
+  "validate_crate_name": "true", 
+  "validate_crate_description": "false", 
+  "validate_data_creators": "true", 
+  "validate_data_creators_name": "true", 
+  "validate_data_creators_email": "true", 
+  "validate_data_creators_url": "true", 
+  "validate_grants": "true", 
+  "validate_grants_number": "true", 
+  "validate_grants_year": "true", 
+  "validate_grants_institution": "true", 
+  "validate_grants_title": "true", 
+  "validate_for_title": "true", 
+  "validate_data_retention_period": "true", 
+  "validate_embargo_enabled": "true", 
+  "validate_embargo_date": "true", 
+  "validate_embargo_details": "true", 
   "fascinator": {
     "status": "off",
     "downloadURL": "http://localhost:9997/portal/default/download/",
@@ -15,21 +35,21 @@
   },
   "mint": {
     "status": "enabled",
-    "url": "http://basset.uws.edu.au:9001/mint"
+    "url": "http://localhost:9001/mint"
   },
   "publish endpoints": {
     "sword": [{
       "name": "Sword Example",
       "enabled": false,
-      "sd uri": "http://127.0.0.1/sss/sd-uri",
+      "sd uri": "http://127.0.0.1:8080/sss/sd-uri",
       "username": "sword",
       "password": "sword",
       "obo": "obo"
     }],
     "folder": [{
-      "name": "Folder Example",
+      "name": "Publish Folder",
       "enabled": true,
-      "path": "/var/lib/owncloud/data/publish/",
+      "path": "/vagrant/www/html/owncloud/data/publish/",
       "url prefix": "file://"
     }]
   },
@@ -37,10 +57,10 @@
     "redbox": [{
       "name": "ReDBOX Example",
       "enabled": true,
-      "path": "/var/lib/owncloud/data/alerts/"
+      "path": "/vagrant/www/html/owncloud/data/alerts/"
     }]
   },
   "help_url": "http://htmlpreview.github.io/?https://github.com/IntersectAustralia/cr8it_doc/master/online-help.html",
   "crate path": "/var/lib/owncloud/data/",
-  "submitted_crate_url": "http://www.intersect.org.au/${crate_name}"
+  "submitted_crate_url": "http://crateit.dev/${crate_name}"
 }
