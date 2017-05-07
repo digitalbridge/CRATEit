@@ -23,15 +23,20 @@
 
     <div class="pull-right">
 
-      <button id="publish" type="button" data-toggle="modal">
-        <i class="fa fa-envelope"></i>
-        Publish
-      </button>
-
+      <a id="mycrates" class="button" data-toggle="modal" data-target="#mycratesModal">
+        <i class="fa fa-star"></i>
+        My Crates
+      </a>
+      
       <a id="check" class="button" data-toggle="modal">
          <i class="fa fa-check-circle"></i>
          Check Crate
       </a>  
+      
+      <button id="publish" type="button" data-toggle="modal">
+        <i class="fa fa-envelope"></i>
+        Publish
+      </button>
       
       <div class="btn-group">      
         <button id="download" type="button" class="dropdown-toggle" data-toggle="dropdown">
@@ -65,7 +70,7 @@
         <i class="fa fa-trash-o"></i>
          Delete
       </a>
-
+            
       <div class="btn-group">      
         <button type="button" class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-question"></i>
@@ -99,6 +104,7 @@
   print_unescaped($this->inc('metadata'));       
   print_unescaped($this->inc('help_modal'));   
   print_unescaped($this->inc('publish_modal'));   
+  print_unescaped($this->inc('mycrates_modal'));
   print_unescaped($this->inc('create_crate_modal'));   
   print_unescaped($this->inc('remove_crate_modal'));   
   print_unescaped($this->inc('rename_item_modal'));   

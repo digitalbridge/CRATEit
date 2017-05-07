@@ -48,7 +48,7 @@ class CrateManager {
         $cratelist = array();
         $crateRoot = $this->getCrateRoot();
         if ($handle = opendir($crateRoot)) {
-            $filteredlist = array('.', '..', 'packages', '.Trash');
+            $filteredlist = array('.', '..', 'packages', '.Trash', '.DS_Store');
             while (false !== ($file = readdir($handle))) {
                 if (!in_array($file, $filteredlist)) {
                     array_push($cratelist, $file);
@@ -121,6 +121,24 @@ class CrateManager {
 		return $crate->getManifest();
     }
 
+    public function getCrateDetailsList() {
+    	$crateNamesList = $this->getCrateList();
+    	$crateDetails = array();
+    	$crateDetailsList = array();
+    	
+    	foreach ($crateNamesList as $crateName) {
+    		$crate = $this->getCrate($crateName);
+    		$crateDetails['name'] = $crateName;
+    		$crateDetails['size'] = $this->getCrateSize($crateName);
+    		$crateDetails['contents'] = $crate->getBagContents();
+    		array_push($crateDetails, $this->getManifest($crateName));    		
+    		array_push($crateDetailsList, $crateDetails);
+    	}
+    	//\OCP\Util::writeLog('crate_it', var_dump($crateDetailsList), \OCP\Util::ERROR);
+    	//die();
+    	return $crateDetailsList;
+    }
+    
     public function addToCrate($crateName, $path) {
         \OCP\Util::writeLog('crate_it', "Crate::addToCrate(".$crateName.','.$path.")", \OCP\Util::DEBUG);
         $crate = $this->getCrate($crateName);
@@ -233,6 +251,6 @@ class CrateManager {
     public function getManifestFileContent($crateName) {
         $crate = $this->getCrate($crateName);
         return $crate->getManifestFileContent();
-    }
+    }    
     
 }

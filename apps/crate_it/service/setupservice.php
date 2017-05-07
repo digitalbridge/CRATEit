@@ -36,6 +36,7 @@ class SetupService {
         $this->publisher->registerPublishers(self::$params['publish endpoints']);
         self::$params['collections'] = $this->publisher->getCollections();
         self::$params['crates'] = $this->crateManager->getCrateList();
+        
         $manifestData = $this->crateManager->getManifest($selectedCrate);
         self::$params['description'] = $manifestData['description'];
         self::$params['data_retention_period'] = $manifestData['data_retention_period'];
@@ -43,6 +44,7 @@ class SetupService {
         self::$params['embargo_date'] = array_key_exists('embargo_date',$manifestData) ? $manifestData['embargo_date']:'';
         self::$params['embargo_details'] = array_key_exists('embargo_details',$manifestData) ? $manifestData['embargo_details']:'';
 
+        self::$params['crateDetails'] = $this->crateManager->getCrateDetailsList();
         //$info = self::getAppInfo('crate_it');
         self::$params['version'] = 1.2;
     }
