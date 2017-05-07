@@ -417,6 +417,15 @@ border-top-right-radius: 0;
 	border-bottom: 1px solid #EEE;
 }
 
+.container-metadata .data-fors ul#for {
+	padding: 0 0 20px 0;
+}
+
+.container-metadata .data-fors li {
+	padding: 14px 0;
+	border-bottom: 1px solid #EEE;
+}
+
 .container-metadata li .metadata_heading {
   padding-right:34px;
   font-weight:bold;
@@ -448,7 +457,7 @@ border-top-right-radius: 0;
 	border-bottom: 1px solid #EEE;
 }
 
-.container-metadata .grant-numbers label, .container-metadata .data-creators label, .container-metadata .crate-size label, .container-metadata .embargo-enabled label, .container-metadata .embargo-until label, .container-metadata .embargo-info label  {
+.container-metadata .grant-numbers label, .container-metadata .data-creators label, .container-metadata .data-fors label, .container-metadata .crate-size label, .container-metadata .embargo-enabled label, .container-metadata .embargo-until label, .container-metadata .embargo-info label  {
 	font-weight: bold;	
 }
 .container-metadata .nothing-selected {
@@ -594,6 +603,9 @@ font-size: 18px;
 	float: right;
 }
 
+#search_for_results button {
+	float: right;
+}
 
 #files ul.jqtree-tree li > div.jqtree-element.rootfolder span.jqtree-title {
 	font-size: x-large;

@@ -142,11 +142,23 @@ function initCrateActions() {
     location.reload();
   });
   
+  //Validate new CRATE
   $('#crate_input_name').keyup(function() {
-    var $input = $(this);
-    var $error = $('#crate_name_validation_error');
+    var $name = $(this);
+    var $description = $('#crate_input_description');
+    var $error_name = $('#crate_name_validation_error');
+    var $error_description = $('#crate_name_description_error');
     var $confirm = $('#createCrateModal').find('.btn-primary');
-    validateCrateName($input, $error, $confirm);
+    validateCrateName($name, $description, $error_name, $error_description, $confirm);
+  });
+
+  $('#crate_input_description').keyup(function() {
+	    var $description = $(this);
+	    var $name = $('#crate_input_name');
+	    var $error_name = $('#crate_name_validation_error');
+	    var $error_description = $('#crate_name_description_error');
+	    var $confirm = $('#createCrateModal').find('.btn-primary');
+	    validateCrateName($name, $description, $error_name, $error_description, $confirm);
   });
 
   $('#createCrateModal').find('.btn-primary').click(createCrate);
@@ -328,6 +340,14 @@ function initCrateActions() {
       var html = ActivitySearchManager.renderSummary(record);
       $('#publish-activities').append(html);
     });
+
+    $('#publish-fors').children().remove();
+    records = ForSearchManager.getSelected();
+    records.forEach(function(record){
+      var html = ForSearchManager.renderSummary(record);
+      $('#publish-fors').append(html);
+    });
+  
   });
 
   if($('#publish-collection > option').length == 0) {
@@ -353,6 +373,82 @@ function initCrateActions() {
 
 }
 
+/*
+To Edit in Meta Data Template
+function setupNameOps() {
+
+	  $('#crate_input_name').keyup(function() {
+	    var name_length = templateVars['name_length'];
+	    if ($(this).val().length > name_length) {
+	      $("#crate_name_validation_error").text('Crate Name has reached the limit of ' + name_length + ' characters');
+	      $("#crate_name_validation_error").show();
+	      $(this).val($(this).val().substr(0, name_length));
+	    } else {
+	      $("#crate_name_validation_error").text('');
+	    }
+	  });
+
+	  //Edit Crate
+	  $('#edit_name').click(function(event) {
+	    var old_name = $('#name').text();
+	    $('#name').text('');
+	    $('#name').html('<textarea id="name" maxlength="' + name_length + '" style="width: 40%;" placeholder="Enter a name for this Crate">' + old_name + '</textarea><br/><div id="edit_name_validation_error" style="color:red;"></div><input id="save_name" type="button" value="Save" /><input id="cancel_name" type="button" value="Cancel" />');
+	    setupEditNameOp();
+	    $('#edit_name').addClass('hidden');
+	    $('#save_name').click(function(event) {
+	      var c_url = OC.generateUrl('apps/crate_it/crate/update');
+
+	      // Perform validation
+	      if (templateVars['validate_crate_name'] == 'true') {
+	    	  var crateName = $('input#name').val();
+	    	  var errors = false;
+	    	  $('#crate-information-modal-ul').html('');
+	      
+	    	  if (!crateName) {
+	    		  errors = true;
+	    		  $('#crate-information-modal-ul').append('<li>You must enter a CRATE name</li>');
+	    	  }
+	    	  else if (crateName.val.length > name_length) {
+	    		  errors = true;
+	    		  $('#crate-information-modal-ul').append('<li>The CRATE name must be less than: ' + name_length + ' characters </li>');
+	    	  }
+	    	  // Show the Error modal
+	    	  if (errors) {
+	    		  $('#crate-information-submission-modal').modal({});
+	    		  return;
+	    	  }
+	      }
+
+	      $.ajax({
+	        url: c_url,
+	        type: 'post',
+	        dataType: 'json',
+	        data: {
+	          'fields': [{
+	            'field': 'name',
+	            'value': $('#crate_name').val()
+	          }]
+	        },
+	        success: function(data) {
+	          $('#name').html('');
+	          $('#name').text(data.values['name']);
+	          $('#edit_name').removeClass('hidden');
+	          calulateHeights();
+	        },
+	        error: function(jqXHR) {
+	          displayError(jqXHR.responseJSON.msg);
+	        }
+	      });
+	    });
+	    $('#cancel_name').click(function(event) {
+	        
+	      $('#name').html('');
+	      $('#name').text(old_name);
+	      $('#edit_name').removeClass('hidden');
+	    });
+	  });
+}
+*/
 
 function setupDescriptionOps() {
 
@@ -371,10 +467,32 @@ function setupDescriptionOps() {
     var old_description = $('#description').text();
     $('#description').text('');
     $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" style="width: 40%;" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><br/><div id="edit_description_validation_error" style="color:red;"></div><input id="save_description" type="button" value="Save" /><input id="cancel_description" type="button" value="Cancel" />');
-    setupEditDesriptionOp();
+    setupEditDescriptionOp();
     $('#edit_description').addClass('hidden');
     $('#save_description').click(function(event) {
       var c_url = OC.generateUrl('apps/crate_it/crate/update');
+
+      // Perform validation
+      if (templateVars['validate_crate_description'] == 'true') {
+    	  var crateDescription = $('input#description').val();
+    	  var errors = false;
+    	  $('#crate-information-modal-ul').html('');
+      
+    	  if (!crateDescription) {
+    		  errors = true;
+    		  $('#crate-information-modal-ul').append('<li>You must enter a CRATE description</li>');
+    	  }
+    	  else if (crateDescription.val.length > description_length) {
+    		  errors = true;
+    		  $('#crate-information-modal-ul').append('<li>The CRATE description must be less than: ' + description_length + ' characters </li>');
+    	  }
+    	  // Show the Error modal
+    	  if (errors) {
+    		  $('#crate-information-submission-modal').modal({});
+    		  return;
+    	  }
+      }
+
       $.ajax({
         url: c_url,
         type: 'post',
@@ -431,7 +549,7 @@ function setupRetentionPeriodOps() {
     $('#retention_period_value').html(html);
     $('#choose_retention_period').addClass('hidden');
 
-    $("input[value=" + old_retention_period + "]").prop('checked', true);
+    $("input[value='" + old_retention_period + "']").prop('checked', true);
     $('#save_retention_period').click(function(event) {
       var c_url = OC.generateUrl('apps/crate_it/crate/update');
       $.ajax({
@@ -567,7 +685,7 @@ function initSearchHandlers() {
   // TODO: prefix this with var to close scope when not dubugging
   // TODO: replace this call with a variable shared between buildFileTree
   //       as the manifest is retrieved multiple times
-  manifest = getMaifest();
+  manifest = getManifest();
   $clearMetadataModal = $('#clearMetadataModal');
 
   var creatorDefinition = {
@@ -680,8 +798,7 @@ function initSearchHandlers() {
       'oai_set' : 'oai_set',
       'format' : 'dc_format',
       'display_type' : 'display_type',
-      'subject' : 'dc_subject'
-       
+      'subject' : 'dc_subject'  
     },
     displayFields: ['grant_number', 'date', 'title'],
     editFields: ['grant_number', 'date', 'title', 'institution'],
@@ -762,9 +879,70 @@ function initSearchHandlers() {
   $('#add-activity').click(function() {
     attachModalHandlers($addActivityModal, addActivity);
   });
+  
+  var forDefinition = {
+    manifestField: 'fors',
+	actions: {
+      search: 'FOR'
+    },
+    mapping: {
+        'id': 'skos:prefLabel',
+        'title': 'skos:prefLabel'
+    },
+      displayFields: ['title'],
+	  editFields: ['title'],
+	  editableRecords: ['manual', 'mint']
+    };
+  
+	var forSelectedList = manifest.fors;
+    var for$resultsUl = $('#search_for_results');
+	var for$selectedUl = $('#selected_fors');
+	var for$notification = $('#for_search_notification');
+	var for$editModal = $('#editForsModal');
+	var editForsValidator = new CrateIt.Validation.FormValidator(for$editModal);
+	editForsValidator.addValidator($('#edit-fors-title'), new CrateIt.Validation.RequiredValidator('Title'));
+	editForsValidator.addValidator($('#edit-fors-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+
+	// TODO: add this to a namespace rather than exposing globally
+	ForSearchManager = new SearchManager(forDefinition, forSelectedList, for$resultsUl, for$selectedUl, for$notification, for$editModal);
+	
+	$('#search_for').click(function() {
+	    ForSearchManager.search($.trim($('#keyword_for').val()));
+    });
+	    $('#keyword_for').keyup(function(e) {
+		if (e.keyCode == 13) {
+		    ForSearchManager.search($.trim($(this).val()));
+		}
+	});
+	var forsSelectedCount = function(e) {
+	    $('#fors_count').text(e.selected);
+	};
+	ForSearchManager.addEventListener(forsSelectedCount);
+	ForSearchManager.notifyListeners();
+	$('#clear_fors').click(function() {
+		$('#clearMetadataField').text('fors');
+		attachModalHandlers($clearMetadataModal, ForSearchManager.clearSelected);
+	});
+
+    var addFor = function() {
+    	var title = $('#add-for-title').val();
+    	var overrides = {
+			'title': title
+    	};
+		ForSearchManager.addRecord(overrides);
+    };
+
+    var $addForModal = $('#addForModal');
+
+    var addForValidator = new CrateIt.Validation.FormValidator($addForModal);
+	addForValidator.addValidator($('#add-for-title'), new CrateIt.Validation.RequiredValidator('Title'));
+	addForValidator.addValidator($('#add-for-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+
+	$('#add-for').click(function() {
+		attachModalHandlers($addForModal, addFor);
+	});
 
 }
-
 
 function initAutoResizeMetadataTabs() {
   $('#meta-data').on('show.bs.collapse', function(e) {

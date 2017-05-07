@@ -9,7 +9,7 @@ class MintConnector implements SearchProvider {
   private $url = NULL;
   private $curl = NULL;
   private $action = array('activities' => '/Activities/opensearch/lookup?searchTerms=',
-                          'FOR' => '/ANZSRC_FOR/opensearch/lookup?count=999&level=',
+                          'FOR' => '/ANZSRC_FOR/opensearch/lookup?searchTerms=',
                           'people' => '/Parties_People/opensearch/lookup?searchTerms=');
 
   function __construct($url, $request) {
@@ -27,11 +27,13 @@ class MintConnector implements SearchProvider {
     $content = $this->curl->execute();
     $status = $this->curl->getStatus();
     $this->curl->close();
+    \OCP\Util::writeLog("crate_it::response", $content, \OCP\Util::DEBUG);
     if(!empty($status)) {
       throw new \Exception("Grant / Author lookups are not available at this time, try again later. (cURL error: ".$status.")");
     }
     if (!empty($content)) {
       $content_array = json_decode($content);
+      //\OCP\Util::writeLog("content_array", json_encode($content_array), \OCP\Util::ERROR);
       $result = $content_array->results;
     }
     return $result;

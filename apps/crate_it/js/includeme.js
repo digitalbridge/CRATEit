@@ -6,8 +6,20 @@ function recalculateFileTreePosition() {
 
 $(window).resize(recalculateFileTreePosition);
 
+function setupEditNameOp() {
+    $('#crate_name').keyup(function () {
+        var name_length = templateVars['name_length'];
+        if ($(this).val().length > description_length) {
+            $("#edit_name_validation_error").text('Crate Name has reached the limit of ' + name_length + ' characters');
+            $("#edit_name_validation_error").show();
+            $(this).val($(this).val().substr(0, name_length));
+        } else {
+            $("#edit_name_validation_error").text('');
+        }
+    });
+}
 
-function setupEditDesriptionOp() {
+function setupEditDescriptionOp() {
     $('#crate_description').keyup(function () {
         var description_length = templateVars['description_length'];
         if ($(this).val().length > description_length) {
@@ -131,7 +143,7 @@ function buildFileTree(data) {
             var $input = $('#rename-crate');
             var $error = $('#rename_crate_error');
             var $confirm = $modal.find('.btn-primary');
-            validateCrateName($input, $error, $confirm);
+            //validateCrateReName($input, $error, $confirm);
         });
 
         var confirmCallback = function () {
@@ -497,8 +509,12 @@ function validateTextLength($input, $error, $confirm, maxLength) {
 }
 
 // TODO: See if some of this can make use of the validation framework
-function validateCrateName($input, $error, $confirm) {
-    var inputName = $input.val();
+function validateCrateName($name, $description, $error_name, $error_description, $confirm) {
+    var inputName = $name.val();
+    var name_length = templateVars['name_length'];
+    var inputDescription = $description.val();
+    var description_length = templateVars['description_length'];
+
     var crates = $.map($('#crates > option'), function (el, i) {
         return $(el).attr('id');
     });
@@ -508,32 +524,53 @@ function validateCrateName($input, $error, $confirm) {
     var existingName = function () {
         return crates.indexOf(inputName) > -1;
     };
-
+    var emptyDescription = function () {
+        return (!inputDescription || /^\s*$/.test(inputDescription));
+    };
     var regex = /[\/\\\<\>:\"\|?\*]/;
-
+        
+    //Validate Name
     if (existingName() || emptyName()) {
-        $confirm.prop('disabled', true);
         if (emptyName()) {
-            $error.text('Crate name cannot be blank');
+            $error_name.text('Crate name cannot be blank');
         } else {
-            $error.text('Crate with name "' + inputName + '" already exists');
+            $error_name.text('Crate with name "' + inputName + '" already exists');
         }
-        $error.show();
-    } else if (inputName.length > 128) {
-        $error.text('Crate name has reached the limit of 128 characters');
-        $input.val(inputName.substr(0, 128));
-        $error.show();
-        $confirm.prop('disabled', false);
-    } else if (regex.test(inputName)) {
         $confirm.prop('disabled', true);
-        $error.text("Invalid name. Illegal characters '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed");
-        $error.show();
+        $error_name.show();
+        $error_description.show();
+    } 
+    else if (inputName.length > name_length) {
+        $error_name.text('Crate name has reached the limit of ' + name_length + ' characters');
+        $name.val(inputName.substr(0, name_length));
+        $confirm.prop('disabled', true);
+        $error_name.show();
+        $error_description.show();
+    } else if (regex.test(inputName)) {
+        $error_name.text("Invalid name. Illegal characters '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed");
+        $confirm.prop('disabled', true);
+        $error_name.show();
+        $error_description.show();
+    } 
+    //Validate description
+    else if (emptyDescription()) {
+        $error_description.text('Crate description cannot be blank');
+        $confirm.prop('disabled', true);
+        $error_name.show();
+        $error_description.show();
+    } 
+    else if (inputDescription.length > description_length) {
+        $error_description.text('Crate description has reached the limit of ' + description_length + ' characters');
+        $description.val(inputDescription.substr(0, description_length));
+        $confirm.prop('disabled', true);
+        $error_name.show();
+        $error_description.show();
     } else {
         $confirm.prop('disabled', false);
-        $error.hide();
+        $error_name.hide();
+        $error_description.hide();
     }
 }
-
 
 //TODO use something like this when the pages loads
 function reloadCrateData(manifest) {
@@ -577,12 +614,13 @@ function reloadCrateData(manifest) {
     // TODO Have a registry of search managers and loop over them
     CreatorSearchManager.loadManifestData(manifest);
     ActivitySearchManager.loadManifestData(manifest);
+    ForSearchManager.loadManifestData(manifest);
 }
 
 
 // TODO: Super hacky blocking synchronous call
 // There are many of async calls on page load that could probably all be reduced to this one
-function getMaifest() {
+function getManifest() {
     var result = [];
     var c_url = OC.generateUrl('apps/crate_it/crate/get_manifest?crate_id={crateName}', {
         crateName: encodeURIComponent($('#crates').val())

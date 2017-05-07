@@ -14,7 +14,7 @@
         <label id="crate_name_validation_error" validates="New Crate Name" style="color:red;display:none"></label>
         
         <p>
-        New Crate Description
+        New Crate Description *
         </p>
           <textarea id="crate_input_description" name="New Crate Description" maxlength="8001" class="modal-input"></textarea>
         <p/>

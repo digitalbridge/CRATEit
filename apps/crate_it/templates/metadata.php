@@ -75,6 +75,54 @@
                 </div>
             </div>
         </div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#meta-data" href="#data-fors" id="data-fors-head">
+                        Fields of Research
+                        <i class="pull-right fa fa-caret-up"></i>
+                    </a>
+                </h4>
+            </div>
+
+            <div id="data-fors" class="panel-collapse collapse standard">
+                <div class="panel-body">
+                    <div id="for_box" class="data-fors">
+                        <h6>Selected FORs (<span id="fors_count"></span>)
+                            <button id="clear_fors" class="pull-right trans-button" type="button">
+                                <i class="fa fa-times muted"></i>
+                            </button>
+                        </h6>
+                        <ul id="selected_fors" class="metadata">
+                        </ul>
+                        <h6>Add New FORs
+                            <button id="add-for" class="pull-right trans-button" type="button"
+                                    data-toggle="modal" data-target="#addForModal">
+                                <i class="fa fa-plus muted"></i>
+                            </button>
+                        </h6>
+                        <div id="search_for_box" class="input-group">
+                            <label for="keyword_for" class="element-invisible">Search FORs</label>
+                            <input id="keyword_for" class="form-control" type="text" name="keyword_for"
+                                   placeholder="Search FORs..."/>
+                            <span class="input-group-btn">
+                                <button id="search_for" class="btn btn-default" type="button"
+                                        value="Search FOR">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <span id="for_search_notification"></span>
+
+                        <div id="search_for_result_box">
+                            <ul id="search_for_results"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
         <div class="panel panel-default">
             <div class="panel-heading">

@@ -17,7 +17,11 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
       success: function(data) {
         searchResultsList = [];
         var records = data.map(function(record) {
-          return parseMintResult(record);
+        	if (record['result-metadata']['all']) {
+        		return parseMintResult(record);
+        	} else {
+        		return parseMintFORResult(record);
+        	}
         });
         searchResultsList = records.filter(function(record) {
           return !isSelected(record.id);
@@ -303,11 +307,12 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     return result;
   };
 
-  // mapping object is has {dest: source} format
+  //mapping object is has {dest: source} format
   // source can be an array of fields that will be merge into the dest
   // var parseMintResult = function(mintObject) {
   function parseMintResult(mintObject) {
     var metadata = mintObject['result-metadata']['all'];
+     
     var result = {
       source: 'mint'
     };
@@ -324,6 +329,22 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
       }
     }
     return result;
+  };
+
+  function parseMintFORResult(mintObject) {
+     var result = {
+	     source: 'mint'
+	 };
+	 for (var destField in definition.mapping) {
+	     var sourceField = definition.mapping[destField];
+	 	 if (destField === "id") {
+	        //extract unique id
+	    	result[destField] = parseField(mintObject[sourceField]).substring(0, parseField(mintObject[sourceField]).indexOf(' '));;
+	     } else {
+		     result[destField] = parseField(mintObject[sourceField]);
+	     }
+  	  }
+      return result;
   };
 
   function parseField(field) {

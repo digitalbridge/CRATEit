@@ -36,8 +36,10 @@ class Crate extends BagIt {
                 'displayname' => \OC::$server->getUserSession()->getUser()->getDisplayName(),
             ),
             'creators' => array(),
-            'activities' => array(),
-            'vfs' => array(
+        	'primarycontact' => array(),
+        	'activities' => array(),
+        	'fors' => array(),
+        	'vfs' => array(
                 array(
                     'id' => 'rootfolder',
                     'name' => $this->crateName,
@@ -76,6 +78,13 @@ class Crate extends BagIt {
         $metadata['version'] = "Version ".\OCP\App::getAppVersion('crate_it');
         return $metadata;
     }
+    
+    public function validateMetadata() {
+    	$msg = "Your CRATE is missing the following Metadata \n\r";
+    	$msg = $msg . "\n\r" . $this->crateName;
+    	$msg = $msg . $this->isCreatorIdUrl($metadata['creators']);
+    	return $msg;
+    }    
 
     // NOTE: workaround for non-functioning twig operators 'starts with' and 'matches'
     private function isCreatorIdUrl($creators) {

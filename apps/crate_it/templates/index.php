@@ -111,10 +111,13 @@
   print_unescaped($this->inc('edit_creator_modal'));
   print_unescaped($this->inc('add_grant_modal'));
   print_unescaped($this->inc('edit_activities_modal'));
+  print_unescaped($this->inc('add_for_modal'));
+  print_unescaped($this->inc('edit_for_modal'));
   print_unescaped($this->inc('check_crate_modal'));
   print_unescaped($this->inc('publish_confirm_modal'));
   print_unescaped($this->inc('javascript_vars'));
   print_unescaped($this->inc('publishing_crate_modal'));
+  //print_unescaped($this->inc('crate_information_error_modal'));
   print_unescaped($this->inc('embargo_error_modal'));
   print_unescaped($this->inc('checking_crate_modal'));
 
