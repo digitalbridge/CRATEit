@@ -70,6 +70,11 @@ class CrateManager {
         return $crate->createMetadata();
     }
 
+    public function validateCrateMetadata($crateName) {
+    	$crate = $this->getCrate($crateName);
+    	return $crate->validateMetadata();
+    }
+    
     private function ensureDefaultCrateExists() {
         $crateRoot = $this->getCrateRoot();
         if (!file_exists($crateRoot)) {
@@ -77,7 +82,7 @@ class CrateManager {
         }
         $crateList = $this->getCrateList();
         if(empty($crateList)) {
-            $this->createCrate('default_crate', '', '');
+            $this->createCrate('default_crate', 'Example Description', 'Please Select');
         }
     }
 
