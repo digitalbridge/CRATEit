@@ -63,44 +63,61 @@ $(document).ready(function() {
                 '</div>' +
             '</div>');
         if (typeof FileActions !== 'undefined') {
-        	FileActions.registerAction({
-        	    mime: 'all',
-        	    name: 'Add to crate',
-        	    permissions: OC.PERMISSION_READ,
-        	    iconClass: 'icon-add',
-        	    actionHandler: function(filename) {
-        	        $('div#addingToCrateModal').modal();
-        	        var payload = {
-        	            file: getFileName($('#dir').val(), filename)
-        	        };
-        	        var c_url = OC.generateUrl('apps/crate_it/crate/add');
-        	        $.ajax({
-        	            url: c_url,
-        	            type: 'post',
-        	            dataType: 'json',
-        	            data: payload,
-        	            async: true,
-        	            complete: function(jqXHR) {
-        	                $('div#addingToCrateModal').modal('hide');
-        	                OC.Notification.show(jqXHR.responseJSON.msg);
-        	                setTimeout(function() {
-        	                    OC.Notification.hide();
-        	                }, 3000);
-        	            }
-        	        });
-        	    }
-        	});
+            FileActions.registerAction({
+                mime: 'all',
+                name: 'Add to crate',
+                permissions: OC.PERMISSION_READ,
+                iconClass: 'icon-add',
+                actionHandler: function(filename) {
+                    $('div#addingToCrateModal').modal();
+                    var payload = {
+                        file: getFileName($('#dir').val(), filename)
+                    };
+                    var c_url = OC.generateUrl('apps/crate_it/crate/add');
+                    $.ajax({
+                        url: c_url,
+                        type: 'post',
+                        dataType: 'json',
+                        data: payload,
+                        async: true,
+                        complete: function(jqXHR) {
+                            $('div#addingToCrateModal').modal('hide');
+                            OC.Notification.show(jqXHR.responseJSON.msg);
+                            setTimeout(function() {
+                                OC.Notification.hide();
+                            }, 3000);
+                        }
+                    });
+                }
+            });
         }
-        $('div#controls').append('<div id="selectedCrate" class="">'+selected_crate()+'</div>');
+
+        $('div#controls').append('<div id="selectedCrate" class="">' + selected_crate() + '</div>');
     } else if (location.pathname.indexOf("crate_it") != -1) {
         loadTemplateVars();
         drawCrateContents();
         initCrateActions();
         updateCrateSize();
+        //setupNameOps();
         setupDescriptionOps();
         setupRetentionPeriodOps();
         setupEmbargoDetailsOps();
         initSearchHandlers();
         initAutoResizeMetadataTabs();
+
+        $('body').addClass('crateit');
+
+        resizeBanner('.modal-dialog .modal-content');
+
+        $(window).resize(function() {
+            resizeBanner('.modal-dialog .modal-content');
+        });
+
+        function resizeBanner($tar) {
+            $($tar).each(function() {
+                modalHeight = $(window).outerHeight() - 100;
+                $(this).css('max-height', modalHeight);
+            });
+        }
     }
 });
