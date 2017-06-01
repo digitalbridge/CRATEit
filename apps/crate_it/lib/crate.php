@@ -57,9 +57,12 @@ class Crate extends BagIt {
         return file_get_contents($readmePath);
     }
 
-    private function createReadme() {
-        $metadata = $this->createMetadata();
-        $html = Util::renderTemplate('readme', $metadata);
+    private function createReadme() {    	 
+    	$metadata = $this->createMetadata();
+    	//Update readme with final publish location and url to metadata
+    	$metadata['url'] = $_SESSION['url'];
+    	$metadata['location'] = $_SESSION['location'];
+    	$html = Util::renderTemplate('readme', $metadata);
         $readmePath = $this->getDataDirectory()."/README.html";
         file_put_contents($readmePath, $html);
     }
@@ -73,14 +76,16 @@ class Crate extends BagIt {
         date_default_timezone_set('Australia/Sydney');
         $metadata['created_date'] = Util::getTimestamp("Y-m-d H:i:s");
         $metadata['created_date_formatted'] = Util::getTimestamp("F jS, Y - H:i:s (T)");
-        $vfs = &$metadata['vfs'][0];
+        $vfs = &$metadata['vfs'][0];                		 
         $metadata['filetree'] = $this->buildFileTreeFromRoot($vfs);
         $metadata['version'] = "Version ".\OCP\App::getAppVersion('crate_it');
+        $metadata['location'] = "unpublished";
+        $metadata['url'] = "unpublished";
         return $metadata;
     }
-    
+        
     public function validateMetadata() {
-    	$msg = "Your CRATE is missing the following Metadata \n\r";
+    	$msg = "Your CRATE is missing the following Metadata <br />";
     	$msg = $msg . "\n\r" . $this->crateName;
     	$msg = $msg . $this->isCreatorIdUrl($metadata['creators']);
     	return $msg;

@@ -20,8 +20,15 @@
         <h1>ID</h1>
         <span property="http://schema.org/id"><?php p($_['crate_name']) ?></span>
 
+     	<h1>Location</h1>
+        <span property="http://schema.org/location"><?php p(nl2br($_['location'])) ?></span>
+
+     	<h1>URL</h1>
+        <span property="http://schema.org/url"><?php p(nl2br($_['url'])) ?></span>
+
         <h1>Description</h1>
         <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
+
 
         <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] !== "") { ?>
             <h1>Data Retention Period</h1>
@@ -190,7 +197,7 @@
                 <tbody>
                 <tr>
                     <td>Generating Software Application</td>
-                    <td property="http://schema.org/name">CRATEit</td>
+                    <td property="http://schema.org/name">CRATEIt</td>
                 </tr>
                 <tr>
                     <td>Software Version</td>
@@ -199,13 +206,8 @@
                 <tr>
                     <td>URLs</td>
                     <td>
-                        <li><a href="https://github.com/IntersectAustralia/owncloud" property="http://schema.org/url">
-                                https://github.com/IntersectAustralia/owncloud</a></li>
-                        <li><a href="https://github.com/uws-eresearch/apps" property="http://schema.org/url">
-                                https://github.com/uws-eresearch/apps</a></li>
-                        <li><a href="http://eresearch.uws.edu.au/blog/projects/projectsresearch-data-repository/"
-                               property="http://schema.org/url">
-                                http://eresearch.uws.edu.au/blog/projects/projectsresearch-data-repository</a></li>
+                        <li><a href="https://github.com/digitalbridge/crateit" property="http://schema.org/url">
+                                https://github.com/digitalbridge/crateit</a></li>
                     </td>
                 </tr>
                 </tbody>

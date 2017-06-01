@@ -86,15 +86,23 @@ class PublishController extends Controller {
         $config = Util::getConfig();
         $data = array();
         try {
-            $package = $this->crateManager->packageCrate($crateName);
-            $this->loggingService->log("Zipped content into '".basename($package)."'");
-            $metadata = $this->crateManager->createMetadata($crateName);
+        	$package = $this->crateManager->packageCrate($crateName);
+        	$this->loggingService->log("Zipped content into '".basename($package)."'");
+        	//Write publish location and url to metadata
+        	$metadata = $this->crateManager->createMetadata($crateName);
+        	$this->loggingService->log("Submitting crate $crateName (".basename($package).")..");
+        	$cratePath = $this->publishingService->publishCrate($package, $endpoint, $collection);
+        	$metadata['location'] = $cratePath;
+        	$metadata['url'] = str_replace('${crate_name}', basename($cratePath), $config['submitted_crate_url']);
+        	session_start();
+        	$_SESSION['location'] = $metadata['location'];
+        	$_SESSION['url'] = $metadata['url'];
+        	$metadata['submitted_date'] = Util::getTimestamp("Y-m-d");
+        	$metadata['submitted_time'] = Util::getTimestamp("H:i:s");
+
+        	$package = $this->crateManager->packageCrate($crateName);
+        	$this->loggingService->log("Zipped content into '".basename($package)."'");
             $this->loggingService->log("Submitting crate $crateName (".basename($package).")..");
-            $cratePath = $this->publishingService->publishCrate($package, $endpoint, $collection);
-            $metadata['location'] = $cratePath;
-            $metadata['url'] = str_replace('${crate_name}', basename($cratePath), $config['submitted_crate_url']);
-            $metadata['submitted_date'] = Util::getTimestamp("Y-m-d");
-            $metadata['submitted_time'] = Util::getTimestamp("H:i:s");
             $this->alertingService->alert($metadata);
             $data['msg'] = "The Crate '$crateName' has been successfully submitted and a confirmation eMail has been sent to you.";
             $this->loggingService->logPublishedDetails($cratePath, $crateName);
@@ -112,8 +120,11 @@ class PublishController extends Controller {
             } else {
             	$from = 'noreply@crate.app';
             }
+            
             $data['metadata'] = $metadata;
             $subject = 'CRATEit Submit Status Receipt';
+            $metadata['location'] = $cratePath;
+            $metadata['url'] = str_replace('${crate_name}', basename($cratePath), $config['submitted_crate_url']);
             $content = $this->getEmailContent($metadata);
             $this->mailer->sendHtml($to, $cc, $from, $subject, $content);
             $status = 201;
@@ -123,7 +134,6 @@ class PublishController extends Controller {
             $status = 500;
         }
         $this->loggingService->log($data['msg']);
-        session_start();
         $_SESSION['last_published_status'] = $data['msg'];
         return new JSONResponse($data, $status);
     }
