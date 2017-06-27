@@ -44,7 +44,7 @@ function initCrateActions() {
     });
     return isEmpty;
   };
-  
+
   var checkCrate = function() {
     $("div#checkingCrateModal").modal();
     $('#result-message').text('');
@@ -141,7 +141,7 @@ function initCrateActions() {
   $('#checkCrateModal').on('hide.bs.modal', function() {
     location.reload();
   });
-  
+
   //Validate new CRATE
   $('#crate_input_name').keyup(function() {
     var $name = $(this);
@@ -194,7 +194,7 @@ function initCrateActions() {
     } else if (!crateEmpty()) {
         $('#deleteCrateMsg').text('Crate ' + currentCrate + ' has items, proceed with deletion?');
     }
-    
+
   });
 
   $('#deleteCrateModal').find('.btn-primary').click(deleteCrate);
@@ -202,7 +202,7 @@ function initCrateActions() {
   $('#delete').click(function() {
     if (metadataEmpty() && crateEmpty()) {
       deleteCrate();
-    } else {        
+    } else {
       $('#deleteCrateModal').modal('show');
     }
   });
@@ -302,7 +302,7 @@ function initCrateActions() {
           if(inconsistencies.length > 0) {
             $('#publish-consistency').text('[Consistency Check] ' + data.msg);
             for(var i = 0; i < inconsistencies.length ; i++) {
-              $("#publish-consistency-table").last().append('<tr><td>' + inconsistencies[i] + '</td></tr>'); 
+              $("#publish-consistency-table").last().append('<tr><td>' + inconsistencies[i] + '</td></tr>');
             }
           }
         },
@@ -318,6 +318,8 @@ function initCrateActions() {
     if($('#publish-collection > option').length <=1){
       $('#collection-choice').hide();
     }
+
+    $('#publish-location').text($('#location').text());
 
     $('#publish-description').text($('#description').text());
     $('#publish-data-retention-period').text($('#retention_period_value').text() + ' (years)');
@@ -347,7 +349,7 @@ function initCrateActions() {
       var html = ForSearchManager.renderSummary(record);
       $('#publish-fors').append(html);
     });
-  
+
   });
 
   if($('#publish-collection > option').length == 0) {
@@ -403,7 +405,7 @@ function setupNameOps() {
 	    	  var crateName = $('input#name').val();
 	    	  var errors = false;
 	    	  $('#crate-information-modal-ul').html('');
-	      
+
 	    	  if (!crateName) {
 	    		  errors = true;
 	    		  $('#crate-information-modal-ul').append('<li>You must enter a CRATE name</li>');
@@ -441,7 +443,7 @@ function setupNameOps() {
 	      });
 	    });
 	    $('#cancel_name').click(function(event) {
-	        
+
 	      $('#name').html('');
 	      $('#name').text(old_name);
 	      $('#edit_name').removeClass('hidden');
@@ -477,7 +479,7 @@ function setupDescriptionOps() {
     	  var crateDescription = $('input#description').val();
     	  var errors = false;
     	  $('#crate-information-modal-ul').html('');
-      
+
     	  if (!crateDescription) {
     		  errors = true;
     		  $('#crate-information-modal-ul').append('<li>You must enter a CRATE description</li>');
@@ -515,12 +517,12 @@ function setupDescriptionOps() {
       });
     });
     $('#cancel_description').click(function(event) {
-      
+
       //$('#description').html('');
       // var escaped = $('<div>').text(old_description).text();
-      //$('#description').html(escaped.replace(/\n/g, '<br />'));     
+      //$('#description').html(escaped.replace(/\n/g, '<br />'));
       //$('#edit_description').removeClass('hidden');
-        
+
       $('#description').html('');
       $('#description').text(old_description);
       $('#edit_description').removeClass('hidden');
@@ -721,7 +723,7 @@ function initSearchHandlers() {
   editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.RequiredValidator('Email'));
   editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
   editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.EmailValidator());
-  
+
   var editCreatorUrlValidator = new CrateIt.Validation.UrlValidator();
   editCreatorUrlValidator = new CrateIt.Validation.OptionalValidator(editCreatorUrlValidator);
   editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
@@ -778,6 +780,20 @@ function initSearchHandlers() {
     attachModalHandlers($addCreatorModal, addCreator);
   });
 
+  //PrimaryContact
+  var primarycontactDefinition = {
+    manifestField: 'primarycontact',
+    mapping: {
+      'id': 'id',
+      'identifier': 'dc_identifier',
+      'name': ['Honorific', 'Given_Name', 'Family_Name'],
+      'email': 'Email'
+    },
+    displayFields: ['name', 'email'],
+    editFields: ['name', 'email', 'identifier'],
+    editableRecords: ['manual', 'mint']
+  };
+
   var activityDefinition = {
     manifestField: 'activities',
     actions: {
@@ -798,7 +814,7 @@ function initSearchHandlers() {
       'oai_set' : 'oai_set',
       'format' : 'dc_format',
       'display_type' : 'display_type',
-      'subject' : 'dc_subject'  
+      'subject' : 'dc_subject'
     },
     displayFields: ['grant_number', 'date', 'title'],
     editFields: ['grant_number', 'date', 'title', 'institution'],
@@ -879,7 +895,7 @@ function initSearchHandlers() {
   $('#add-activity').click(function() {
     attachModalHandlers($addActivityModal, addActivity);
   });
-  
+
   var forDefinition = {
     manifestField: 'fors',
 	actions: {
@@ -893,7 +909,7 @@ function initSearchHandlers() {
 	  editFields: ['title'],
 	  editableRecords: ['manual', 'mint']
     };
-  
+
 	var forSelectedList = manifest.fors;
     var for$resultsUl = $('#search_for_results');
 	var for$selectedUl = $('#selected_fors');
@@ -905,7 +921,7 @@ function initSearchHandlers() {
 
 	// TODO: add this to a namespace rather than exposing globally
 	ForSearchManager = new SearchManager(forDefinition, forSelectedList, for$resultsUl, for$selectedUl, for$notification, for$editModal);
-	
+
 	$('#search_for').click(function() {
 	    ForSearchManager.search($.trim($('#keyword_for').val()));
     });

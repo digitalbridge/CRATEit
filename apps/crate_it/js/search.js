@@ -46,7 +46,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     _self.notifyListeners();
   };
 
-  var drawList = function($li, list, faIcon) {
+  var drawList = function($li, list, faIcon, faIcon2) {
     $li.empty();
     list.forEach(function(record) {
       var html = renderRecord(record, faIcon);
@@ -55,15 +55,17 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
       $toggleButton.click(function() {
         toggle(record.id);
       });
+      
       // TODO: using faIcon as a flag again
       if (faIcon == 'fa-minus') {
         $toggleButton.next().click(function() {
           displayEditRecordModal(record.id);
         });
       }
+      
     });
   };
-
+  
   this.addEventListener = function(callback) {
     eventListeners.push(callback);
   };
@@ -364,6 +366,10 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     }
     var html = '<button class="pull-right" id="' + record.id + '">'
     html += '<i class="fa ' + faIcon + '"></i></button>';
+
+    html = '<button class="pull-right" id="' + record.id + '">'
+    html += '<i class="fa fa-asterisk"></i></button>';      
+
     // TODO: using the icon as a switch, should probably just have a flag
     if (faIcon == 'fa-minus') {
       html += '<button class="pull-right" data-record="' + record.id + '"' + editable + '>';
@@ -375,7 +381,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     }
     return '<li>' + html + '</li>';
   };
-
+  
   // NOTE: This is used on the publish summary
   // TODO: Refactor?
   this.renderSummary = function(record) {

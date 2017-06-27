@@ -9,49 +9,61 @@
     </a>
     <label for="crates" class="element-invisible">Crate Selector</label>
     <select id="crates">
-      
-      <?php foreach($_['crates'] as $crate) {   
-          if($_['selected_crate'] === $crate) { ?>
+
+      <?php foreach ($_['crates'] as $crate) {
+    if ($_['selected_crate'] === $crate) {
+        ?>
             <option id="<?php p($crate) ?>" value="<?php p($crate) ?>" selected>
-         <?php } else { ?>
+         <?php
+    } else {
+        ?>
             <option id="<?php p($crate) ?>" value="<?php p($crate) ?>">
-        <?php }
-          p($crate) ?>
+        <?php
+    }
+    p($crate) ?>
         </option>
-      <?php } ?>
+      <?php
+} ?>
     </select>
 
     <div class="pull-right">
+
+      <a id="usage-reports" class="button">
+        <i class="fa fa-eye"></i>
+       	Usage Report
+      </a>
 
       <a id="mycrates" class="button" data-toggle="modal" data-target="#mycratesModal">
         <i class="fa fa-star"></i>
         My Crates
       </a>
-      
+
       <a id="check" class="button" data-toggle="modal">
          <i class="fa fa-check-circle"></i>
          Check Crate
-      </a>  
-      
+      </a>
+
       <button id="publish" type="button" data-toggle="modal">
         <i class="fa fa-envelope"></i>
         Publish
       </button>
-      
-      <div class="btn-group">      
+
+      <div class="btn-group">
         <button id="download" type="button" class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-download"></i>
           Download
         </button>
         <ul class="dropdown-menu">
-          <?php if($_['previews'] === "on") { ?>
+          <?php if ($_['previews'] === "on") {
+    ?>
             <li>
               <a id="epub" class="dropdown-btn" href="crate/epub">
                 <i class="fa fa-book"></i>
                  ePub
               </a>
             </li>
-          <?php } ?>
+          <?php
+} ?>
           <li>
             <a id="download-zip" class="dropdown-btn">
               <i class="fa fa-archive"></i>
@@ -70,8 +82,8 @@
         <i class="fa fa-trash-o"></i>
          Delete
       </a>
-            
-      <div class="btn-group">      
+
+      <div class="btn-group">
         <button type="button" class="dropdown-toggle" data-toggle="dropdown">
           <i class="fa fa-question"></i>
           Help
@@ -101,18 +113,18 @@
 <div id="files"></div>
 <?php
 
-  print_unescaped($this->inc('metadata'));       
-  print_unescaped($this->inc('help_modal'));   
-  print_unescaped($this->inc('publish_modal'));   
+  print_unescaped($this->inc('metadata'));
+  print_unescaped($this->inc('help_modal'));
+  print_unescaped($this->inc('publish_modal'));
   print_unescaped($this->inc('mycrates_modal'));
-  print_unescaped($this->inc('create_crate_modal'));   
-  print_unescaped($this->inc('remove_crate_modal'));   
-  print_unescaped($this->inc('rename_item_modal'));   
-  print_unescaped($this->inc('rename_crate_modal'));   
-  print_unescaped($this->inc('add_folder_modal'));   
-  print_unescaped($this->inc('clear_crate_modal'));   
-  print_unescaped($this->inc('delete_crate_modal'));   
-  print_unescaped($this->inc('clear_metadata_modal'));  
+  print_unescaped($this->inc('create_crate_modal'));
+  print_unescaped($this->inc('remove_crate_modal'));
+  print_unescaped($this->inc('rename_item_modal'));
+  print_unescaped($this->inc('rename_crate_modal'));
+  print_unescaped($this->inc('add_folder_modal'));
+  print_unescaped($this->inc('clear_crate_modal'));
+  print_unescaped($this->inc('delete_crate_modal'));
+  print_unescaped($this->inc('clear_metadata_modal'));
   print_unescaped($this->inc('add_creator_modal'));
   print_unescaped($this->inc('edit_creator_modal'));
   print_unescaped($this->inc('add_grant_modal'));
