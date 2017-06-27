@@ -13,10 +13,13 @@ class cratecontroller extends Controller
 {
     private $crateManager;
 
-    public function __construct($appName, $request, $crateManager)
+    private $userManager;
+
+    public function __construct($appName, $request, $crateManager, $userManager)
     {
         parent::__construct($appName, $request);
         $this->crateManager = $crateManager;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -227,6 +230,65 @@ class cratecontroller extends Controller
         return $response;
     }
 
+    /**
+     * Export Crates as CSV
+     *
+     * @NoAdminRequired
+     */
+    public function exportCrate()
+    {
+        \OCP\Util::writeLog('crate_it', "CrateController::exportCrate()", \OCP\Util::DEBUG);
+
+        // output headers so that the file is downloaded rather than displayed
+        $filename = 'usage_report_' . date('d_m_Y', time()) . '.csv';
+        header('Content-type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        $fp = fopen('php://output', 'w');
+        fputcsv($fp, ['User Name', 'Crate Name', 'Size', 'Description', 'Publisher', 'Retention Period']);
+
+        $userObject = \OC::$server->getUserSession()->getUser();
+        $crateDetails = $this->crateManager->getCrateDetailsList();
+        foreach ($crateDetails as $crateDetail) {
+            fputcsv($fp, [
+                $userObject->getDisplayName(),
+                $crateDetail['name'],
+                $crateDetail['size']['human'],
+                $crateDetail['manifest']['description'],
+                $crateDetail['manifest']['submitter']['displayname'] . '(' . $crateDetail['manifest']['submitter']['email'] . ')',
+                $crateDetail['manifest']['data_retention_period']
+            ]);
+        }
+
+        $isSubAdmin = false;
+        if ($userObject !== null) {
+            $isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
+        }
+
+        if ($isSubAdmin) {
+            $otherCrateDetails = [];
+            $users = $this->userManager->search('');
+            foreach ($users as $user) {
+                if ($user->getDisplayName() != $userObject->getDisplayName()) {
+                    $otherCrateDetails[$user->getDisplayName()] = $this->crateManager->getOtherCrateDetailsList($user);
+                }
+            }
+            foreach ($otherCrateDetails as $index => $otherCrateDetail) {
+                foreach ($otherCrateDetail as $crateDetail) {
+                    fputcsv($fp, [
+                        $index,
+                        $crateDetail['name'],
+                        $crateDetail['size']['human'],
+                        $crateDetail['manifest']['description'],
+                        $crateDetail['manifest']['submitter']['displayname'] . '(' . $crateDetail['manifest']['submitter']['email'] . ')',
+                        $crateDetail['manifest']['data_retention_period']
+                    ]);
+                }
+            }
+        }
+
+        fclose($fp);
+    }
 
     /**
      * Create ePub

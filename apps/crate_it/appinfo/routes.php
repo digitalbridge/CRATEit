@@ -42,6 +42,7 @@ $application->registerRoutes($this, array('routes' => array(
     array('name' => 'crate#delete_crate', 'url' => '/crate/delete', 'verb' => 'GET'),
     array('name' => 'crate#rename_crate', 'url' => '/crate/rename', 'verb' => 'POST'),
     array('name' => 'crate#package_crate', 'url' => '/crate/downloadzip', 'verb' => 'GET'),
+    array('name' => 'crate#export_crate', 'url' => '/crate/downloadcsv', 'verb' => 'GET'),
     array('name' => 'crate#readme_preview', 'url' => '/crate/preview', 'verb' => 'GET'),
     array('name' => 'crate#generate_ePUB', 'url' => '/crate/epub', 'verb' => 'GET'),
     array('name' => 'crate_check#check_crate', 'url' => '/crate/check', 'verb' => 'GET'),

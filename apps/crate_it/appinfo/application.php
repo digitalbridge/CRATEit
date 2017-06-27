@@ -39,7 +39,8 @@ class application extends App
             return new CrateController(
                     $c->query('AppName'),
                     $c->query('Request'),
-                    $c->query('CrateManager')
+                    $c->query('CrateManager'),
+                    $c->query('UserManager')
             );
         });
 

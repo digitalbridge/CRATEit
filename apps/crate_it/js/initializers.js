@@ -138,6 +138,12 @@ function initCrateActions() {
     window.location = c_url;
   };
 
+  var downloadReports = function() {
+    displayNotification('Your download is being prepared. This might take some time if the files are big', 10000);
+    var c_url = OC.generateUrl('apps/crate_it/crate/downloadcsv?requesttoken={requesttoken}', {requesttoken: oc_requesttoken});
+    window.location = c_url;
+  }
+
   $('#checkCrateModal').on('hide.bs.modal', function() {
     location.reload();
   });
@@ -230,6 +236,8 @@ function initCrateActions() {
   });
 
   $('#download-zip').click(downloadCrate);
+
+  $('#usage-reports').click(downloadReports);
 
   var publishCrate = function(crateName, endpoint, collection){
     var c_url = OC.generateUrl('apps/crate_it/crate/publish');

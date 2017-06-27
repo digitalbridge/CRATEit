@@ -65,7 +65,7 @@ class setupservice
             self::$params['otherCrateDetails'] = [];
             $users = $this->userManager->search('');
             foreach ($users as $user) {
-                if ($user->getDisplayName() != \OC::$server->getUserSession()->getUser()->getDisplayName()) {
+                if ($user->getDisplayName() != $userObject->getDisplayName()) {
                     self::$params['otherCrateDetails'][$user->getDisplayName()] = $this->crateManager->getOtherCrateDetailsList($user);
                 }
             }
