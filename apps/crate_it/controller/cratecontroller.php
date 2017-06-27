@@ -5,27 +5,28 @@ namespace OCA\crate_it\Controller;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http;
-
 use OCA\crate_it\lib\ErrorResponse;
 use OCA\crate_it\lib\ZipDownloadResponse;
 use OCA\crate_it\lib\XSendFileDownloadResponse;
 
-class CrateController extends Controller {
-    
+class cratecontroller extends Controller
+{
     private $crateManager;
-    
-    public function __construct($appName, $request, $crateManager) {
+
+    public function __construct($appName, $request, $crateManager)
+    {
         parent::__construct($appName, $request);
         $this->crateManager = $crateManager;
     }
-    
+
     /**
      * Create crate with name and description
      *
      * @Ajax
      * @NoAdminRequired
      */
-    public function createCrate() {
+    public function createCrate()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::create()", \OCP\Util::DEBUG);
         $name = $this->params('name');
         $description = $this->params('description');
@@ -40,10 +41,10 @@ class CrateController extends Controller {
             return new JSONResponse(array('msg' => $e->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     /**
      * Get crate items
-     * 
+     *
      * @Ajax
      * @NoAdminRequired
      */
@@ -62,21 +63,22 @@ class CrateController extends Controller {
             return new JSONResponse(array('msg' => $e->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
-    
-    
+
+
     /**
      * Add To Crate
      *
      * @Ajax
      * @NoAdminRequired
      */
-    public function add() {
+    public function add()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::add()", \OCP\Util::DEBUG);
         try {
             // TODO check if this error handling works
             $file = $this->params('file');
             \OCP\Util::writeLog('crate_it', "Adding ".$file, \OCP\Util::DEBUG);
-            if($file === '_html' && \OC\Files\Filesystem::is_dir($file)) {
+            if ($file === '_html' && \OC\Files\Filesystem::is_dir($file)) {
                 throw new \Exception("$file ignored by Crate it");
             }
             $crateName = $_SESSION['selected_crate'];
@@ -84,7 +86,7 @@ class CrateController extends Controller {
             // TODO: naming consistency, add vs addToBag vs addToCrate
             $this->crateManager->addToCrate($crateName, $file);
             return new JSONResponse(array('msg' => "$file added to crate $crateName"));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return new JSONResponse(array('msg' => $e->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
@@ -97,19 +99,18 @@ class CrateController extends Controller {
      */
     public function getCrateName()
     {
-    	
-    	\OCP\Util::writeLog('Get Crate Name', \OC::$server->getUserSession()->getSession()->get('crateName'), \OCP\Util::DEBUG);
-    	 
+        \OCP\Util::writeLog('Get Crate Name', \OC::$server->getUserSession()->getSession()->get('crateName'), \OCP\Util::DEBUG);
+
         $status = Http::STATUS_OK;
-        if (array_key_exists('selected_crate',$_SESSION)) {
+        if (array_key_exists('selected_crate', $_SESSION)) {
             $content = $_SESSION['selected_crate'];
-        }else {
+        } else {
             $content = array('msg' => 'No selected crate.');
             $status = Http::STATUS_INTERNAL_SERVER_ERROR;
         }
         return new JSONResponse($content, $status);
     }
-    
+
     /**
      * Get Crate Size
      *
@@ -117,20 +118,20 @@ class CrateController extends Controller {
      * @NoAdminRequired
      */
     public function getCrateSize()
-    {        
-    	\OCP\Util::writeLog('Get Crate Size', \OC::$server->getUserSession()->getSession()->get('crateName'), \OCP\Util::DEBUG);
-    	
-    	\OCP\Util::writeLog('crate_it', "CrateController::getCrateSize()", \OCP\Util::DEBUG);
+    {
+        \OCP\Util::writeLog('Get Crate Size', \OC::$server->getUserSession()->getSession()->get('crateName'), \OCP\Util::DEBUG);
+
+        \OCP\Util::writeLog('crate_it', "CrateController::getCrateSize()", \OCP\Util::DEBUG);
         try {
             $selectedCrate = $_SESSION['selected_crate'];
             session_commit();
             $data = $this->crateManager->getCrateSize($selectedCrate);
             return new JSONResponse($data);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return new JSONResponse(array('msg' => $e->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     /**
      * Update Crate
      * TODO change to not just return description but all fields?
@@ -171,7 +172,8 @@ class CrateController extends Controller {
      * @Ajax
      * @NoAdminRequired
      */
-    public function deleteCrate() {
+    public function deleteCrate()
+    {
         // TODO: all of these methods always return successfully, which shouldn't happen
         //       unfortunately this means rewriting methods in the bagit library
         \OCP\Util::writeLog('crate_it', "CrateController::deleteCrate()", \OCP\Util::DEBUG);
@@ -179,7 +181,7 @@ class CrateController extends Controller {
         try {
             $this->crateManager->deleteCrate($selected_crate);
             return new JSONResponse(array('msg' => "Crate $selected_crate has been deleted"));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return new JSONResponse(array('msg' => $e->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
@@ -190,7 +192,8 @@ class CrateController extends Controller {
      * @Ajax
      * @NoAdminRequired
      */
-    public function renameCrate() {
+    public function renameCrate()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::renameCrate()", \OCP\Util::DEBUG);
         $oldCrateName = $_SESSION['selected_crate'];
         $newCrateName = $this->params('newCrateName');
@@ -203,40 +206,42 @@ class CrateController extends Controller {
             return new JSONResponse(array('msg' => $e->getMessage()), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     /**
      * Package Crate as a Zip
-     * 
+     *
      * @NoAdminRequired
      */
-    public function packageCrate() {
+    public function packageCrate()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::packageCrate()", \OCP\Util::DEBUG);
         try {
             $packagePath = $this->crateManager->packageCrate($_SESSION['selected_crate']);
             $filename = basename($packagePath);
             $response = new XSendFileDownloadResponse($packagePath, $filename);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $message = 'Internal Server Error: '.$e->getMessage();
             \OCP\Util::writeLog('crate_it', $message, \OCP\Util::ERROR);
             $response = new ErrorResponse($message);
         }
         return $response;
     }
-  
+
 
     /**
      * Create ePub
-     *     
+     *
      * @NoCSRFRequired
      * @NoAdminRequired
      */
-    public function generateEPUB() {
+    public function generateEPUB()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::generateEPUB()", \OCP\Util::DEBUG);
         try {
             $epubPath = $this->crateManager->generateEPUB($_SESSION['selected_crate']);
             $filename = basename($epubPath);
             $response = new ZipDownloadResponse($epubPath, $filename);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $message = 'Internal Server Error: '.$e->getMessage();
             \OCP\Util::writeLog('crate_it', $message, \OCP\Util::ERROR);
             $response = new ErrorResponse($message);
@@ -251,7 +256,8 @@ class CrateController extends Controller {
      * @NoCSRFRequired
      * @NoAdminRequired
      */
-    public function readmePreview() {
+    public function readmePreview()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::readmePreview()", \OCP\Util::DEBUG);
         $readme = $this->crateManager->getReadme($_SESSION['selected_crate']);
         return new ErrorResponse($readme, Http::STATUS_OK);
@@ -263,20 +269,21 @@ class CrateController extends Controller {
      * @NoCSRFRequired
      * @NoAdminRequired
      */
-    public function xml() {
+    public function xml()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::readmePreview()", \OCP\Util::DEBUG);
         $readme = $this->crateManager->getReadme($_SESSION['selected_crate']);
         return new ErrorResponse($readme, Http::STATUS_OK);
     }
 
-
     /**
-     * Check crate 
+     * Check crate
      *
      * @Ajax
      * @NoAdminRequired
      */
-    public function checkCrate() {
+    public function checkCrate()
+    {
         \OCP\Util::writeLog('crate_it', "CrateController::checkCrate()", \OCP\Util::DEBUG);
         try {
             $selected_crate = $_SESSION['selected_crate'];
@@ -284,17 +291,17 @@ class CrateController extends Controller {
             $result = $this->crateManager->checkCrate($selected_crate);
             if (empty($result)) {
                 $msg = 'All items are valid.';
-            } else if (sizeof($result) === 1) {
+            } elseif (sizeof($result) === 1) {
                 $msg = 'The following item no longer exists:';
             } else {
                 $msg = 'The following items no longer exist:';
             }
             return new JSONResponse(
-                array('msg' => $msg, 
+                array('msg' => $msg,
                       'result' => $result)
             );
         } catch (\Exception $e) {
-            return new JSONResponse (array($e->getMessage(), 'error' => $e), Http::STATUS_INTERNAL_SERVER_ERROR);
+            return new JSONResponse(array($e->getMessage(), 'error' => $e), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -2,45 +2,50 @@
 
 namespace OCA\crate_it\Service;
 
-
 use OCA\crate_it\lib\Util;
 
-class LoggingService {
-
+class loggingservice
+{
     private $crateManager;
     private $logfile;
 
-    public function __construct($crateManager) {
+    public function __construct($crateManager)
+    {
         $this->crateManager = $crateManager;
         $userPath = Util::getUserPath();
         $this->logfile = Util::joinPaths($userPath, 'publish.log');
     }
 
-    public function log($text) {
+    public function log($text)
+    {
         file_put_contents($this->logfile, Util::getTimestamp("[Y-m-d H:i:s P] ").$text."\n", FILE_APPEND);
     }
 
     // Used for testing
-    public function setLog($logfile) {
+    public function setLog($logfile)
+    {
         $this->logfile = $logfile;
     }
 
-    public function getLog() {
+    public function getLog()
+    {
         $contents = file_get_contents($this->logfile);
-        if(!$contents) {
+        if (!$contents) {
             throw new Exception("Unable to write to log file");
         }
         return $contents;
     }
 
-    public function logManifest($crateName) {
+    public function logManifest($crateName)
+    {
         $manifest = $this->crateManager->getManifestFileContent($crateName);
         $text = Util::prettyPrint($manifest);
         $this->log("Manifest JSON for crate '$crateName':");
         $this->log($text);
     }
 
-    public function logPublishedDetails($zip, $crateName) {
+    public function logPublishedDetails($zip, $crateName)
+    {
         $filesize = filesize($zip);
         $zipname = basename($zip);
         $this->log("Zipped file size for '$zipname': $filesize bytes");
@@ -51,12 +56,12 @@ class LoggingService {
 
         $za->open($zip);
 
-        for($i = 0; $i < $za->numFiles; $i++) {
+        for ($i = 0; $i < $za->numFiles; $i++) {
             $stat = $za->statIndex($i);
-            if($stat['size'] !== 0) {
+            if ($stat['size'] !== 0) {
                 $this->log($stat['name']);
             }
-            if($stat['name'] === 'manifest-sha1.txt') {
+            if ($stat['name'] === 'manifest-sha1.txt') {
                 $sha_content = $za->getFromIndex($i);
             }
         }
@@ -68,5 +73,4 @@ class LoggingService {
         $this->log("\n".$sha_content);
         $this->log("----end file-----");
     }
-
 }

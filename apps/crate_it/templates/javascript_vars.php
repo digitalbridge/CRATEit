@@ -5,8 +5,8 @@
     <span id="max_sword_mb"><?php p($_['max_sword_mb']) ?></span>
     <span id="publish_warning_mb"><?php p($_['publish_warning_mb']) ?></span>
     <span id="max_zip_mb"><?php p($_['max_zip_mb']) ?></span>
-    <span id="validate_crate_name"><?php p($_['validate_crate_name']) ?></span>  
-    <span id="validate_crate_description"><?php p($_['validate_crate_description']) ?></span>  
+    <span id="validate_crate_name"><?php p($_['validate_crate_name']) ?></span>
+    <span id="validate_crate_description"><?php p($_['validate_crate_description']) ?></span>
     <span id="selected_crate"><?php p($_['selected_crate']) ?></span>
     <span id="sword_enabled"><?php
         $swordEnabled = false;

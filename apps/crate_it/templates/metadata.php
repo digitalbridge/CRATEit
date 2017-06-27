@@ -51,7 +51,8 @@
                             </button>
                         </h6>
                         <ul id="selected_creators" class="metadata"></ul>
-                        <h6>Add New Data Creators
+
+						<h6>Add New Data Creators
                             <button id="add-creator" class="pull-right trans-button" type="button"
                                     data-toggle="modal" data-target="#addCreatorModal">
                                 <i class="fa fa-plus muted"></i>
@@ -72,10 +73,11 @@
                             <ul id="search_people_results"></ul>
                         </div>
                     </div>
-                </div>
+
+	            </div>
             </div>
         </div>
-        
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -122,7 +124,7 @@
                 </div>
             </div>
         </div>
-        
+
 
         <div class="panel panel-default">
             <div class="panel-heading">

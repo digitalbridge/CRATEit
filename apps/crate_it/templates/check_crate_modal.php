@@ -9,8 +9,7 @@
         <p id="result-message"></p>
         <table id="check-results-table" class="table table-striped">
             <!-- results get loaded by js -->
-        </table>          
-        
+        </table>
       </div>
       <div class="modal-footer">
         <button id="confirm_checker" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>

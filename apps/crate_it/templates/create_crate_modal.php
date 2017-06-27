@@ -8,11 +8,11 @@
       <div class="modal-body">
       	<p>
         New Crate Name *
-        </p>	
+        </p>
         <input id="crate_input_name" name="New Crate Name" type="text" class="modal-input"></input>
         <p/>
         <label id="crate_name_validation_error" validates="New Crate Name" style="color:red;display:none"></label>
-        
+
         <p>
         New Crate Description *
         </p>

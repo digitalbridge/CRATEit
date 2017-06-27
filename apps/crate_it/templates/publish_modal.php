@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-          
+
         <div style="color:red; font-weight:bold;">
           <span id="publish-consistency"></span>
           <table id="publish-consistency-table" class="table table-striped"></table>

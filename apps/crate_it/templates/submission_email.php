@@ -36,13 +36,13 @@
 
             <h4>Description</h4>
             <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
-            
+
             <h4>URL</h4>
             <span property="http://schema.org/description"><?php p(nl2br($_['url'])) ?></span>
-            
+
             <h4>Location</h4>
             <span property="http://schema.org/description"><?php p(nl2br($_['location'])) ?></span>
-            
+
 
             <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] !== "") { ?>
                 <h4>Data Retention Period</h4>
