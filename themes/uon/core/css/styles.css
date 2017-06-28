@@ -40,10 +40,12 @@
 }
 #notification {
 	width: 100%;
-	background: #393838;
+	background: #0ab04b;
+	color: #ffffff;
+	padding: 10px 0;
 }
 #notification a {
-	color: #00aeff;
+	color: #ffffff;
 	text-decoration: underline;
 }
 
