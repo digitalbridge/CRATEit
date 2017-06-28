@@ -98,8 +98,6 @@ function initCrateActions() {
         $('#createCrateModal').modal('hide');
         $("#crates").append('<option id="' + crateName + '" value="' + crateName + '" >' + crateName + '</option>');
         $("#crates").val(crateName);
-        $("#description").text(data.crateDescription);
-        $("#retention_period_value").text(data.crateDataRetentionPeriod);
         $('#crates').trigger('change');
         displayNotification('Crate ' + crateName + ' successfully created', 6000);
       },
@@ -183,7 +181,6 @@ function initCrateActions() {
     var $nameError = validateCrateName($name);
     var $descriptionError = validateCrateDescription($description);
     if ($descriptionError != '') {
-      console.log($descriptionError);
       $error_description.text($descriptionError);
       $error_description.show();
       $confirm.prop('disabled', true);
