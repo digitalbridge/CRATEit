@@ -99,7 +99,7 @@ $(document).ready(function() {
         initCrateActions();
         updateCrateSize();
         //setupNameOps();
-        setupDescriptionOps();
+        //setupDescriptionOps();
         setupRetentionPeriodOps();
         setupEmbargoDetailsOps();
         initSearchHandlers();

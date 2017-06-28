@@ -10,14 +10,14 @@
         New Crate Name *
         </p>
         <input id="crate_input_name" name="New Crate Name" type="text" class="modal-input"></input>
-        <p/>
+        <br/>
         <label id="crate_name_validation_error" validates="New Crate Name" style="color:red;display:none"></label>
 
         <p>
         New Crate Description *
         </p>
           <textarea id="crate_input_description" name="New Crate Description" maxlength="8001" class="modal-input"></textarea>
-        <p/>
+        <br/>
         <label id="crate_description_validation_error" validates="New Crate Description" style="color:red;display:none"></label>
       </div>
       <div class="modal-footer">

@@ -153,18 +153,49 @@ function initCrateActions() {
     var $name = $(this);
     var $description = $('#crate_input_description');
     var $error_name = $('#crate_name_validation_error');
-    var $error_description = $('#crate_name_description_error');
-    var $confirm = $('#createCrateModal').find('.btn-primary');
-    validateCrateName($name, $description, $error_name, $error_description, $confirm);
+    var $error_description = $('#crate_description_validation_error');
+    var $confirm = $('#create_crate_submit');
+
+    var $nameError = validateCrateName($name);
+    var $descriptionError = validateCrateDescription($description);
+    if ($nameError != '') {
+      $error_name.text($nameError);
+      $error_name.show();
+      $confirm.prop('disabled', true);
+    } else {
+      $error_name.text('');
+      $error_name.hide();
+      if($descriptionError != '') {
+        $confirm.prop('disabled', true);
+      } else {
+        $confirm.prop('disabled', false);
+      }
+    }
   });
 
   $('#crate_input_description').keyup(function() {
-	    var $description = $(this);
-	    var $name = $('#crate_input_name');
-	    var $error_name = $('#crate_name_validation_error');
-	    var $error_description = $('#crate_name_description_error');
-	    var $confirm = $('#createCrateModal').find('.btn-primary');
-	    validateCrateName($name, $description, $error_name, $error_description, $confirm);
+    var $description = $(this);
+    var $name = $('#crate_input_name');
+    var $error_name = $('#crate_name_validation_error');
+    var $error_description = $('#crate_description_validation_error');
+    var $confirm = $('#create_crate_submit');
+
+    var $nameError = validateCrateName($name);
+    var $descriptionError = validateCrateDescription($description);
+    if ($descriptionError != '') {
+      console.log($descriptionError);
+      $error_description.text($descriptionError);
+      $error_description.show();
+      $confirm.prop('disabled', true);
+    } else {
+      $error_description.text('');
+      $error_description.hide();
+      if($nameError != '') {
+        $confirm.prop('disabled', true);
+      } else {
+        $confirm.prop('disabled', false);
+      }
+    }
   });
 
   $('#createCrateModal').find('.btn-primary').click(createCrate);

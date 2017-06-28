@@ -509,11 +509,9 @@ function validateTextLength($input, $error, $confirm, maxLength) {
 }
 
 // TODO: See if some of this can make use of the validation framework
-function validateCrateName($name, $description, $error_name, $error_description, $confirm) {
+function validateCrateName($name) {
     var inputName = $name.val();
     var name_length = templateVars['name_length'];
-    var inputDescription = $description.val();
-    var description_length = templateVars['description_length'];
 
     var crates = $.map($('#crates > option'), function (el, i) {
         return $(el).attr('id');
@@ -524,52 +522,45 @@ function validateCrateName($name, $description, $error_name, $error_description,
     var existingName = function () {
         return crates.indexOf(inputName) > -1;
     };
+    var regex = /[\/\\\<\>:\"\|?\*]/;
+
+    if (existingName() || emptyName()) {
+        if (emptyName()) {
+            $error = 'Crate name cannot be blank';
+        } else {
+            $error = 'Crate with name "' + inputName + '" already exists';
+        }
+    } else if (inputName.length > name_length) {
+        $name.val(inputName.substr(0, name_length));
+        $error = 'Crate name has reached the limit of ' + name_length + ' characters';
+    } else if (regex.test(inputName)) {
+        $error = "Invalid name. Illegal characters '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed";
+    } else {
+        $error = '';
+    }
+
+    return $error;
+}
+
+function validateCrateDescription($description) {
+    var inputDescription = $description.val();
+    var description_length = templateVars['description_length'];
+
     var emptyDescription = function () {
         return (!inputDescription || /^\s*$/.test(inputDescription));
     };
-    var regex = /[\/\\\<\>:\"\|?\*]/;
-        
-    //Validate Name
-    if (existingName() || emptyName()) {
-        if (emptyName()) {
-            $error_name.text('Crate name cannot be blank');
-        } else {
-            $error_name.text('Crate with name "' + inputName + '" already exists');
-        }
-        $confirm.prop('disabled', true);
-        $error_name.show();
-        $error_description.show();
-    } 
-    else if (inputName.length > name_length) {
-        $error_name.text('Crate name has reached the limit of ' + name_length + ' characters');
-        $name.val(inputName.substr(0, name_length));
-        $confirm.prop('disabled', true);
-        $error_name.show();
-        $error_description.show();
-    } else if (regex.test(inputName)) {
-        $error_name.text("Invalid name. Illegal characters '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed");
-        $confirm.prop('disabled', true);
-        $error_name.show();
-        $error_description.show();
-    } 
-    //Validate description
-    else if (emptyDescription()) {
-        $error_description.text('Crate description cannot be blank');
-        $confirm.prop('disabled', true);
-        $error_name.show();
-        $error_description.show();
-    } 
-    else if (inputDescription.length > description_length) {
-        $error_description.text('Crate description has reached the limit of ' + description_length + ' characters');
-        $description.val(inputDescription.substr(0, description_length));
-        $confirm.prop('disabled', true);
-        $error_name.show();
-        $error_description.show();
-    } else {
-        $confirm.prop('disabled', false);
-        $error_name.hide();
-        $error_description.hide();
+
+    if (emptyDescription()) {
+        $error = 'Crate description cannot be blank';
     }
+    else if (inputDescription.length > description_length) {
+        $description.val(inputDescription.substr(0, description_length));
+        $error = 'Crate description has reached the limit of ' + description_length + ' characters';
+    } else {
+        $error = '';
+    }
+
+    return $error;
 }
 
 //TODO use something like this when the pages loads
