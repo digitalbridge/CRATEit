@@ -4,7 +4,7 @@ namespace OCA\crate_it\lib;
 
 require 'search_provider.php';
 
-class mint_connector implements SearchProvider
+class MintConnector implements SearchProvider
 {
     private $url = null;
     private $curl = null;
