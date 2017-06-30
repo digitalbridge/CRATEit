@@ -89,7 +89,7 @@ class cratemanager
         }
         $crateList = $this->getCrateList();
         if (empty($crateList)) {
-            $this->createCrate('default_crate', 'Example Description', 'Please Select');
+            $this->createCrate('default_crate', 'Example Description', 'None');
         }
     }
 

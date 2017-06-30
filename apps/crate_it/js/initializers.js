@@ -572,7 +572,8 @@ function setupRetentionPeriodOps() {
   var radio_button_list = [
     '<input type="radio" name="retention_radio" id="radio1" value="5"><label for="radio1">5</label>',
     '<input type="radio" name="retention_radio" id="radio2" value="20"><label for="radio2">20</label>',
-    '<input type="radio" name="retention_radio" id="radio3" value="Perpetuity"><label for="radio3">Perpetuity</label>'];
+    '<input type="radio" name="retention_radio" id="radio3" value="Perpetuity"><label for="radio3">Perpetuity</label>',
+    '<input type="radio" name="retention_radio" id="radio4" value="None"><label for="radio4">None</label>'];
 
   var html = '';
   for (i = 0; i< radio_button_list.length;i++) {

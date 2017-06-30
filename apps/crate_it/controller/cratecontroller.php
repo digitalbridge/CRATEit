@@ -33,7 +33,7 @@ class cratecontroller extends Controller
         \OCP\Util::writeLog('crate_it', "CrateController::create()", \OCP\Util::DEBUG);
         $name = $this->params('name');
         $description = $this->params('description');
-        $data_retention_period = 'Please Select';
+        $data_retention_period = 'None';
         try {
             // TODO: maybe this selection stuff should be in a switchcrate method
             $msg = $this->crateManager->createCrate($name, $description, $data_retention_period);
