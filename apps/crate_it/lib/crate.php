@@ -210,9 +210,10 @@ class crate extends BagIt
     public function renameCrate($newCrateName)
     {
         \OCP\Util::writeLog('crate_it', "renameCrate($this->crateName, $newCrateName)", \OCP\Util::DEBUG);
-        $oldCrateName = $this->getAbsolutePath($this->crateName);
-        $newCrateName = $this->getAbsolutePath($newCrateName);
-        $success = rename($oldCrateName, $newCrateName);
+        $oldCratePath = $this->getAbsolutePath($this->crateName);
+        $newCratePath = $this->getAbsolutePath($newCrateName);
+
+        $success = rename($oldCratePath, $newCratePath);
         if (!$success) {
             throw new \Exception("Error renaming crate");
         }

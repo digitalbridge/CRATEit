@@ -100,6 +100,7 @@ function initCrateActions() {
         $("#crates").val(crateName);
         $('#crates').trigger('change');
         displayNotification('Crate ' + crateName + ' successfully created', 6000);
+        location.reload();
       },
       error: function(jqXHR) {
          // TODO: Make sure all ajax errors are this form instrad of data.msg

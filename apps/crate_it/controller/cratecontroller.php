@@ -127,7 +127,6 @@ class cratecontroller extends Controller
         \OCP\Util::writeLog('crate_it', "CrateController::getCrateSize()", \OCP\Util::DEBUG);
         try {
             $selectedCrate = $_SESSION['selected_crate'];
-            session_commit();
             $data = $this->crateManager->getCrateSize($selectedCrate);
             return new JSONResponse($data);
         } catch (\Exception $e) {
@@ -202,6 +201,7 @@ class cratecontroller extends Controller
         $newCrateName = $this->params('newCrateName');
         try {
             $this->crateManager->renameCrate($oldCrateName, $newCrateName);
+            session_start();
             $_SESSION['selected_crate'] = $newCrateName;
             session_commit();
             return new JSONResponse(array('msg' => "Renamed $oldCrateName to $newCrateName"));

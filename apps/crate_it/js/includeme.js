@@ -142,25 +142,34 @@ function buildFileTree(data) {
         $('#rename-crate').keyup(function () {
             var $input = $('#rename-crate');
             var $error = $('#rename_crate_error');
-            var $confirm = $modal.find('.btn-primary');
-            //validateCrateReName($input, $error, $confirm);
+            var $confirm = $('#rename_crate_submit');
+            var $nameError = validateCrateName($input, oldName);
+            if ($nameError != '') {
+                $error.text($nameError);
+                $error.show();
+                $confirm.prop('disabled', true);
+            } else {
+                $error.text('');
+                $error.hide();
+                $confirm.prop('disabled', false);
+            }
         });
 
         var confirmCallback = function () {
             var newCrateName = $('#rename-crate').val();
-            $tree.tree('updateNode', node, newCrateName); // TODO: shouldn't this be in success?
+            $tree.tree('updateNode', node, newCrateName);
             var c_url = OC.generateUrl('apps/crate_it/crate/rename');
             $.ajax({
                 url: c_url,
                 type: 'post',
                 dataType: 'json',
+                async: false,
                 data: {
-                    'newCrateName': newCrateName,
+                    'newCrateName': newCrateName
                 },
                 success: function (data) {
                     $('#crates option:selected').val(newCrateName).attr('id', newCrateName).text(newCrateName);
                     var errorMessage = oldName + ' not renamed';
-                    // TODO: try to do this withou a page reload
                     saveTree(data.msg, errorMessage, true);
                 },
                 error: function (jqXHR) {
@@ -509,7 +518,7 @@ function validateTextLength($input, $error, $confirm, maxLength) {
 }
 
 // TODO: See if some of this can make use of the validation framework
-function validateCrateName($name) {
+function validateCrateName($name, $oldName) {
     var inputName = $name.val();
     var name_length = templateVars['name_length'];
 
@@ -520,7 +529,11 @@ function validateCrateName($name) {
         return (!inputName || /^\s*$/.test(inputName));
     };
     var existingName = function () {
-        return crates.indexOf(inputName) > -1;
+        if (typeof($oldName) === 'undefined') {
+            return crates.indexOf(inputName) > -1;
+        } else {
+            return crates.indexOf(inputName) > -1 && inputName != $oldName;
+        }
     };
     var regex = /[\/\\\<\>:\"\|?\*]/;
 

@@ -75,8 +75,9 @@ class setupservice
     private function getSelectedCrate()
     {
         if (!isset($_SESSION['selected_crate'])) {
-            $_SESSION['selected_crate'] = 'default_crate';
+            $_SESSION['selected_crate'] = self::$params['crates'][0];
         }
+
         return $_SESSION['selected_crate'];
     }
 
