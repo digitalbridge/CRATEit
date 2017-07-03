@@ -83,4 +83,5 @@
     <my:EmbargoEnabled><?php if(array_key_exists('embargo_enabled',$_)) {p($_['embargo_enabled']);} ?></my:EmbargoEnabled>
     <my:EmbargoDate><?php if(array_key_exists('embargo_date',$_)) {p($_['embargo_date']);} ?></my:EmbargoDate>
     <my:EmbargoDetails><?php if(array_key_exists('embargo_details',$_)) {p($_['embargo_details']);} ?></my:EmbargoDetails>
+    <my:EmbargoAccessConditions><?php if(array_key_exists('embargo_access_conditions',$_)) {p($_['embargo_access_conditions']);} ?></my:EmbargoAccessConditions>
 </my:RedboxCollection>

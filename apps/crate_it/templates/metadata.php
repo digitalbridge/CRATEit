@@ -247,6 +247,18 @@
                                 <textarea id="embargo_details" name="embargo_details" placeholder="Enter a details of what the embargo restrictions are"><?php p($_['embargo_details']) ?></textarea>
                             </div>
                         </div>
+
+                        <div>
+                            Embargo Access Conditions
+                            <div>
+                                <input id="embargo_closed" type="radio" name="embargo_access_conditions" value="closed" <?php p($_['embargo_access_conditions'] === 'closed' ? 'checked' : '') ?>>
+                                <label for="embargo_closed">Closed (No Public Access)</label>
+                                <input id="embargo_open"  type="radio" name="embargo_access_conditions" value="open" <?php p($_['embargo_access_conditions'] === 'open' ? 'checked' : '') ?>>
+                                <label for="embargo_open">Open (Public Access)</label>
+                                <input id="embargo_shared"  type="radio" name="embargo_access_conditions" value="shared" <?php p($_['embargo_access_conditions'] === 'shared' ? 'checked' : '') ?>>
+                                <label for="embargo_open">Shared</label>
+                            </div>
+                        </div>
                         <br/>
 
                         <input id="save_embargo" type="button" value="Save">
@@ -274,6 +286,13 @@
                                 Embargo Note
                             </h6>
                             <span id="embargo_note" class="standard"><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
+                        </div>
+
+                        <div class='embargo-access-conditions'>
+                            <h6 class="info">
+                                Embargo Access Conditions
+                            </h6>
+                            <span id="embargo_access_conditions" class="standard"><?php p($_['embargo_access_conditions']) ?></span>
                         </div>
                     </div>
                 </div>

@@ -46,9 +46,10 @@ class setupservice
         $manifestData = $this->crateManager->getManifest($selectedCrate);
         self::$params['description'] = $manifestData['description'];
         self::$params['data_retention_period'] = $manifestData['data_retention_period'];
-        self::$params['embargo_enabled'] = array_key_exists('embargo_enabled', $manifestData) ? $manifestData['embargo_enabled']:'';
-        self::$params['embargo_date'] = array_key_exists('embargo_date', $manifestData) ? $manifestData['embargo_date']:'';
-        self::$params['embargo_details'] = array_key_exists('embargo_details', $manifestData) ? $manifestData['embargo_details']:'';
+        self::$params['embargo_enabled'] = array_key_exists('embargo_enabled', $manifestData) ? $manifestData['embargo_enabled'] : '';
+        self::$params['embargo_date'] = array_key_exists('embargo_date', $manifestData) ? $manifestData['embargo_date'] : '';
+        self::$params['embargo_details'] = array_key_exists('embargo_details', $manifestData) ? $manifestData['embargo_details'] : '';
+        self::$params['embargo_access_conditions'] = array_key_exists('embargo_access_conditions', $manifestData) ? $manifestData['embargo_access_conditions'] : '';
 
         self::$params['crateDetails'] = $this->crateManager->getCrateDetailsList();
         //$info = self::getAppInfo('crate_it');

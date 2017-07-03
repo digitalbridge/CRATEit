@@ -364,6 +364,7 @@ function initCrateActions() {
     $('#publish-embargo-enabled').text($('span#embargo_enabled').text());
     $('#publish-embargo-date').text($('span#embargo_until').text());
     $('#publish-embargo-note').text($('span#embargo_note').text());
+    $('#publish-embargo-access-conditions').text($('span#embargo_access_conditions').text());
 
     $('#publish-creators').children().remove();
     // TODO: create proper render functions
@@ -627,6 +628,7 @@ function setupEmbargoDetailsOps() {
   var oldEmbargoDisabled;
   var oldEmbargoDate;
   var oldEmbargoDetails;
+  var oldEmbargoAccessConditions;
 
   $('#choose_embargo_details').click(function(event) {
     $('#embargo-summary').hide();
@@ -636,6 +638,7 @@ function setupEmbargoDetailsOps() {
     oldEmbargoDisabled = $('#embargo_enabled_no').is(':checked');
     oldEmbargoDate = $('input#embargo_date').val();
     oldEmbargoDetails = $('textarea#embargo_details').val();
+    oldEmbargoAccessConditions = $('input[name=embargo_access_conditions]:checked').val();
   });
 
   $('#save_embargo').click(function(event) {
@@ -646,6 +649,7 @@ function setupEmbargoDetailsOps() {
     var embargoDisabled = $('#embargo_enabled_no').is(':checked');
     var embargoDate = $('input#embargo_date').val();
     var embargoDetails = $('textarea#embargo_details').val();
+    var embargoAccessConditions = $('input[name=embargo_access_conditions]:checked').val();
 
     var errors = false;
     $('#embargo-details-modal-ul').html('');
@@ -667,11 +671,17 @@ function setupEmbargoDetailsOps() {
         errors = true;
         $('#embargo-details-modal-ul').append('<li>Embargo details must be less than 1024 characters in length</li>');
       }
+      if (typeof(embargoAccessConditions) === 'undefined') {
+        errors = true;
+        $('#embargo-details-modal-ul').append('<li>Embargo access conditions must be not be blank</li>');
+      }
     } else {
       embargoDate = '';
       $('input#embargo_date').val('');
       embargoDetails = '';
       $('textarea#embargo_details').val('');
+      embargoAccessConditions = '';
+      $('input[name=embargo_access_conditions]').attr('checked', false);
     }
 
     // Show the modal
@@ -694,12 +704,16 @@ function setupEmbargoDetailsOps() {
         }, {
           'field': 'embargo_details',
           'value': embargoDetails
+        }, {
+          'field': 'embargo_access_conditions',
+          'value': embargoAccessConditions
         }]
       },
       success: function(data) {
         $('span#embargo_enabled').html(data.values['embargo_enabled'] === 'true' ? 'Yes' : 'No');
         $('span#embargo_until').html(data.values['embargo_date']);
         $('span#embargo_note').html(data.values['embargo_details'].replace(/\n/g, "<br/>"));
+        $('span#embargo_access_conditions').html(data.values['embargo_access_conditions']);
         $('#embargo-summary').show();
         $('#edit_embargo_details').hide();
       },
@@ -718,6 +732,9 @@ function setupEmbargoDetailsOps() {
     $('#embargo_enabled_no').prop("checked", oldEmbargoDisabled);
     $('input#embargo_date').val(oldEmbargoDate);
     $('textarea#embargo_details').val(oldEmbargoDetails);
+    $('#embargo_closed').prop("checked",oldEmbargoAccessConditions === 'closed');
+    $('#embargo_open').prop("checked", oldEmbargoAccessConditions === 'open');
+    $('#embargo_shared').prop("checked", oldEmbargoAccessConditions === 'shared');
   });
 }
 
