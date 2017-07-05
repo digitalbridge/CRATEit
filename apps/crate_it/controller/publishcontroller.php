@@ -48,7 +48,7 @@ class PublishController extends Controller {
             $metadata = $this->params('metadata');
             // TODO: This should be configurable
             //$from = 'no-reply@crateit.app';
-            
+
             $subject = 'CRATEit Submit Status Receipt';
             try {
                 $content = $this->getEmailContent($metadata);
@@ -100,7 +100,18 @@ class PublishController extends Controller {
         	$metadata['submitted_date'] = Util::getTimestamp("Y-m-d");
         	$metadata['submitted_time'] = Util::getTimestamp("H:i:s");
 
-        	$package = $this->crateManager->packageCrate($crateName);
+            $publishDetails = [
+                'version'        => $metadata['version'],
+                'location'       => $metadata['location'],
+                'url'            => $metadata['url'],
+                'size'           => $metadata['size'],
+                'submitted_date' => $metadata['submitted_date'],
+                'submitted_time' => $metadata['submitted_time']
+            ];
+            $this->crateManager->updateCrate($crateName, 'publish_details', $publishDetails);
+
+            $package = $this->crateManager->packageCrate($crateName);
+
         	$this->loggingService->log("Zipped content into '".basename($package)."'");
             $this->loggingService->log("Submitting crate $crateName (".basename($package).")..");
             $this->alertingService->alert($metadata);
@@ -114,13 +125,13 @@ class PublishController extends Controller {
             }
             if ($config['crate_cc_email']) {
             	$cc = $config['crate_cc_email'];
-            } 
-            if ($config['crate_from_email']) { 
+            }
+            if ($config['crate_from_email']) {
             	$from = $config['crate_from_email'];
             } else {
             	$from = 'noreply@crate.app';
             }
-            
+
             $data['metadata'] = $metadata;
             $subject = 'CRATEit Submit Status Receipt';
             $metadata['location'] = $cratePath;

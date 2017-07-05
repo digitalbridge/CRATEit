@@ -77,6 +77,7 @@ class crate extends BagIt
         $metadata = $this->getManifest();
         $metadata['crate_name'] = $this->crateName;
         $metadata['files'] = $this->flatList();
+        $metadata['size'] = $this->getSize();
         $metadata['creators'] = $this->isCreatorIdUrl($metadata['creators']);
         // TODO: Update to use utility method
         date_default_timezone_set('Australia/Sydney');

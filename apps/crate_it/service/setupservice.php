@@ -39,9 +39,9 @@ class setupservice
         $this->loadConfigParams();
         $selectedCrate = $this->getSelectedCrate();
         self::$params['selected_crate'] = $selectedCrate;
-        $this->publisher->registerPublishers(self::$params['publish endpoints']);
+        $this->publisher->registerPublishers(self::$params['publish_endpoints']);
         self::$params['collections'] = $this->publisher->getCollections();
-        self::$params['crates'] = $this->crateManager->getCrateList();
+        self::$params['crates'] = $this->crateManager->getCrateList(false);
 
         $manifestData = $this->crateManager->getManifest($selectedCrate);
         self::$params['description'] = $manifestData['description'];
@@ -53,7 +53,7 @@ class setupservice
 
         self::$params['crateDetails'] = $this->crateManager->getCrateDetailsList();
         //$info = self::getAppInfo('crate_it');
-        self::$params['version'] = 1.2;
+        self::$params['version'] = \OCP\App::getAppVersion('crate_it');
 
         $userObject = \OC::$server->getUserSession()->getUser();
         $isSubAdmin = false;

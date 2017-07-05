@@ -45,7 +45,7 @@ class cratemanager
         return new Crate($crateRoot, urldecode($crateName));
     }
 
-    public function getCrateList()
+    public function getCrateList($published = false)
     {
         \OCP\Util::writeLog("crate_it", 'CrateManager::getCrateList()', \OCP\Util::DEBUG);
         $cratelist = array();
@@ -54,7 +54,16 @@ class cratemanager
             $filteredlist = array('.', '..', 'packages', '.Trash', '.DS_Store');
             while (false !== ($file = readdir($handle))) {
                 if (!in_array($file, $filteredlist)) {
-                    array_push($cratelist, $file);
+                    $manifest = $this->getManifest($file);
+                    if ($published) {
+                        if (array_key_exists('publish_details', $manifest)) {
+                            array_push($cratelist, $file);
+                        }
+                    } else {
+                        if (! array_key_exists('publish_details', $manifest)) {
+                            array_push($cratelist, $file);
+                        }
+                    }
                 }
             }
             closedir($handle);
@@ -87,7 +96,7 @@ class cratemanager
         if (!file_exists($crateRoot)) {
             mkdir($crateRoot, 0755, true);
         }
-        $crateList = $this->getCrateList();
+        $crateList = $this->getCrateList(false);
         if (empty($crateList)) {
             $this->createCrate('default_crate', 'Example Description', 'None');
         }
@@ -95,7 +104,7 @@ class cratemanager
 
     private function ensureCrateIsSelected()
     {
-        $crateList = $this->getCrateList();
+        $crateList = $this->getCrateList(false);
         if (! array_key_exists('selected_crate', $_SESSION) || ! in_array($_SESSION['selected_crate'], $crateList)) {
             $_SESSION['selected_crate'] = $crateList[0];
             session_commit();
@@ -123,7 +132,7 @@ class cratemanager
 
     public function getCrateDetailsList()
     {
-        $crateNamesList = $this->getCrateList();
+        $crateNamesList = $this->getCrateList(true);
         $crateDetails = array();
         $crateDetailsList = array();
 
@@ -133,10 +142,8 @@ class cratemanager
             $crateDetails['size'] = $this->getCrateSize($crateName);
             $crateDetails['contents'] = $crate->getBagContents();
             $crateDetails['manifest'] = $this->getManifest($crateName);
-            array_push($crateDetailsList, $crateDetails);
+            $crateDetailsList[$crateName] = $crateDetails;
         }
-        //\OCP\Util::writeLog('crate_it', var_dump($crateDetailsList), \OCP\Util::ERROR);
-        //die();
         return $crateDetailsList;
     }
 
@@ -267,31 +274,24 @@ class cratemanager
     {
         $userRoot = Util::getPathByuser($user->getDisplayName());
 
-        $cratelist = array();
+        $crateDetails = array();
+        $crateDetailsList = array();
         $crateRoot = Util::joinPaths($userRoot, 'crates');
         if ($handle = opendir($crateRoot)) {
             $filteredlist = array('.', '..', 'packages', '.Trash', '.DS_Store');
             while (false !== ($file = readdir($handle))) {
-                if (!in_array($file, $filteredlist)) {
-                    array_push($cratelist, $file);
+                if (! in_array($file, $filteredlist)) {
+                    $crate = new Crate($crateRoot, urldecode($file));
+                    $crateDetails['name'] = $file;
+                    $crateDetails['size'] = array('size' => $crate->getSize(), 'human' => \OCP\Util::humanFileSize($crate->getSize()));
+                    $crateDetails['contents'] = $crate->getBagContents();
+                    $crateDetails['manifest'] = $crate->getManifest();
+                    if (array_key_exists('publish_details', $crateDetails['manifest'])) {
+                        array_push($crateDetailsList, $crateDetails);
+                    }
                 }
             }
             closedir($handle);
-        }
-
-        $crateDetails = array();
-        $crateDetailsList = array();
-
-        foreach ($cratelist as $crateName) {
-            if (!file_exists($crateRoot. '/' . urldecode($crateName))) {
-                throw new \Exception("Crate $crateName not found");
-            }
-            $crate = new Crate($crateRoot, urldecode($crateName));
-            $crateDetails['name'] = $crateName;
-            $crateDetails['size'] = array('size' => $crate->getSize(), 'human' => \OCP\Util::humanFileSize($crate->getSize()));
-            $crateDetails['contents'] = $crate->getBagContents();
-            $crateDetails['manifest'] = $crate->getManifest();
-            array_push($crateDetailsList, $crateDetails);
         }
 
         return $crateDetailsList;
