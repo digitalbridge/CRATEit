@@ -19,6 +19,7 @@
                             <th>Description</th>
                             <th>Publisher</th>
                             <th>Retention Period</th>
+                            <th>Submission Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,7 @@
                                 <?=$crateDetail['manifest']['submitter']['displayname']; ?> (<?=$crateDetail['manifest']['submitter']['email']; ?>)
                             </td>
                             <td><?=$crateDetail['manifest']['data_retention_period']; ?></td>
+                            <td><?=$crateDetail['manifest']['publish_details']['submitted_date']; ?></td>
                         </tr>
                 <?php
                     }
@@ -55,6 +57,7 @@
                             <th>Description</th>
                             <th>Publisher</th>
                             <th>Retention Period</th>
+                            <th>Submission Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,6 +73,7 @@
                                 <?=$crateDetail['manifest']['submitter']['displayname']; ?> (<?=$crateDetail['manifest']['submitter']['email']; ?>)
                             </td>
                             <td><?=$crateDetail['manifest']['data_retention_period']; ?></td>
+                            <td><?=$crateDetail['manifest']['publish_details']['submitted_date']; ?></td>
                         </tr>
                 <?php
                     }
