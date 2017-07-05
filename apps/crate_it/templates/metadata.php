@@ -7,7 +7,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#crate-information" id="crate-information-head">
                         Crate Information
-                        <i class="pull-right fa fa-caret-down"></i>
+                        <i class="pull-right fa fa-caret-up"></i>
                     </a>
                 </h4>
             </div>
@@ -37,7 +37,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#data-creators" id="data-creators-head">
                         Data Creators
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -52,7 +52,7 @@
                         </h6>
                         <ul id="selected_creators" class="metadata"></ul>
 
-						<h6>Add New Data Creators
+                        <h6>Add New Data Creators
                             <button id="add-creator" class="pull-right trans-button" type="button"
                                     data-toggle="modal" data-target="#addCreatorModal">
                                 <i class="fa fa-plus muted"></i
@@ -74,7 +74,7 @@
                         </div>
                     </div>
 
-	            </div>
+                </div>
             </div>
         </div>
 
@@ -83,7 +83,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#data-fors" id="data-fors-head">
                         Fields of Research
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -131,7 +131,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#grant-numbers" id="grant-numbers-head">
                         Grants
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -179,7 +179,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#data-retention-period" id="data-retention-period-head">
                         Data Retention Period
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -204,7 +204,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#embargo-details" id="embargo-details-head">
                         Embargo Details
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -220,9 +220,9 @@
                         <div>
                             Embargo Enabled
                             <div>
-                                <input id="embargo_enabled_yes" type="radio" name="embargo_enabled" <?php p($_['embargo_enabled'] === 'true' ? 'checked' : '') ?>>
+                                <input id="embargo_enabled_yes" type="radio" name="embargo_enabled" value="yes" <?php p($_['embargo_enabled'] === 'true' ? 'checked' : '') ?>>
                                 <label for="embargo_enabled_yes">Yes</label>
-                                <input id="embargo_enabled_no"  type="radio" name="embargo_enabled" <?php p($_['embargo_enabled'] === 'false' ? 'checked' : '') ?>>
+                                <input id="embargo_enabled_no"  type="radio" name="embargo_enabled" value="no" <?php p($_['embargo_enabled'] === 'false' ? 'checked' : '') ?>>
                                 <label for="embargo_enabled_no">No</label>
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                                 <input id="embargo_open"  type="radio" name="embargo_access_conditions" value="open" <?php p($_['embargo_access_conditions'] === 'open' ? 'checked' : '') ?>>
                                 <label for="embargo_open">Open (Public Access)</label>
                                 <input id="embargo_shared"  type="radio" name="embargo_access_conditions" value="shared" <?php p($_['embargo_access_conditions'] === 'shared' ? 'checked' : '') ?>>
-                                <label for="embargo_open">Shared</label>
+                                <label for="embargo_shared">Shared</label>
                             </div>
                         </div>
                         <br/>
