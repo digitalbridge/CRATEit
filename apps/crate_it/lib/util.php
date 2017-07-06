@@ -38,8 +38,6 @@ class util
     {
         $userId = \OC::$server->getUserSession()->getUser()->getDisplayName();
         $config = Util::getConfig();
-        //echo Util::joinPaths(Util::getDataPath(), $userId);
-        //die();
         return Util::joinPaths(Util::getDataPath(), $userId);
     }
 
@@ -50,15 +48,17 @@ class util
 
     public static function getDataPath()
     {
-        //return \OC::$server->getConfig()->getSystemValue('datadirectory', 'var/www/html/owncloud/');
         return \OC::$server->getConfig()->getSystemValue('datadirectory');
     }
 
     public static function getTempPath()
     {
-        //return \OC::$server->getTempManager()->getTemporaryFolder();
-        //return Util::joinPaths(Util::getDataPath(), 'CRATEit', 'crates');
-        return \OC::$server->getConfig()->getSystemValue('crate_path');
+        return \OC::$server->getTempManager()->getTemporaryFolder();
+    }
+
+    public static function getpublishPath()
+    {
+       return $this->getConfig()['crate_path'];
     }
 
     public static function joinPaths()

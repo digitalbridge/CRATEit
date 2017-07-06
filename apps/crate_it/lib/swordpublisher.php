@@ -48,7 +48,13 @@ class SwordPublisher implements Publisher {
         return $result;
     }
 
-    public function publishCrate($package, $collection) {
+    public function getCratePath($package, $collection, $timestamp)
+    {
+        // TODO: return that actual deposited item URL,
+        return $collection;
+    }
+
+    public function publishCrate($package, $collection, $timestamp) {
         \OCP\Util::writeLog('crate_it', "SwordPublisher::publishCrate($package, $this->endpoint, $collection)", \OCP\Util::DEBUG);
         $response = $this->swordClient->deposit($collection, $this->endpoint['username'], $this->endpoint['password'],
             $this->endpoint['obo'], $package, self::$packagingFormat, self::$contentType, false);

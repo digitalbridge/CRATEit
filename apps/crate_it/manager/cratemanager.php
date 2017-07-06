@@ -56,13 +56,13 @@ class cratemanager
                 if (!in_array($file, $filteredlist)) {
                     $manifest = $this->getManifest($file);
                     if ($published) {
-                        if (array_key_exists('publish_details', $manifest)) {
+                        if (array_key_exists('publish_details', $manifest) && ! empty($manifest['publish_details'])) {
                             array_push($cratelist, $file);
                         }
                     } else {
-                        if (! array_key_exists('publish_details', $manifest)) {
+                        // if (! array_key_exists('publish_details', $manifest) || empty($manifest['publish_details'])) {
                             array_push($cratelist, $file);
-                        }
+                        // }
                     }
                 }
             }
@@ -188,7 +188,7 @@ class cratemanager
     {
         $this->updateCrateCheckIcons($crateName);
         $crate = $this->getCrate($crateName);
-        $tempdir = Util::joinPaths(Util::getTempPath(), \OC::$server->getUserSession()->getUser()->getDisplayName());
+        $tempdir = Util::joinPaths(\OC::$server->getUserSession()->getUser()->getDisplayName());
         if (!file_exists($tempdir)) {
             mkdir($tempdir, 0755, true);
         }
@@ -286,7 +286,7 @@ class cratemanager
                     $crateDetails['size'] = array('size' => $crate->getSize(), 'human' => \OCP\Util::humanFileSize($crate->getSize()));
                     $crateDetails['contents'] = $crate->getBagContents();
                     $crateDetails['manifest'] = $crate->getManifest();
-                    if (array_key_exists('publish_details', $crateDetails['manifest'])) {
+                    if (array_key_exists('publish_details', $crateDetails['manifest']) && ! empty($crateDetails['manifest']['publish_details'])) {
                         array_push($crateDetailsList, $crateDetails);
                     }
                 }

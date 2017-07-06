@@ -2,19 +2,20 @@
 
 namespace OCA\crate_it\lib;
 
-
-class RedboxAlerter implements Alerter {
-
+class redboxalerter implements Alerter
+{
     private $endpoint;
 
-    public function __construct($endpoint) {
+    public function __construct($endpoint)
+    {
         $this->endpoint = $endpoint;
     }
 
-    public function alert($metadata) {
+    public function alert($metadata)
+    {
         $xml = Util::renderTemplate('redbox_export_template', $metadata);
         $timestamp = Util::getTimestamp();
-        $filePath = $this->endpoint['path']."{$timestamp}_{$metadata['crate_name']}.xml";
+        $filePath = $this->endpoint['path'] . "{$timestamp}_{$metadata['crate_name']}.xml";
         file_put_contents($filePath, $xml);
     }
 }

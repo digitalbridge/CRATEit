@@ -39,7 +39,6 @@ class crate extends BagIt
                 'displayname' => \OC::$server->getUserSession()->getUser()->getDisplayName(),
             ),
             'creators' => array(),
-            'primarycontact' => array(),
             'activities' => array(),
             'fors' => array(),
             'vfs' => array(
@@ -64,11 +63,10 @@ class crate extends BagIt
     private function createReadme()
     {
         $metadata = $this->createMetadata();
-        //Update readme with final publish location and url to metadata
         $metadata['url'] = $_SESSION['url'];
         $metadata['location'] = $_SESSION['location'];
         $html = Util::renderTemplate('readme', $metadata);
-        $readmePath = $this->getDataDirectory()."/README.html";
+        $readmePath = $this->getDataDirectory() . "/README.html";
         file_put_contents($readmePath, $html);
     }
 
@@ -77,7 +75,7 @@ class crate extends BagIt
         $metadata = $this->getManifest();
         $metadata['crate_name'] = $this->crateName;
         $metadata['files'] = $this->flatList();
-        $metadata['size'] = $this->getSize();
+        $metadata['size'] = \OCP\Util::humanFileSize($this->getSize());
         $metadata['creators'] = $this->isCreatorIdUrl($metadata['creators']);
         // TODO: Update to use utility method
         date_default_timezone_set('Australia/Sydney');
@@ -85,7 +83,7 @@ class crate extends BagIt
         $metadata['created_date_formatted'] = Util::getTimestamp("F jS, Y - H:i:s (T)");
         $vfs = &$metadata['vfs'][0];
         $metadata['filetree'] = $this->buildFileTreeFromRoot($vfs);
-        $metadata['version'] = "Version ".\OCP\App::getAppVersion('crate_it');
+        $metadata['version'] = "Version " . \OCP\App::getAppVersion('crate_it');
         $metadata['location'] = "unpublished";
         $metadata['url'] = "unpublished";
         return $metadata;
@@ -262,11 +260,11 @@ class crate extends BagIt
         $clone->createReadme();
         $clone->storeFiles();
         $packagePath = Util::joinPaths($tmpFolder, $this->crateName);
-        if (file_exists($packagePath.'.zip')) {
-            unlink($packagePath.'.zip');
+        if (file_exists($packagePath . '.zip')) {
+            unlink($packagePath .  '.zip');
         }
         $clone->package($packagePath, 'zip');
-        return $packagePath.'.zip';
+        return $packagePath . '.zip';
     }
 
     private function createTempClone()

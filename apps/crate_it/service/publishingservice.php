@@ -33,8 +33,13 @@ class publishingservice
         return $result;
     }
 
-    public function publishCrate($crate, $publisher, $collection)
+    public function getCratePath($crateName, $publisher, $collection, $timestamp)
     {
-        return $this->publishers[$publisher]->publishCrate($crate, $collection);
+        return $this->publishers[$publisher]->getCratePath($crateName, $collection, $timestamp);
+    }
+
+    public function publishCrate($crate, $publisher, $collection, $timestamp)
+    {
+        return $this->publishers[$publisher]->publishCrate($crate, $collection, $timestamp);
     }
 }

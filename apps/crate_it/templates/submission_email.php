@@ -29,7 +29,7 @@
               property="http://schema.org/dateCreated"><?php p($_['created_date_formatted']) ?></span>
 
             <h4>Package File Name</h4>
-            <span property="http://schema.org/name"><?php p($_['crate_name'] . '.zip') ?></span>
+            <span property="http://schema.org/name"><?php p($_['file_name']) ?></span>
 
             <h4>ID</h4>
             <span property="http://schema.org/id"><?php p($_['crate_name']) ?></span>
