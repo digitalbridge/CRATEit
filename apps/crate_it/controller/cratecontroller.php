@@ -269,7 +269,7 @@ class cratecontroller extends Controller
             $otherCrateDetails = [];
             $users = $this->userManager->search('');
             foreach ($users as $user) {
-                if ($user->getDisplayName() != $userObject->getDisplayName()) {
+                if ($user->getDisplayName() !== $userObject->getDisplayName()) {
                     $otherCrateDetails[$user->getDisplayName()] = $this->crateManager->getOtherCrateDetailsList($user);
                 }
             }
