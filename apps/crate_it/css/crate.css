@@ -125,6 +125,14 @@ a.account {
     box-sizing: border-box;
 }
 
+.crateit button.primary-contact.selected {
+    color: #b8860b;
+}
+
+#search_people_results button.primary-contact {
+    display: none;
+}
+
 .bar-actions {
     position: fixed;
     top: 45px; right: 0; left: 0;

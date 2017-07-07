@@ -781,7 +781,8 @@ function initSearchHandlers() {
             'id': 'id',
             'identifier': 'dc_identifier',
             'name': ['Honorific', 'Given_Name', 'Family_Name'],
-            'email': 'Email'
+            'email': 'Email',
+            'primary': false
         },
         displayFields: ['name', 'email'],
         editFields: ['name', 'email', 'identifier'],
@@ -789,7 +790,6 @@ function initSearchHandlers() {
     };
 
     // TODO: a lot of these elements could be pushed into the SearchManager constructor so it creates the widget
-    console.log('manifest.creators', manifest.creators);
     var creatorSelectedList = manifest.creators;
     var creator$resultsUl = $('#search_people_results');
     var creator$selectedUl = $('#selected_creators');
@@ -865,20 +865,6 @@ function initSearchHandlers() {
     $('#add-creator').click(function() {
         attachModalHandlers($addCreatorModal, addCreator);
     });
-
-    // PrimaryContact
-    var primarycontactDefinition = {
-        manifestField: 'primarycontact',
-        mapping: {
-            'id': 'id',
-            'identifier': 'dc_identifier',
-            'name': ['Honorific', 'Given_Name', 'Family_Name'],
-            'email': 'Email'
-        },
-        displayFields: ['name', 'email'],
-        editFields: ['name', 'email', 'identifier'],
-        editableRecords: ['manual', 'mint']
-    };
 
     var activityDefinition = {
         manifestField: 'activities',
