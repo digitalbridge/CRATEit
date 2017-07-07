@@ -407,7 +407,7 @@ class cratecontroller extends Controller
                 return new JSONResponse(array('msg' => 'reindexing files failed'), Http::STATUS_INTERNAL_SERVER_ERROR);
             }
 
-            return new JSONResponse(array('msg' => 'files successfully synced', 'result' => $result));
+            return new JSONResponse(array('msg' => 'files successfully synced'), Http::STATUS_OK);
         } catch (\Exception $e) {
             return new JSONResponse(array($e->getMessage(), 'error' => $e), Http::STATUS_INTERNAL_SERVER_ERROR);
         }
