@@ -331,6 +331,11 @@ function initCrateActions() {
                 }
             });
         });
+
+        $('#publishConfirmModal').on('hide.bs.modal', function(e) {
+            e.preventDefault();
+            window.location.reload();
+        });
     };
 
     var $publishConfirmModal = $('#publishConfirmModal');
