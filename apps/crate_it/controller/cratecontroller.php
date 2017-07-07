@@ -8,6 +8,7 @@ use \OCP\AppFramework\Http;
 use OCA\crate_it\lib\ErrorResponse;
 use OCA\crate_it\lib\ZipDownloadResponse;
 use OCA\crate_it\lib\XSendFileDownloadResponse;
+use OCA\crate_it\lib\Util;
 
 class cratecontroller extends Controller
 {
@@ -362,6 +363,51 @@ class cratecontroller extends Controller
                 array('msg' => $msg,
                       'result' => $result)
             );
+        } catch (\Exception $e) {
+            return new JSONResponse(array($e->getMessage(), 'error' => $e), Http::STATUS_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Sync crate files back to owncloud
+     *
+     * @NoCSRFRequired
+     * @Ajax
+     * @NoAdminRequired
+     */
+    public function syncCrateFiles()
+    {
+        \OCP\Util::writeLog('crate_it', "CrateController::syncCrateFiles()", \OCP\Util::DEBUG);
+        try {
+            $filename = $this->params('file_name');
+            $file = Util::getpublishPath() . '/' . $filename;
+            $path = Util::getpublishPath() . '/' . basename($filename, '.zip');
+
+            if (! file_exists($file)) {
+                return new JSONResponse(array('msg' => 'published files not found'), Http::STATUS_NOT_FOUND);
+            }
+
+            if (! file_exists($path)) {
+                mkdir($path, 0755, true);
+                exec('unzip ' . $file . ' -d ' . $path, $zipOutput, $zipReturn);
+                if ($zipReturn) {
+                    return new JSONResponse(array('msg' => 'canot unzip the file'), Http::STATUS_INTERNAL_SERVER_ERROR);
+                }
+            }
+
+            exec('cp -r ' . $path . ' ' . Util::getUserPath() . '/files/', $cpOutput, $cpReturn);
+            if ($cpReturn) {
+                return new JSONResponse(array('msg' => 'cannot copy the files'), Http::STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            exec('rm -rf ' . $path, $rmOutput, $rmReturn);
+
+            exec('php /vagrant/owncloud/occ files:scan ' . \OC::$server->getUserSession()->getUser()->getDisplayName(), $indexOutput, $indexReturn);
+            if ($indexReturn) {
+                return new JSONResponse(array('msg' => 'reindexing files failed'), Http::STATUS_INTERNAL_SERVER_ERROR);
+            }
+
+            return new JSONResponse(array('msg' => 'files successfully synced', 'result' => $result));
         } catch (\Exception $e) {
             return new JSONResponse(array($e->getMessage(), 'error' => $e), Http::STATUS_INTERNAL_SERVER_ERROR);
         }

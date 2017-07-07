@@ -58,7 +58,7 @@ class util
 
     public static function getpublishPath()
     {
-       return $this->getConfig()['crate_path'];
+       return Util::getConfig()['crate_path'] . '/publish';
     }
 
     public static function joinPaths()

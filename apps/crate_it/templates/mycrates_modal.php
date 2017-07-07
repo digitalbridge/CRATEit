@@ -26,7 +26,7 @@
                 <?php
                     foreach ($_['crateDetails'] as $crateDetail) {
                 ?>
-                        <tr>
+                        <tr data-file="<?=basename($crateDetail['manifest']['publish_details']['location']); ?>">
                             <td><?=$crateDetail['name']; ?></td>
                             <td><?=$crateDetail['size']['human']; ?></td>
                             <!-- <td><?=$crateDetail['contents']['0']; ?></td> -->
@@ -64,7 +64,7 @@
                 <?php
                     foreach ($otherCrateDetail as $crateDetail) {
                 ?>
-                        <tr>
+                        <tr data-file="<?=basename($crateDetail['manifest']['publish_details']['location']); ?>">
                             <td><?=$crateDetail['name']; ?></td>
                             <td><?=$crateDetail['size']['human']; ?></td>
                             <!-- <td><?=$crateDetail['contents']['0']; ?></td> -->
