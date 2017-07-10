@@ -47,6 +47,29 @@ function initCrateActions() {
         return isEmpty;
     };
 
+    var syncCrate = function() {
+        console.log('clicked');
+        var c_url = OC.generateUrl('apps/crate_it/crate/sync');
+        var crate_filename = $(this).data('filename');
+
+        $.ajax({
+            url: c_url,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'file_name': crate_filename
+            },
+            success: function(jqXHR) {
+                displayNotification(jqXHR.msg);
+            },
+            error: function(jqXHR) {
+                displayError(jqXHR.responseJSON.msg);
+            }
+        });
+    };
+
+    $('#mycratesModal .sync-crate').click(syncCrate);
+
     var checkCrate = function() {
         $('div#checkingCrateModal').modal();
         $('#result-message').text('');

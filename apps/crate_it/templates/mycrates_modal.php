@@ -20,6 +20,7 @@
                             <th>Publisher</th>
                             <th>Retention Period</th>
                             <th>Submission Date</th>
+                            <th width="100">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,11 +32,10 @@
                             <td><?=$crateDetail['size']['human']; ?></td>
                             <!-- <td><?=$crateDetail['contents']['0']; ?></td> -->
                             <td><?=$crateDetail['manifest']['description']; ?></td>
-                            <td>
-                                <?=$crateDetail['manifest']['submitter']['displayname']; ?> (<?=$crateDetail['manifest']['submitter']['email']; ?>)
-                            </td>
+                            <td><?=$crateDetail['manifest']['submitter']['displayname']; ?> (<?=$crateDetail['manifest']['submitter']['email']; ?>)</td>
                             <td><?=$crateDetail['manifest']['data_retention_period']; ?></td>
                             <td><?=$crateDetail['manifest']['publish_details']['submitted_date']; ?></td>
+                            <td><a class="button sync-crate" data-filename="<?=basename($crateDetail['manifest']['publish_details']['location']); ?>">Sync Crate</a></td>
                         </tr>
                 <?php
                     }
