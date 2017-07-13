@@ -39,7 +39,7 @@ class setupservice
         $this->loadConfigParams();
         $selectedCrate = $this->getSelectedCrate();
         self::$params['selected_crate'] = $selectedCrate;
-        $this->publisher->registerPublishers(self::$params['publish_endpoints']);
+        $this->publisher->registerPublishers(self::$params['publish endpoints']);
         self::$params['collections'] = $this->publisher->getCollections();
         self::$params['crates'] = $this->crateManager->getCrateList(false);
 
