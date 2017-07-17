@@ -45,7 +45,7 @@ $application->registerRoutes($this, array('routes' => array(
     array('name' => 'crate#export_crate', 'url' => '/crate/downloadcsv', 'verb' => 'GET'),
     array('name' => 'crate#readme_preview', 'url' => '/crate/preview', 'verb' => 'GET'),
     array('name' => 'crate#generate_ePUB', 'url' => '/crate/epub', 'verb' => 'GET'),
-    array('name' => 'crate_check#check_crate', 'url' => '/crate/check', 'verb' => 'GET'),
+    array('name' => 'crate#check_crate', 'url' => '/crate/check', 'verb' => 'GET'),
     array('name' => 'crate#sync_crate_files', 'url' => '/crate/sync', 'verb' => 'POST'),
     array('name' => 'search#search', 'url' => '/crate/search', 'verb' => 'POST'),
     array('name' => 'publish#publish_crate', 'url' => '/crate/publish', 'verb' => 'POST'),
