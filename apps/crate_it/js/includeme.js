@@ -242,8 +242,6 @@ function buildFileTree(data) {
             if (type == 'rootfolder') {
                 $div.addClass('rootfolder');
                 $ul.append('<li><a><i class="fa fa-pencil"></i>Rename Crate</a></li>');
-            } else {
-                $ul.append('<li><a><i class="fa fa-pencil"></i>Rename Item</a></li>');
             }
             $ul.find('.fa-pencil').parent().click(function () {
                 if (type == 'rootfolder') {
