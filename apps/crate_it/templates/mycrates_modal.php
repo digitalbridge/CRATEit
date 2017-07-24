@@ -20,7 +20,7 @@
                             <th>Publisher</th>
                             <th>Retention Period</th>
                             <th>Submission Date</th>
-                            <th width="100">&nbsp;</th>
+                            <!-- <th width="100">&nbsp;</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +35,7 @@
                             <td><?=$crateDetail['manifest']['submitter']['displayname']; ?> (<?=$crateDetail['manifest']['submitter']['email']; ?>)</td>
                             <td><?=$crateDetail['manifest']['data_retention_period']; ?></td>
                             <td><?=$crateDetail['manifest']['publish_details']['submitted_date']; ?></td>
-                            <td><a class="button sync-crate" data-filename="<?=basename($crateDetail['manifest']['publish_details']['location']); ?>">Sync Crate</a></td>
+                            <!-- <td><a class="button sync-crate" data-filename="<?=basename($crateDetail['manifest']['publish_details']['location']); ?>">Sync Crate</a></td> -->
                         </tr>
                 <?php
                     }
@@ -58,7 +58,7 @@
                             <th>Publisher</th>
                             <th>Retention Period</th>
                             <th>Submission Date</th>
-                            <th width="100">&nbsp;</th>
+                            <!-- <th width="100">&nbsp;</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -75,7 +75,7 @@
                             </td>
                             <td><?=$crateDetail['manifest']['data_retention_period']; ?></td>
                             <td><?=$crateDetail['manifest']['publish_details']['submitted_date']; ?></td>
-                            <td><a class="button sync-crate" data-filename="<?=basename($crateDetail['manifest']['publish_details']['location']); ?>">Sync Crate</a></td>
+                            <!-- <td><a class="button sync-crate" data-filename="<?=basename($crateDetail['manifest']['publish_details']['location']); ?>">Sync Crate</a></td> -->
                         </tr>
                 <?php
                     }
