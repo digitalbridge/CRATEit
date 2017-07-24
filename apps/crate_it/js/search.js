@@ -134,7 +134,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
             selectedList.push(record);
         }
 
-        record['primary'] = "false";
+        //record['primary'] = "false";
 
         var html = renderRecord(record, faIcon);
         update(record, html, $sourceLi, $destLi);
@@ -200,7 +200,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
         var record = createEmptyRecord();
         addOverrides(record, overrides);
         record['id'] = hashCode(record);
-        record['primary'] = false;
+        //record['primary'] = false;
         selectedList.push(record);
         var html = renderRecord(record, 'fa-minus');
         update(record, html, null, $selectedUl);
@@ -447,14 +447,14 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
             html += '<i class="fa fa-edit"></i></button>';
         }
 
-        if (definition.manifestField == 'creators') {
-            if (record['primary'] == "true") {
-                selected = ' selected';
-            }
+        // if (definition.manifestField == 'creators') {
+        //     if (record['primary'] == "true") {
+        //         selected = ' selected';
+        //     }
 
-            html += '<button class="pull-right primary-contact' + selected + '" data-id="' + record.id + '">';
-            html += '<i class="fa fa-star"></i></button>';
-        }
+        //     html += '<button class="pull-right primary-contact' + selected + '" data-id="' + record.id + '">';
+        //     html += '<i class="fa fa-star"></i></button>';
+        // }
 
         html += '<p class="metadata_heading">' + record[definition.displayFields[0]] + '</p>';
         for (var i = 1; i < definition.displayFields.length; i++) {
@@ -478,9 +478,9 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     }
 
     // var $togglePrimary = $li.find('[data-id="' + record.id + '"]');
-    $(document).on('click', '.primary-contact[data-id]', function() {
-        togglePrimary($(this).data('id'));
-    });
+    // $(document).on('click', '.primary-contact[data-id]', function() {
+    //     togglePrimary($(this).data('id'));
+    // });
 
     drawList($selectedUl, selectedList, 'fa-minus');
 }

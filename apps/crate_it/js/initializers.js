@@ -809,8 +809,8 @@ function initSearchHandlers() {
             'id': 'id',
             'identifier': 'dc_identifier',
             'name': ['Honorific', 'Given_Name', 'Family_Name'],
-            'email': 'Email',
-            'primary': false
+            'email': 'Email'
+            // 'primary': false
         },
         displayFields: ['name', 'email'],
         editFields: ['name', 'email', 'identifier'],
