@@ -7,7 +7,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#crate-information" id="crate-information-head">
                         Crate Information
-                        <i class="pull-right fa fa-caret-down"></i>
+                        <i class="pull-right fa fa-caret-up"></i>
                     </a>
                 </h4>
             </div>
@@ -37,7 +37,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#data-creators" id="data-creators-head">
                         Data Creators
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -51,10 +51,11 @@
                             </button>
                         </h6>
                         <ul id="selected_creators" class="metadata"></ul>
+
                         <h6>Add New Data Creators
                             <button id="add-creator" class="pull-right trans-button" type="button"
                                     data-toggle="modal" data-target="#addCreatorModal">
-                                <i class="fa fa-plus muted"></i>
+                                <i class="fa fa-plus muted"></i
                             </button>
                         </h6>
                         <div id="search_people_box" class="input-group">
@@ -72,6 +73,7 @@
                             <ul id="search_people_results"></ul>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -79,9 +81,57 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#meta-data" href="#data-fors" id="data-fors-head">
+                        Fields of Research
+                        <i class="pull-right fa fa-caret-down"></i>
+                    </a>
+                </h4>
+            </div>
+
+            <div id="data-fors" class="panel-collapse collapse standard">
+                <div class="panel-body">
+                    <div id="for_box" class="data-fors">
+                        <h6>Selected FORs (<span id="fors_count"></span>)
+                            <button id="clear_fors" class="pull-right trans-button" type="button">
+                                <i class="fa fa-times muted"></i>
+                            </button>
+                        </h6>
+                        <ul id="selected_fors" class="metadata">
+                        </ul>
+                        <h6>Add New FORs
+                            <button id="add-for" class="pull-right trans-button" type="button"
+                                    data-toggle="modal" data-target="#addForModal">
+                                <i class="fa fa-plus muted"></i>
+                            </button>
+                        </h6>
+                        <div id="search_for_box" class="input-group">
+                            <label for="keyword_for" class="element-invisible">Search FORs</label>
+                            <input id="keyword_for" class="form-control" type="text" name="keyword_for"
+                                   placeholder="Search FORs..."/>
+                            <span class="input-group-btn">
+                                <button id="search_for" class="btn btn-default" type="button"
+                                        value="Search FOR">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <span id="for_search_notification"></span>
+
+                        <div id="search_for_result_box">
+                            <ul id="search_for_results"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#grant-numbers" id="grant-numbers-head">
                         Grants
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -129,7 +179,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#data-retention-period" id="data-retention-period-head">
                         Data Retention Period
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -160,7 +210,7 @@
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#meta-data" href="#embargo-details" id="embargo-details-head">
                         Embargo Details
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
@@ -176,9 +226,9 @@
                         <div>
                             Embargo Enabled
                             <div>
-                                <input id="embargo_enabled_yes" type="radio" name="embargo_enabled" <?php p($_['embargo_enabled'] === 'true' ? 'checked' : '') ?>>
+                                <input id="embargo_enabled_yes" type="radio" name="embargo_enabled" value="yes" <?php p($_['embargo_enabled'] === 'true' ? 'checked' : '') ?>>
                                 <label for="embargo_enabled_yes">Yes</label>
-                                <input id="embargo_enabled_no"  type="radio" name="embargo_enabled" <?php p($_['embargo_enabled'] === 'false' ? 'checked' : '') ?>>
+                                <input id="embargo_enabled_no"  type="radio" name="embargo_enabled" value="no" <?php p($_['embargo_enabled'] === 'false' ? 'checked' : '') ?>>
                                 <label for="embargo_enabled_no">No</label>
                             </div>
                         </div>
@@ -201,6 +251,18 @@
                             Embargo Details
                             <div>
                                 <textarea id="embargo_details" name="embargo_details" placeholder="Enter a details of what the embargo restrictions are"><?php p($_['embargo_details']) ?></textarea>
+                            </div>
+                        </div>
+
+                        <div>
+                            Embargo Access Conditions
+                            <div>
+                                <input id="embargo_closed" type="radio" name="embargo_access_conditions" value="closed" <?php p($_['embargo_access_conditions'] === 'closed' ? 'checked' : '') ?>>
+                                <label for="embargo_closed">Closed (No Public Access)</label>
+                                <input id="embargo_open"  type="radio" name="embargo_access_conditions" value="open" <?php p($_['embargo_access_conditions'] === 'open' ? 'checked' : '') ?>>
+                                <label for="embargo_open">Open (Public Access)</label>
+                                <input id="embargo_shared"  type="radio" name="embargo_access_conditions" value="shared" <?php p($_['embargo_access_conditions'] === 'shared' ? 'checked' : '') ?>>
+                                <label for="embargo_shared">Shared</label>
                             </div>
                         </div>
                         <br/>
@@ -230,6 +292,13 @@
                                 Embargo Note
                             </h6>
                             <span id="embargo_note" class="standard"><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
+                        </div>
+
+                        <div class='embargo-access-conditions'>
+                            <h6 class="info">
+                                Embargo Access Conditions
+                            </h6>
+                            <span id="embargo_access_conditions" class="standard"><?php p($_['embargo_access_conditions']) ?></span>
                         </div>
                     </div>
                 </div>

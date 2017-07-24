@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Cr8it App
+ * ownCloud - CRATEit App
  *
  * @author Lloyd Harischandra
  * @copyright 2014 University of Western Sydney www.uws.edu.au
@@ -29,40 +29,40 @@ namespace OCA\CRATEit;
     // $api = new \OC\AppFramework\Core\API('crate_it');
 
     \OC::$server->getNavigationManager()->add(function () {
-    	$urlGenerator = \OC::$server->getURLGenerator();
-    	return [
-    		// the string under which your app will be referenced in owncloud
-    		'id' => 'crate_it',
-    		
-    		// sorting weight for the navigation. The higher the number, the higher
-    		// will it be listed in the navigation
-    		'order' => 250,
-    		
-    		// the route that will be shown on startup
-    		'href' => $urlGenerator->linkToRoute('crate_it.page.index'),
-    		
-    		// the icon that will be shown in the navigation
-    		// this file needs to exist in img/
-    		'icon' => $urlGenerator->imagePath('crate_it', 'milk-crate-grey.png'),
-    		
-    		// the title of your application. This will be used in the
-    		// navigation or on the settings page of your app
-    		'name' => \OC::$server->getL10N('crate_it')->t('CRATEit'),
-    	];
+        $urlGenerator = \OC::$server->getURLGenerator();
+        return [
+            // the string under which your app will be referenced in owncloud
+            'id' => 'crate_it',
+
+            // sorting weight for the navigation. The higher the number, the higher
+            // will it be listed in the navigation
+            'order' => 250,
+
+            // the route that will be shown on startup
+            'href' => $urlGenerator->linkToRoute('crate_it.page.index'),
+
+            // the icon that will be shown in the navigation
+            // this file needs to exist in img/
+            'icon' => $urlGenerator->imagePath('crate_it', 'milk-crate-grey.png'),
+
+            // the title of your application. This will be used in the
+            // navigation or on the settings page of your app
+            'name' => \OC::$server->getL10N('crate_it')->t('CRATEit'),
+        ];
     });
-	
-    //add project root folder to include path   
+
+    //add project root folder to include path
     $dir = dirname(dirname(__FILE__)) . '/';
     set_include_path(get_include_path() . PATH_SEPARATOR . $dir);
- 
-    //add 3rdparty folder to include path   
+
+    //add 3rdparty folder to include path
     $dir = dirname(dirname(__FILE__)) . '/3rdparty';
     set_include_path(get_include_path() . PATH_SEPARATOR . $dir);
 
     //load the required files
     \OCP\Util::addScript('crate_it', 'jquery.jeditable');
     \OCP\Util::addScript('crate_it', 'tree.jquery');
-    
+
     \OCP\Util::addScript('crate_it', 'loader');
     \OCP\Util::addScript('crate_it', 'validation');
     \OCP\Util::addScript('crate_it', 'search');

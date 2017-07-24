@@ -6,8 +6,20 @@ function recalculateFileTreePosition() {
 
 $(window).resize(recalculateFileTreePosition);
 
+function setupEditNameOp() {
+    $('#crate_name').keyup(function () {
+        var name_length = templateVars['name_length'];
+        if ($(this).val().length > description_length) {
+            $("#edit_name_validation_error").text('Crate Name has reached the limit of ' + name_length + ' characters');
+            $("#edit_name_validation_error").show();
+            $(this).val($(this).val().substr(0, name_length));
+        } else {
+            $("#edit_name_validation_error").text('');
+        }
+    });
+}
 
-function setupEditDesriptionOp() {
+function setupEditDescriptionOp() {
     $('#crate_description').keyup(function () {
         var description_length = templateVars['description_length'];
         if ($(this).val().length > description_length) {
@@ -130,25 +142,34 @@ function buildFileTree(data) {
         $('#rename-crate').keyup(function () {
             var $input = $('#rename-crate');
             var $error = $('#rename_crate_error');
-            var $confirm = $modal.find('.btn-primary');
-            validateCrateName($input, $error, $confirm);
+            var $confirm = $('#rename_crate_submit');
+            var $nameError = validateCrateName($input, oldName);
+            if ($nameError != '') {
+                $error.text($nameError);
+                $error.show();
+                $confirm.prop('disabled', true);
+            } else {
+                $error.text('');
+                $error.hide();
+                $confirm.prop('disabled', false);
+            }
         });
 
         var confirmCallback = function () {
             var newCrateName = $('#rename-crate').val();
-            $tree.tree('updateNode', node, newCrateName); // TODO: shouldn't this be in success?
+            $tree.tree('updateNode', node, newCrateName);
             var c_url = OC.generateUrl('apps/crate_it/crate/rename');
             $.ajax({
                 url: c_url,
                 type: 'post',
                 dataType: 'json',
+                async: false,
                 data: {
-                    'newCrateName': newCrateName,
+                    'newCrateName': newCrateName
                 },
                 success: function (data) {
                     $('#crates option:selected').val(newCrateName).attr('id', newCrateName).text(newCrateName);
                     var errorMessage = oldName + ' not renamed';
-                    // TODO: try to do this withou a page reload
                     saveTree(data.msg, errorMessage, true);
                 },
                 error: function (jqXHR) {
@@ -497,8 +518,10 @@ function validateTextLength($input, $error, $confirm, maxLength) {
 }
 
 // TODO: See if some of this can make use of the validation framework
-function validateCrateName($input, $error, $confirm) {
-    var inputName = $input.val();
+function validateCrateName($name, $oldName) {
+    var inputName = $name.val();
+    var name_length = templateVars['name_length'];
+
     var crates = $.map($('#crates > option'), function (el, i) {
         return $(el).attr('id');
     });
@@ -506,34 +529,52 @@ function validateCrateName($input, $error, $confirm) {
         return (!inputName || /^\s*$/.test(inputName));
     };
     var existingName = function () {
-        return crates.indexOf(inputName) > -1;
+        if (typeof($oldName) === 'undefined') {
+            return crates.indexOf(inputName) > -1;
+        } else {
+            return crates.indexOf(inputName) > -1 && inputName != $oldName;
+        }
     };
-
     var regex = /[\/\\\<\>:\"\|?\*]/;
 
     if (existingName() || emptyName()) {
-        $confirm.prop('disabled', true);
         if (emptyName()) {
-            $error.text('Crate name cannot be blank');
+            $error = 'Crate name cannot be blank';
         } else {
-            $error.text('Crate with name "' + inputName + '" already exists');
+            $error = 'Crate with name "' + inputName + '" already exists';
         }
-        $error.show();
-    } else if (inputName.length > 128) {
-        $error.text('Crate name has reached the limit of 128 characters');
-        $input.val(inputName.substr(0, 128));
-        $error.show();
-        $confirm.prop('disabled', false);
+    } else if (inputName.length > name_length) {
+        $name.val(inputName.substr(0, name_length));
+        $error = 'Crate name has reached the limit of ' + name_length + ' characters';
     } else if (regex.test(inputName)) {
-        $confirm.prop('disabled', true);
-        $error.text("Invalid name. Illegal characters '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed");
-        $error.show();
+        $error = "Invalid name. Illegal characters '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed";
     } else {
-        $confirm.prop('disabled', false);
-        $error.hide();
+        $error = '';
     }
+
+    return $error;
 }
 
+function validateCrateDescription($description) {
+    var inputDescription = $description.val();
+    var description_length = templateVars['description_length'];
+
+    var emptyDescription = function () {
+        return (!inputDescription || /^\s*$/.test(inputDescription));
+    };
+
+    if (emptyDescription()) {
+        $error = 'Crate description cannot be blank';
+    }
+    else if (inputDescription.length > description_length) {
+        $description.val(inputDescription.substr(0, description_length));
+        $error = 'Crate description has reached the limit of ' + description_length + ' characters';
+    } else {
+        $error = '';
+    }
+
+    return $error;
+}
 
 //TODO use something like this when the pages loads
 function reloadCrateData(manifest) {
@@ -572,17 +613,28 @@ function reloadCrateData(manifest) {
         $('textarea#embargo_details').val('');
     }
 
+    if (manifest['embargo_access_conditions']) {
+        $('span#embargo_access_conditions').html(manifest['embargo_access_conditions']);
+        $('#embargo_closed').prop("checked", manifest['embargo_access_conditions'] === 'closed');
+        $('#embargo_open').prop("checked", manifest['embargo_access_conditions'] === 'open');
+        $('#embargo_shared').prop("checked", manifest['embargo_access_conditions'] === 'shared');
+    } else {
+        $('span#embargo_access_conditions').html('');
+        $('input[name=embargo_access_conditions]').attr('checked', false);
+    }
+
     buildFileTree(manifest);
     indentTree();
     // TODO Have a registry of search managers and loop over them
     CreatorSearchManager.loadManifestData(manifest);
     ActivitySearchManager.loadManifestData(manifest);
+    ForSearchManager.loadManifestData(manifest);
 }
 
 
 // TODO: Super hacky blocking synchronous call
 // There are many of async calls on page load that could probably all be reduced to this one
-function getMaifest() {
+function getManifest() {
     var result = [];
     var c_url = OC.generateUrl('apps/crate_it/crate/get_manifest?crate_id={crateName}', {
         crateName: encodeURIComponent($('#crates').val())

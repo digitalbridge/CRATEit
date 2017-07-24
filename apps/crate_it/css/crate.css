@@ -117,12 +117,20 @@ a.account {
     border-radius: 3px;
     border: 1px solid #ddd;
     font-weight: normal;
-    font-size: 1em;
+    /* font-size: 1em; */
     outline: none;
     /* color: #333; */
 
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.crateit button.primary-contact.selected {
+    color: #b8860b;
+}
+
+#search_people_results button.primary-contact {
+    display: none;
 }
 
 .bar-actions {

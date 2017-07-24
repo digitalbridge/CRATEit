@@ -584,7 +584,23 @@ class FeatureContext extends MinkContext
 		}
     }
 	
-	/**
+    /**
+     * @Given /^I should see the crate description "([^"]*)"$/
+     */
+    public function iShouldSeeTheCrateName($arg1)
+    {
+    	$this->waitForPageToLoad();
+    	$page = $this->getSession()->getPage();
+    	$xpath = '//div[@id="name_box"]/div[@id="name"]';
+    	$desc = $page->find('xpath', $xpath);
+    	$str_desc = (string)$desc->getText() ;
+    	if ($str_desc !== $arg1)
+    	{
+    		throw new Exception("The crate should have name '$arg1', but it's '$str_desc'");
+    	}
+    }
+    
+    /**
      * @Given /^I should see the crate description "([^"]*)"$/
      */
     public function iShouldSeeTheCrateDescription($arg1)
@@ -662,12 +678,12 @@ class FeatureContext extends MinkContext
         $page = $this->getSession()->getPage();
 		$el = $page->find('css', '.modal.in');
 		$name = $el->find('xpath', '//*[@id="crate_input_name"]');
-		$desc = $el->find('xpath', '//*[@id="crate_input_description"]');
+		$description = $el->find('xpath', '//*[@id="crate_input_description"]');
 		if (strlen($name->getText()) > 0)
 		{
 			throw new Exception('Crate name is not empty');
 		}
-		if (strlen($desc->getText()) > 0)
+		if (strlen($description->getText()) > 0)
 		{
 			throw new Exception('Crate description is not empty');
 		}
@@ -676,8 +692,8 @@ class FeatureContext extends MinkContext
 		{
 			throw new Exception('Name validation error message is not empty');
 		}
-		$desc_validation = $el->find('xpath', '//*[@id="crate_description_validation_error"]');
-		if (strlen($desc_validation->getText()) > 0)
+		$description_validation = $el->find('xpath', '//*[@id="crate_description_validation_error"]');
+		if (strlen($description_validation->getText()) > 0)
 		{
 			throw new Exception('Description validation error message is not empty');
 		}
@@ -751,7 +767,35 @@ JS;
 	   		
 	}
 	
-
+	private function mockFORLookup()
+	{
+		// TODO: Look at way to load mockjax dynamically so that is isn't loaded in production
+		// NOTE: DO NOT INDENT THE FOLLOWING BLOCK - leave it how it is!
+		$js = <<<JS
+var result = '[' +
+                  '{\"result-metadata\":{\"all\": {\"id\": [\"111123\"], \"dc_title\": [\"Title A\"]}}}'
+                   + ',' +
+                  '{\"result-metadata\":{\"all\": {\"id\": [\"123123\"], \"dc_title\": [\"Title B\"]}}}'
+                   + ',' +
+                  '{\"result-metadata\":{\"all\": {\"id\": [\"123456\"], \"dc_title\": [\"Title C\"]]}}}'
+                +']';
+var c_url = OC.generateUrl('apps/crate_it/crate/search');
+$.mockjax({
+    url: c_url,
+    type: 'post',
+    dataType: 'json',
+    data: {
+        'type': 'FOR',
+        'keywords': '123'
+      },
+    responseText : result
+  });
+JS;
+		$this->getSession()->executeScript($js);
+	
+	}
+	
+	
     private function resultlessMockActivityLookup() {
         $js = <<<JS
 var c_url = OC.generateUrl('apps/crate_it/crate/search');                   
@@ -786,6 +830,23 @@ JS;
         $this->getSession()->executeScript($js);
     }
 
+    private function resultlessMockFORLookup() {
+    	$js = <<<JS
+var c_url = OC.generateUrl('apps/crate_it/crate/search');
+$.mockjax({
+    url: c_url,
+    type: 'post',
+    dataType: 'json',
+    data: {
+        'type': 'FOR',
+        'keywords': 'Aboriginal'
+      },
+    responseText : '[]'
+  });
+JS;
+    	$this->getSession()->executeScript($js);
+    }
+    
     /**
      * @Given /^I expand the grant number metadata section$/
      */
@@ -941,6 +1002,22 @@ JS;
             return true;
         });
     }
+    
+    /**
+     * @When /^I clear all FORs$/
+     */
+    public function iClearAllFORs()
+    {
+    	// TODO: A lot of these methods just search by xpath and click and element,
+    	// The can probably be refactored and remove to be a lot DRYer
+    	$this->spin(function($context) {
+    		$page = $context->getSession()->getPage();
+    		$button = $page->find('css', '#clear_fors');
+    		$button->click();
+    		return true;
+    	});
+    }
+    
 
     /**
      * @Then /^I should see these entries in the result list$/
@@ -987,6 +1064,22 @@ JS;
     }
 
     /**
+     * @Then /^I should see these entries in the creator result list$/
+     */
+    public function iShouldSeeTheseEntriesInTheFORResultList(TableNode $table)
+    {
+    
+    	$page = $this->getSession()->getPage();
+    	$xpath = '//ul[@id="search_for_results"]//p[@class="metadata_heading"]';
+    	$title = $this->checkSearchResult($xpath, $page);
+    	
+    	$hash = $table->getHash();
+    	for ($count = 0; $count < count($hash); $count++ ){
+    		$this->matchTableValue($hash[$count]['title'], $title[$count], $count);
+    	}
+    }
+    
+    /**
      * @Given /^I add creator "([^"]*)" to the list$/
      */
     public function iAddCreatorToTheList($arg1)
@@ -1000,7 +1093,22 @@ JS;
         });
         $this->waitForPageToLoad();
     }
-
+    
+    /**
+     * @Given /^I add FOR "([^"]*)" to the list$/
+     */
+    public function iAddFORToTheList($arg1)
+    {
+    	$this->spin(function($context) use ($arg1) {
+    		$page = $context->getSession()->getPage();
+    		$xpath = '//ul[@id="search_for_results"]//button[@id="'.$arg1.'"]';
+    		$button = $page->find('xpath', $xpath);
+    		$button->click();
+    		return true;
+    	});
+    		$this->waitForPageToLoad();
+    }
+    
     /**
      * @Then /^I should see these entries in the selected creators list$/
      */
@@ -1021,6 +1129,22 @@ JS;
         }
     }
 
+    /**
+     * @Then /^I should see these entries in the selected for list$/
+     */
+    public function iShouldSeeTheseEntriesInTheSelectedforsList(TableNode $table)
+    {
+    	sleep(1);
+    	$page = $this->getSession()->getPage();
+    	$xpath = '//ul[@id="selected_fors"]//p[@class="metadata_heading"]';
+    	$title = $this->checkSearchResult($xpath, $page);
+    
+    	$hash = $table->getHash();
+    	for ($count = 0; $count < count($hash); $count++ ){
+    		$this->matchTableValue($hash[$count]['title'], $title[$count], $count);
+    	}
+    }
+    
 	private function checkSearchResult($xpath, $page)
 	{
 		$el_array = $page->findAll('xpath', $xpath);
@@ -1108,6 +1232,20 @@ JS;
             return true;
         });
     }
+    
+    /**
+     * @Then /^I should have no selected creators$/
+     */
+    public function iShouldNoSelectedFors()
+    {
+    	$this->spin(function($context) {
+    		$page = $context->getSession()->getPage();
+    		$fors = $page->findAll('css', '#selected_fors > li');
+    		assertEquals(0, count($fors));
+    		return true;
+    	});
+    }
+    
 
     /**
      * @Then /^I should see these entries in the selected grant number list$/
@@ -1133,6 +1271,16 @@ JS;
 		}
     }
     	
+    /**
+     * @When /^I click the edit description button$/
+     */
+    public function iClickTheEditNameButton()
+    {
+    	$page = $this->getSession()->getPage();
+    	$xpath = '//button[@id="edit_name"]';
+    	$page->find('xpath', $xpath)->click();
+    }
+    
     /**
      * @When /^I click the edit description button$/
      */
@@ -1277,6 +1425,23 @@ JS;
         $desc->setValue($string);
     }
 
+    /**
+     * @Then /^I should see the multiline crate description$/
+     */
+    public function iShouldSeeTheMultilineCrateName(PyStringNode $string)
+    {
+    	$this->waitForPageToLoad();
+    	$page = $this->getSession()->getPage();
+    	$xpath = '//div[@id="name_box"]/div[@id="name"]';
+    	$desc = $page->find('xpath', $xpath);
+    	$str_name = $name->getText();
+    	// NOTE: The code below won't work - getText() is not suppose to return newline chars!!
+    	//if ($str_desc!= $string->getRaw())
+    	//{
+    	//    throw new Exception("The crate should have description '$string', but it's '$str_desc'");
+    	//}
+    }
+    
     /**
      * @Then /^I should see the multiline crate description$/
      */

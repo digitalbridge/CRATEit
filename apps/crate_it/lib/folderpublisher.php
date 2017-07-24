@@ -8,29 +8,32 @@
 
 namespace OCA\crate_it\lib;
 
-
-class FolderPublisher implements Publisher {
-
+class folderpublisher implements Publisher
+{
     private $endpoint;
     private $collection;
 
-    function __construct($endpoint) {
+    public function __construct($endpoint)
+    {
         $this->endpoint = $endpoint;
         $this->collection = array($this->endpoint['name'] => $this->endpoint['path']);
     }
 
-    public function getCollection() {
+    public function getCollection()
+    {
         return $this->collection;
     }
 
-    public function publishCrate($package, $collection) {
-        \OCP\Util::writeLog('crate_it', "FolderPublisher::publishCrate()", \OCP\Util::DEBUG);
-        $basename = basename($package, '.zip');
-        $timestamp = Util::getTimestamp();
-        $destination = $collection.$basename."_$timestamp.zip";
-        \OCP\Util::writeLog('crate_it', "Publishing to $destination", \OCP\Util::DEBUG);
-        rename($package, $destination);
-        return $this->endpoint['url prefix'].$collection.rawurlencode($basename)."_$timestamp.zip";
+    public function getCratePath($crateName, $collection, $timestamp)
+    {
+        return $this->endpoint['url prefix'] . $collection . rawurlencode($crateName) . "_$timestamp.zip";
     }
 
+    public function publishCrate($package, $collection, $timestamp)
+    {
+        \OCP\Util::writeLog('crate_it', "FolderPublisher::publishCrate()", \OCP\Util::DEBUG);
+        $destination = $collection . basename($package, '.zip') . "_$timestamp.zip";
+        \OCP\Util::writeLog('crate_it', "Publishing to $destination", \OCP\Util::DEBUG);
+        rename($package, $destination);
+    }
 }

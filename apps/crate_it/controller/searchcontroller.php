@@ -4,7 +4,6 @@ namespace OCA\crate_it\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
-use \OCP\AppFramework\Http;
 
 require 'lib/mint_connector.php';
 use \OCA\crate_it\lib\MintConnector;
@@ -12,16 +11,16 @@ use \OCA\crate_it\lib\MintConnector;
 require 'lib/curl_request.php';
 use \OCA\crate_it\lib\CurlRequest;
 
-class SearchController extends Controller {
-
+class searchcontroller extends Controller
+{
     private $searchProvider;
 
-    public function __construct($appName, $request, $setupService) {
-      parent::__construct($appName, $request);
-      $config = $setupService->getParams();
-      $this->searchProvider = new MintConnector($config['mint']['url'], new CurlRequest());
+    public function __construct($appName, $request, $setupService)
+    {
+        parent::__construct($appName, $request);
+        $config = $setupService->getParams();
+        $this->searchProvider = new MintConnector($config['mint']['url'], new CurlRequest());
     }
-
 
     /**
      * Search
@@ -29,7 +28,8 @@ class SearchController extends Controller {
      * @Ajax
      * @NoAdminRequired
      */
-    public function search() {
+    public function search()
+    {
         \OCP\Util::writeLog('crate_it', "SearchController::search()", \OCP\Util::DEBUG);
         $type = $this->params('type');
         $keywords = $this->params('keywords');
@@ -41,6 +41,4 @@ class SearchController extends Controller {
         }
         return $response;
     }
-
-
 }

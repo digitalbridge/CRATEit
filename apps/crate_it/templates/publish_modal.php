@@ -61,9 +61,13 @@
               <h6>Embargo Note:</h6>
               <div id="publish-embargo-note"></div>
             </div>
+            <div>
+              <h6>Embargo Access Conditions:</h6>
+              <div id="publish-embargo-access-conditions"></div>
+            </div>
           </div>
         </div>
-          
+
         <div style="color:red; font-weight:bold;">
           <span id="publish-consistency"></span>
           <table id="publish-consistency-table" class="table table-striped"></table>

@@ -29,13 +29,20 @@
               property="http://schema.org/dateCreated"><?php p($_['created_date_formatted']) ?></span>
 
             <h4>Package File Name</h4>
-            <span property="http://schema.org/name"><?php p($_['crate_name'] . '.zip') ?></span>
+            <span property="http://schema.org/name"><?php p($_['file_name']) ?></span>
 
             <h4>ID</h4>
             <span property="http://schema.org/id"><?php p($_['crate_name']) ?></span>
 
             <h4>Description</h4>
             <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
+
+            <h4>URL</h4>
+            <span property="http://schema.org/description"><?php p(nl2br($_['url'])) ?></span>
+
+            <h4>Location</h4>
+            <span property="http://schema.org/description"><?php p(nl2br($_['location'])) ?></span>
+
 
             <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] !== "") { ?>
                 <h4>Data Retention Period</h4>
@@ -53,6 +60,9 @@
 
                     <h5>Embargo Note</h5>
                     <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
+
+                    <h5>Embargo Access Conditions</h5>
+                    <span><?php p($_['embargo_access_conditions']) ?></span>
                 <?php } ?>
             <?php } ?>
 
@@ -205,7 +215,7 @@
                     <tbody>
                     <tr>
                         <td>Generating Software Application</td>
-                        <td property="http://schema.org/name">CRATEit</td>
+                        <td property="http://schema.org/name">CRATEIt</td>
                     </tr>
                     <tr>
                         <td>Software Version</td>
@@ -213,16 +223,10 @@
                     </tr>
                     <tr>
                         <td>URLs</td>
-                        <td>
-                            <li><a href="https://github.com/IntersectAustralia/owncloud"
-                                   property="http://schema.org/url">
-                                    https://github.com/IntersectAustralia/owncloud</a></li>
-                            <li><a href="https://github.com/uws-eresearch/apps" property="http://schema.org/url">
-                                    https://github.com/uws-eresearch/apps</a></li>
-                            <li><a href="http://eresearch.uws.edu.au/blog/projects/projectsresearch-data-repository/"
-                                   property="http://schema.org/url">
-                                    http://eresearch.uws.edu.au/blog/projects/projectsresearch-data-repository</a></li>
-                        </td>
+                    	<td>
+                        	<li><a href="https://github.com/digitalbridge/crateit" property="http://schema.org/url">
+                                https://github.com/digitalbridge/crateit</a></li>
+                    	</td>
                     </tr>
                     </tbody>
                 </table>

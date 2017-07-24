@@ -5,29 +5,32 @@ namespace OCA\crate_it\lib;
 require '3rdparty/BagIt/bagit.php';
 use BagIt;
 use OC\Files\Filesystem;
+
 #use OCP\Util;
 
-class Crate extends BagIt {
-
+class crate extends BagIt
+{
     private $manifestPath;
     private $crateName;
     private $crateRoot;
 
-    public function __construct($crateRoot, $crateName, $description = '', $data_retention_period = '') {
+    public function __construct($crateRoot, $crateName, $description = '', $data_retention_period = '')
+    {
         \OCP\Util::writeLog('crate_it', "Crate::__construct(".$crateRoot.','.$crateName.','.$description.','.$data_retention_period.")", \OCP\Util::DEBUG);
         $this->crateName = $crateName;
         $this->crateRoot = $crateRoot;
         parent::__construct($this->getAbsolutePath($crateName), true, false, false, null);
         $this->manifestPath = Util::joinPaths($this->getDataDirectory(), 'manifest.json');
-        if(!file_exists($this->manifestPath)) {
+        if (!file_exists($this->manifestPath)) {
             $this->createManifest($description, $data_retention_period);
         }
-   }
+    }
 
-    private function createManifest($description,$data_retention_period) {
+    private function createManifest($description, $data_retention_period)
+    {
         \OCP\Util::writeLog('crate_it', "Crate::createManifest(".$description.",".$data_retention_period.")", \OCP\Util::DEBUG);
-        $description = NULL ? '' : $description;
-        $data_retention_period = NULL ? '': $data_retention_period;
+        $description = null ? '' : $description;
+        $data_retention_period = null ? '': $data_retention_period;
         $entry = array(
             'description' => $description,
             'data_retention_period' => $data_retention_period,
@@ -37,6 +40,7 @@ class Crate extends BagIt {
             ),
             'creators' => array(),
             'activities' => array(),
+            'fors' => array(),
             'vfs' => array(
                 array(
                     'id' => 'rootfolder',
@@ -50,22 +54,28 @@ class Crate extends BagIt {
         $this->update();
     }
 
-    public function getReadme() {
+    public function getReadme()
+    {
         $readmePath = $this->getDataDirectory()."/README.html";
         return file_get_contents($readmePath);
     }
 
-    private function createReadme() {
+    private function createReadme()
+    {
         $metadata = $this->createMetadata();
+        $metadata['url'] = $_SESSION['url'];
+        $metadata['location'] = $_SESSION['location'];
         $html = Util::renderTemplate('readme', $metadata);
-        $readmePath = $this->getDataDirectory()."/README.html";
+        $readmePath = $this->getDataDirectory() . "/README.html";
         file_put_contents($readmePath, $html);
     }
 
-    public function createMetadata() {
+    public function createMetadata()
+    {
         $metadata = $this->getManifest();
         $metadata['crate_name'] = $this->crateName;
         $metadata['files'] = $this->flatList();
+        $metadata['size'] = \OCP\Util::humanFileSize($this->getSize());
         $metadata['creators'] = $this->isCreatorIdUrl($metadata['creators']);
         // TODO: Update to use utility method
         date_default_timezone_set('Australia/Sydney');
@@ -73,39 +83,52 @@ class Crate extends BagIt {
         $metadata['created_date_formatted'] = Util::getTimestamp("F jS, Y - H:i:s (T)");
         $vfs = &$metadata['vfs'][0];
         $metadata['filetree'] = $this->buildFileTreeFromRoot($vfs);
-        $metadata['version'] = "Version ".\OCP\App::getAppVersion('crate_it');
+        $metadata['version'] = "Version " . \OCP\App::getAppVersion('crate_it');
+        $metadata['location'] = "unpublished";
+        $metadata['url'] = "unpublished";
         return $metadata;
     }
 
+    public function validateMetadata()
+    {
+        $msg = "Your CRATE is missing the following Metadata <br />";
+        $msg = $msg . "\n\r" . $this->crateName;
+        $msg = $msg . $this->isCreatorIdUrl($metadata['creators']);
+        return $msg;
+    }
+
     // NOTE: workaround for non-functioning twig operators 'starts with' and 'matches'
-    private function isCreatorIdUrl($creators) {
+    private function isCreatorIdUrl($creators)
+    {
         $protocol = '/^https?\:\/\//';
-        foreach($creators as &$creator) {
+        foreach ($creators as &$creator) {
             $identifier = $creator['identifier'];
-            if(!empty($identifier) && preg_match($protocol, $identifier)) {
+            if (!empty($identifier) && preg_match($protocol, $identifier)) {
                 $creator['url'] = true;
             }
         }
         return $creators;
     }
 
-    private function buildFileTreeFromRoot($rootnode) {
+    private function buildFileTreeFromRoot($rootnode)
+    {
         $tree = '';
         // if we get to this point, then the crate has files for sure, so no need to
         // check if children exists
         $children = $rootnode['children'];
-        foreach($children as $child) {
+        foreach ($children as $child) {
             $tree = $this->buildFileTreeHtml($child, $tree);
         }
         return '<ul>'.$tree.'</ul>';
     }
 
-    private function buildFileTreeHtml($node, $tree = '') {
-        if($node['id'] === 'folder') {
+    private function buildFileTreeHtml($node, $tree = '')
+    {
+        if ($node['id'] === 'folder') {
             $text = $node['name'];
             $tree = $tree."<li>$text</li><ul>";
             $children = $node['children'];
-            foreach($children as $child) {
+            foreach ($children as $child) {
                 $tree = $this->buildFileTreeHtml($child, $tree);
             }
             $tree = $tree.'</ul>';
@@ -114,7 +137,7 @@ class Crate extends BagIt {
             // ' ' in the name
             $text = str_replace(' ', '_', $node['name']);
             // change the filename part of the path to the 'underscored' version
-            if($node['valid'] === 'true') {
+            if ($node['valid'] === 'true') {
                 $tree = $tree."<li>$text</a></li>";
             } else {
                 $tree = $tree."<li>$text (invalid)</li>";
@@ -123,30 +146,33 @@ class Crate extends BagIt {
         return $tree;
     }
 
-    public function getManifest() {
+    public function getManifest()
+    {
         $manifest = file_get_contents($this->manifestPath);
-        if($manifest) {
+        if ($manifest) {
             $result = json_decode($manifest, true);
         }
-        if(!$manifest or is_null($result)) {
+        if (!$manifest or is_null($result)) {
             throw new \Exception("Error opening manifest.json");
         }
         return $result;
     }
 
-    public function setManifest($manifest) {
+    public function setManifest($manifest)
+    {
         $manifest = json_encode($manifest);
         $success = file_put_contents($this->manifestPath, $manifest);
-        if($manifest === false || $success === false) {
+        if ($manifest === false || $success === false) {
             throw new \Exception("Error writing to manifest.json");
         }
     }
 
-    public function addToCrate($path) {
+    public function addToCrate($path)
+    {
         \OCP\Util::writeLog('crate_it', "Crate::addToCrate(".$path.")", \OCP\Util::DEBUG);
         $manifest = $this->getManifest();
         $vfs = &$manifest['vfs'][0];
-        if(array_key_exists('children', $vfs)) {
+        if (array_key_exists('children', $vfs)) {
             $vfs = &$vfs['children'];
         } else {
             $vfs['children'] = array();
@@ -157,11 +183,12 @@ class Crate extends BagIt {
         $this->update();
     }
 
-    public function updateCrate($field, $value) {
+    public function updateCrate($field, $value)
+    {
         \OCP\Util::writeLog("crate_it", "Crate::updateCrate($field, ".$value.")", \OCP\Util::DEBUG);
         $manifest = $this->getManifest();
-        if($value === NULL) {
-            if(is_array($manifest[$field])) {
+        if ($value === null) {
+            if (is_array($manifest[$field])) {
                 $value = array();
             } else {
                 $value = '';
@@ -173,31 +200,35 @@ class Crate extends BagIt {
         return true;
     }
 
-    public function deleteCrate() {
+    public function deleteCrate()
+    {
         rrmdir($this->bag);
     }
 
 
-    public function renameCrate($newCrateName) {
+    public function renameCrate($newCrateName)
+    {
         \OCP\Util::writeLog('crate_it', "renameCrate($this->crateName, $newCrateName)", \OCP\Util::DEBUG);
-        $oldCrateName = $this->getAbsolutePath($this->crateName);
-        $newCrateName = $this->getAbsolutePath($newCrateName);
-        $success = rename($oldCrateName, $newCrateName);
-        if(!$success) {
+        $oldCratePath = $this->getAbsolutePath($this->crateName);
+        $newCratePath = $this->getAbsolutePath($newCrateName);
+
+        $success = rename($oldCratePath, $newCratePath);
+        if (!$success) {
             throw new \Exception("Error renaming crate");
         }
     }
 
     // TODO: If a file has been added to the crate multiple times this will give the wront size
     //       Look at using getFilePaths() instead
-    public function getSize() {
+    public function getSize()
+    {
         $files = $this->getAllFilesAndFolders();
         \OCP\Util::writeLog('crate_it', "Crate::getSize() - Flat list: ".sizeof($files), \OCP\Util::DEBUG);
         $total = 0;
         $checked = array();
-        foreach($files as $file) {
-        	\OCP\Util::writeLog('crate_it', "Crate::getSize() - checking: ".$file, \OCP\Util::DEBUG);
-            if(!in_array($file, $checked)) {
+        foreach ($files as $file) {
+            \OCP\Util::writeLog('crate_it', "Crate::getSize() - checking: ".$file, \OCP\Util::DEBUG);
+            if (!in_array($file, $checked)) {
                 $total += \OC\Files\Filesystem::filesize($file);
             }
             $checked[] = $file;
@@ -205,35 +236,39 @@ class Crate extends BagIt {
         return $total;
     }
 
-    public function getFlatList() {
+    public function getFlatList()
+    {
         return $this->flatList();
     }
 
-    public function getAllFilesAndFolders() {
+    public function getAllFilesAndFolders()
+    {
         $flat = $this->flatList();
         \OCP\Util::writeLog('crate_it', "flat: ".serialize($flat), \OCP\Util::DEBUG);
 
         $res = array();
-        foreach($flat as $elem) {
+        foreach ($flat as $elem) {
             $path = $elem['filename'] ? $elem['filename'] : $elem['folderpath'];
-        	$res[] = $path;
+            $res[] = $path;
         }
         return $res;
     }
 
-    public function packageCrate($tmpFolder) {
+    public function packageCrate($tmpFolder)
+    {
         $clone = $this->createTempClone();
         $clone->createReadme();
         $clone->storeFiles();
         $packagePath = Util::joinPaths($tmpFolder, $this->crateName);
-        if(file_exists($packagePath.'.zip')) {
-            unlink($packagePath.'.zip');
+        if (file_exists($packagePath . '.zip')) {
+            unlink($packagePath .  '.zip');
         }
         $clone->package($packagePath, 'zip');
-        return $packagePath.'.zip';
+        return $packagePath . '.zip';
     }
 
-    private function createTempClone() {
+    private function createTempClone()
+    {
         $tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
         $tmpCrate = new Crate($tmpFolder, $this->crateName);
         $manifest = $this->getManifest();
@@ -241,7 +276,8 @@ class Crate extends BagIt {
         return $tmpCrate;
     }
 
-    private function getRootFolderName() {
+    private function getRootFolderName()
+    {
         // get root folder
         $manifest = $this->getManifest();
         $vfs = &$manifest['vfs'][0];
@@ -250,10 +286,11 @@ class Crate extends BagIt {
         return $rootfolder;
     }
 
-    public function storeFiles() {
+    public function storeFiles()
+    {
         \OCP\Util::writeLog("crate_it", "Crate::storeFiles() - started", \OCP\Util::DEBUG);
         $files = $this->getFilePaths();
-        foreach($files as $path) {
+        foreach ($files as $path) {
             $absPath = $this->getFullPath($path);
             $pathInsideRootFolder = $this->getRootFolderName().'/'.$path;
             $success = $this->addFile($absPath, $pathInsideRootFolder);
@@ -266,19 +303,21 @@ class Crate extends BagIt {
     }
 
 
-    private function getFilePaths() {
+    private function getFilePaths()
+    {
         $flattened = $this->flatList();
         $result = array();
-        foreach($flattened as $entry) {
+        foreach ($flattened as $entry) {
             $path = $entry['filename'];
-            if($path && !in_array($path, $result)) {
+            if ($path && !in_array($path, $result)) {
                 array_push($result, $path);
             }
         }
         return $result;
     }
 
-    private function flatList() {
+    private function flatList()
+    {
         $data = $this->getManifest();
         \OCP\Util::writeLog('crate_it', "Manifest data size: ".sizeof($data), \OCP\Util::DEBUG);
 
@@ -289,10 +328,11 @@ class Crate extends BagIt {
         return $flat;
     }
 
-    private function flat_r(&$vfs, &$flat, $path) {
-        if(count($vfs) > 0) {
-            foreach($vfs as $entry) {
-                if(array_key_exists('filename', $entry)) {
+    private function flat_r(&$vfs, &$flat, $path)
+    {
+        if (count($vfs) > 0) {
+            foreach ($vfs as $entry) {
+                if (array_key_exists('filename', $entry)) {
                     $flat_entry = array(
                         'id' => $entry['id'],
                         'path' => $path,
@@ -301,7 +341,7 @@ class Crate extends BagIt {
                         'size' => $entry['size']
                     );
                     array_push($flat, $flat_entry);
-                } elseif(array_key_exists('children', $entry)) {
+                } elseif (array_key_exists('children', $entry)) {
                     $this->flat_r($entry['children'], $flat, $path.$entry['name'].'/');
                 }
             }
@@ -310,22 +350,24 @@ class Crate extends BagIt {
 
     // TODO: There's currently no check for duplicates
     // TODO: root folder has isFolder set, so should other files folders
-    private function addPath($path, &$vfs) {
+    private function addPath($path, &$vfs)
+    {
         \OCP\Util::writeLog('crate_it', "Crate::addPath(".$path.")", \OCP\Util::DEBUG);
-        if(\OC\Files\Filesystem::is_dir($path)) {
+        if (\OC\Files\Filesystem::is_dir($path)) {
             $vfsEntry = $this->addFolderToCrate($path);
         } else {
             $vfsEntry = $this->addFileToCrate($path);
         }
-        if($vfsEntry !== NULL) {
+        if ($vfsEntry !== null) {
             array_push($vfs, $vfsEntry);
         }
     }
 
-    private function addFolderToCrate($folder) {
-        $vfsEntry = NULL;
+    private function addFolderToCrate($folder)
+    {
+        $vfsEntry = null;
         $name = basename($folder);
-        if($name !== '_html') {
+        if ($name !== '_html') {
             $vfsEntry = array(
                 'name' => $name,
                 'id' => 'folder', // TODO: change this to 'folder' => true, need to update js
@@ -334,10 +376,10 @@ class Crate extends BagIt {
             );
             $vfsContents = &$vfsEntry['children'];
             $paths = \OC\Files\Filesystem::getDirectoryContent($folder);
-            foreach($paths as $path) {
+            foreach ($paths as $path) {
                 $relativePath = $path->getPath();
-                if(Util::startsWith($relativePath, '/'. \OC::$server->getUserSession()->getUser().'/files/')) {
-                    $relativePath = substr($relativePath, strlen('/'.\OC::$server->getUserSession()->getUser().'/files/'));
+                if (Util::startsWith($relativePath, '/'. \OC::$server->getUserSession()->getUser()->getDisplayName().'/files/')) {
+                    $relativePath = substr($relativePath, strlen('/'.\OC::$server->getUserSession()->getUser()->getDisplayName().'/files/'));
                 }
                 $this->addPath($relativePath, $vfsContents);
             }
@@ -346,7 +388,8 @@ class Crate extends BagIt {
     }
 
 
-    private function addFileToCrate($file) {
+    private function addFileToCrate($file)
+    {
         $fullPath = $this->getFullPath($file);
         $id = md5($fullPath);
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -363,7 +406,8 @@ class Crate extends BagIt {
         return $vfsEntry;
     }
 
-    public function generateEPUB() {
+    public function generateEPUB()
+    {
         \OCP\Util::writeLog('crate_it', "Crate::generateEPUB()", \OCP\Util::DEBUG);
         $files = $this->getPreviewPaths();
         $params = array('files' => $files);
@@ -376,21 +420,22 @@ class Crate extends BagIt {
         $command = "ebook-convert '$htmlPath' '$epubPath' --no-default-epub-cover --level1-toc //h:h1 --level2-toc //h:h2 --level3-toc //h:h3 2>&1";
         $command = stripcslashes($command);
         exec($command, $output, $retval);
-        if($retval > 0) {
+        if ($retval > 0) {
             $message = implode("\n", $output);
             throw new \Exception($message);
         }
         return $epubPath;
     }
 
-    private function getPreviewPaths() {
+    private function getPreviewPaths()
+    {
         $files = $this->flatList();
         $result = array();
-        foreach($files as $file) {
+        foreach ($files as $file) {
             $path = Filesystem::getLocalFile($file['filename']);
             $pathInfo = pathinfo($path);
-            $previewPath = Util::joinPaths($pathInfo['dirname'],'_html', $pathInfo['basename'], 'index.html');
-            if(file_exists($previewPath)) {
+            $previewPath = Util::joinPaths($pathInfo['dirname'], '_html', $pathInfo['basename'], 'index.html');
+            if (file_exists($previewPath)) {
                 $file['preview'] = $previewPath;
                 array_push($result, $file);
             }
@@ -399,17 +444,19 @@ class Crate extends BagIt {
     }
 
     // TODO: Get rid of this and just import \OC\Files\Filesystem
-    private function getFullPath($path) {
+    private function getFullPath($path)
+    {
         \OCP\Util::writeLog('crate_it', "Crate::getFullPath(".$path.")", \OCP\Util::DEBUG);
         return \OC\Files\Filesystem::getLocalFile($path);
     }
 
-    private function getAbsolutePath($basename) {
+    private function getAbsolutePath($basename)
+    {
         return Util::joinPaths($this->crateRoot, $basename);
     }
 
-    public function getManifestFileContent() {
+    public function getManifestFileContent()
+    {
         return file_get_contents($this->manifestPath);
     }
-
 }

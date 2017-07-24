@@ -3,25 +3,25 @@ namespace OCA\crate_it\Controller;
 
 use \OCP\AppFramework\Controller;
 
-// TODOL Perhaps fold this in with CrateController
-class PageController extends Controller {
-    
+// TODO Perhaps fold this in with CrateController
+class pagecontroller extends Controller
+{
     private $setupService;
 
-    public function __construct($appName, $request, $setupService) {
+    public function __construct($appName, $request, $setupService)
+    {
         parent::__construct($appName, $request);
         $this->setupService = $setupService;
     }
 
-
-
    /**
      * Home page index, displays default crate or last selected crate
-     * 
+     *
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-    public function index() {       
+    public function index()
+    {
         \OCP\Util::writeLog('crate_it', "PageController::index()", \OCP\Util::DEBUG);
         try {
             $model = $this->setupService->getParams();
@@ -31,5 +31,4 @@ class PageController extends Controller {
         }
         return $this->render('index', $model);
     }
-
 }

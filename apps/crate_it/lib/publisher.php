@@ -2,11 +2,11 @@
 
 namespace OCA\crate_it\lib;
 
-interface Publisher {
-    
+interface publisher
+{
     public function getCollection();
 
-    public function publishCrate($package, $collection);
+    public function getCratePath($crateName, $collection, $timestamp);
 
+    public function publishCrate($package, $collection, $timestamp);
 }
-

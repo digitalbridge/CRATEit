@@ -10,7 +10,7 @@
 
         <h2 class="modal-title">About CRATEit</h2>
         <section>
-          <p>CRATEit if fork of the Cr8It project. It has been developed through a collaboration between the University of Newcastle, the University of Western Sydney, and Intersect Australia Ltd.</p>
+          <p>CRATEit if fork of the CRATEit project. It has been developed through a collaboration between the University of Newcastle, the University of Western Sydney, and Intersect Australia Ltd.</p>
         </section>
         <section>
           Version <?php p($_['version']) ?>.
