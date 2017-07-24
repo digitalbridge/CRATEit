@@ -378,8 +378,8 @@ class crate extends BagIt
             $paths = \OC\Files\Filesystem::getDirectoryContent($folder);
             foreach ($paths as $path) {
                 $relativePath = $path->getPath();
-                if (Util::startsWith($relativePath, '/'. \OC::$server->getUserSession()->getUser().'/files/')) {
-                    $relativePath = substr($relativePath, strlen('/'.\OC::$server->getUserSession()->getUser().'/files/'));
+                if (Util::startsWith($relativePath, '/'. \OC::$server->getUserSession()->getUser()->getDisplayName().'/files/')) {
+                    $relativePath = substr($relativePath, strlen('/'.\OC::$server->getUserSession()->getUser()->getDisplayName().'/files/'));
                 }
                 $this->addPath($relativePath, $vfsContents);
             }
