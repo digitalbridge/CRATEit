@@ -36,14 +36,13 @@ class util
 
     public static function getUserPath()
     {
-        $userId = \OC::$server->getUserSession()->getUser()->getDisplayName();
-        $config = Util::getConfig();
+        $userId = \OC::$server->getUserSession()->getUser()->getUID();
         return Util::joinPaths(Util::getDataPath(), $userId);
     }
 
-    public static function getPathByuser($displayName)
+    public static function getPathByuser($uid)
     {
-        return Util::joinPaths(Util::getDataPath(), $displayName);
+        return Util::joinPaths(Util::getDataPath(), $uid);
     }
 
     public static function getDataPath()

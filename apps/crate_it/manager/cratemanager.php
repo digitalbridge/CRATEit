@@ -188,7 +188,7 @@ class cratemanager
     {
         $this->updateCrateCheckIcons($crateName);
         $crate = $this->getCrate($crateName);
-        $tempdir = Util::joinPaths(\OC::$server->getUserSession()->getUser()->getDisplayName());
+        $tempdir = Util::joinPaths(\OC::$server->getUserSession()->getUser()->getUID());
         if (!file_exists($tempdir)) {
             mkdir($tempdir, 0755, true);
         }
@@ -272,7 +272,7 @@ class cratemanager
 
     public function getOtherCrateDetailsList($user)
     {
-        $userRoot = Util::getPathByuser($user->getDisplayName());
+        $userRoot = Util::getPathByuser($user->getUID());
 
         $crateDetails = array();
         $crateDetailsList = array();

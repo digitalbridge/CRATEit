@@ -404,7 +404,7 @@ class cratecontroller extends Controller
 
             exec('rm -rf ' . $path, $rmOutput, $rmReturn);
 
-            exec('php /vagrant/owncloud/occ files:scan ' . \OC::$server->getUserSession()->getUser()->getDisplayName(), $indexOutput, $indexReturn);
+            exec('php /vagrant/owncloud/occ files:scan ' . \OC::$server->getUserSession()->getUser()->getUID(), $indexOutput, $indexReturn);
             if ($indexReturn) {
                 return new JSONResponse(array('msg' => 'reindexing files failed'), Http::STATUS_INTERNAL_SERVER_ERROR);
             }
