@@ -127,6 +127,8 @@
   print_unescaped($this->inc('clear_metadata_modal'));
   print_unescaped($this->inc('add_creator_modal'));
   print_unescaped($this->inc('edit_creator_modal'));
+  print_unescaped($this->inc('add_primarycontact_modal'));
+  print_unescaped($this->inc('edit_primarycontact_modal'));
   print_unescaped($this->inc('add_grant_modal'));
   print_unescaped($this->inc('edit_activities_modal'));
   print_unescaped($this->inc('add_for_modal'));

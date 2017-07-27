@@ -64,6 +64,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
             // TODO: using faIcon as a flag again
             if (faIcon == 'fa-minus') {
                 $toggleButton.next().click(function() {
+                    console.log('record.id', record.id);
                     displayEditRecordModal(record.id);
                 });
             }
@@ -134,8 +135,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
             selectedList.push(record);
         }
 
-        //record['primary'] = "false";
-
         var html = renderRecord(record, faIcon);
         update(record, html, $sourceLi, $destLi);
     };
@@ -197,10 +196,10 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     }
 
     this.addRecord = function(overrides) {
+        console.log('hello2');
         var record = createEmptyRecord();
         addOverrides(record, overrides);
         record['id'] = hashCode(record);
-        //record['primary'] = false;
         selectedList.push(record);
         var html = renderRecord(record, 'fa-minus');
         update(record, html, null, $selectedUl);
@@ -208,6 +207,9 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
     function displayEditRecordModal(id) {
         var record = getRecord(id, 'selected');
+
+        console.log('isEditable', isEditable(record));
+
         if (isEditable(record)) {
             var editPrefix = '#edit-' + definition.manifestField + '-';
             var originalPrefix = '#original-' + definition.manifestField;
@@ -299,6 +301,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
                 if ($destLi.find('#' + record.id + ' > i').hasClass('fa-minus')) { // TODO: clean this up, hack and nasty
                     $destLi.find('#' + record.id).next().click(function() {
+                        console.log('hello');
                         displayEditRecordModal(record.id);
                     });
                 }
@@ -310,41 +313,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
             }
         });
     };
-
-    function togglePrimary(id) {
-        var record = getRecord(id, 'selected');
-        var c_url = OC.generateUrl('apps/crate_it/crate/update');
-
-        // TODO: Fix double click event firing
-        if (record == null) {
-            return false;
-        }
-
-        if (record['primary'] == "true") {
-            record['primary'] = "false";
-        } else {
-            record['primary'] = "true";
-        }
-        // record['primary'] = record['primary'] == "true" ? "false" : "true";
-
-        $.ajax({
-            url: c_url,
-            type: 'post',
-            dataType: 'json',
-            data: {
-                fields: [{
-                    field: definition.manifestField,
-                    value: selectedList
-                }]
-            },
-            success: function(data) {
-                $('.primary-contact[data-id="' + record.id + '"]').toggleClass('selected');
-            },
-            error: function(data) {
-                displayError(data.statusText);
-            }
-        });
-    }
 
     function isSelected(id) {
         var result = false;
@@ -396,6 +364,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
                 result[destField] = parseField(metadata[sourceField]);
             }
         }
+
         return result;
     };
 
@@ -409,7 +378,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
             if (destField === "id") {
                 // extract unique id
-                result[destField] = parseField(mintObject[sourceField]).substring(0, parseField(mintObject[sourceField]).indexOf(' '));;
+                result[destField] = parseField(mintObject[sourceField]).substring(0, parseField(mintObject[sourceField]).indexOf(' '));
             } else {
                 result[destField] = parseField(mintObject[sourceField]);
             }
@@ -432,7 +401,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     function renderRecord(record, faIcon) {
         var record = applyOverrides(record);
         var editable = ' ';
-        var selected = '';
 
         if (! isEditable(record)) {
             editable += 'disabled';
@@ -447,16 +415,8 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
             html += '<i class="fa fa-edit"></i></button>';
         }
 
-        // if (definition.manifestField == 'creators') {
-        //     if (record['primary'] == "true") {
-        //         selected = ' selected';
-        //     }
-
-        //     html += '<button class="pull-right primary-contact' + selected + '" data-id="' + record.id + '">';
-        //     html += '<i class="fa fa-star"></i></button>';
-        // }
-
         html += '<p class="metadata_heading">' + record[definition.displayFields[0]] + '</p>';
+
         for (var i = 1; i < definition.displayFields.length; i++) {
             html += '<p class=>' + record[definition.displayFields[i]] + '</p>';
         }
@@ -476,11 +436,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
         return '<div>' + html + '</div>';
     }
-
-    // var $togglePrimary = $li.find('[data-id="' + record.id + '"]');
-    // $(document).on('click', '.primary-contact[data-id]', function() {
-    //     togglePrimary($(this).data('id'));
-    // });
 
     drawList($selectedUl, selectedList, 'fa-minus');
 }

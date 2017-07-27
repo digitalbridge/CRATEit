@@ -39,6 +39,7 @@ class crate extends BagIt
                 'displayname' => \OC::$server->getUserSession()->getUser()->getDisplayName(),
             ),
             'creators' => array(),
+            'primarycontacts' => array(),
             'activities' => array(),
             'fors' => array(),
             'vfs' => array(

@@ -810,7 +810,6 @@ function initSearchHandlers() {
             'identifier': 'dc_identifier',
             'name': ['Honorific', 'Given_Name', 'Family_Name'],
             'email': 'Email'
-            // 'primary': false
         },
         displayFields: ['name', 'email'],
         editFields: ['name', 'email', 'identifier'],
@@ -894,6 +893,95 @@ function initSearchHandlers() {
         attachModalHandlers($addCreatorModal, addCreator);
     });
 
+    // Primary Contact
+    var primaryContactDefinition = {
+        manifestField: 'primarycontacts',
+        mapping: {
+            'id': 'id',
+            'identifier': 'dc_identifier',
+            'name': ['Honorific', 'Given_Name', 'Family_Name'],
+            'email': 'Email'
+        },
+        displayFields: ['name', 'email'],
+        editFields: ['name', 'email', 'identifier'],
+        editableRecords: ['manual', 'mint']
+    };
+
+    // TODO: a lot of these elements could be pushed into the SearchManager constructor so it creates the widget
+    var primaryContactSelectedList = manifest.primarycontacts;
+    var primaryContactResultsUl = $('#search_primarycontacts_results');
+    var primaryContactSelectedUl = $('#selected_primarycontacts');
+    var primaryContactNotification = $('#primarycontact_search_notification');
+    var primaryContactEditModal = $('#editPrimaryContactsModal');
+
+    var editPrimaryContactValidator = new CrateIt.Validation.FormValidator(primaryContactEditModal);
+    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-name'), new CrateIt.Validation.RequiredValidator('Name'));
+    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+
+    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.RequiredValidator('Email'));
+    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.EmailValidator());
+
+    var editPrimaryContactUrlValidator = new CrateIt.Validation.UrlValidator();
+    editPrimaryContactUrlValidator = new CrateIt.Validation.OptionalValidator(editPrimaryContactUrlValidator);
+    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editPrimaryContactUrlValidator));
+
+    PrimaryContactSearchManager = new SearchManager(primaryContactDefinition, primaryContactSelectedList, primaryContactResultsUl, primaryContactSelectedUl, primaryContactNotification, primaryContactEditModal);
+    $('#search_primarycontact').click(function() {
+        PrimaryContactSearchManager.search($.trim($('#keyword_primarycontact').val()));
+    });
+
+    $('#keyword_primarycontact').keyup(function(e) {
+        if (e.keyCode == 13) {
+            PrimaryContactSearchManager.search($.trim($(this).val()));
+        }
+    });
+
+    var primaryContactsCount = function(e) {
+        $('#primarycontacts_count').text(e.selected);
+    };
+
+    PrimaryContactSearchManager.addEventListener(primaryContactsCount);
+    PrimaryContactSearchManager.notifyListeners();
+
+    $('#clear_primarycontacts').click(function() {
+        $('#clearMetadataField').text('primarycontacts');
+        attachModalHandlers($clearMetadataModal, PrimaryContactSearchManager.clearSelected);
+    });
+
+    var addPrimaryContact = function() {
+        var name = $('#add-primarycontact-name').val();
+        var email = $('#add-primarycontact-email').val();
+        var identifier = $('#add-primarycontact-identifier').val();
+        var overrides = {
+            'name': name,
+            'email': email,
+            'identifier': identifier
+        };
+        PrimaryContactSearchManager.addRecord(overrides);
+    };
+
+    var $addPrimaryContactModal = $('#addPrimaryContactModal');
+    var $addPrimaryContactConfirm = $addPrimaryContactModal.find('.btn-primarycontact');
+
+    var addPrimaryContactValidator = new CrateIt.Validation.FormValidator($addPrimaryContactModal);
+    addPrimaryContactValidator.addValidator($('#add-primarycontact-name'), new CrateIt.Validation.RequiredValidator('Name'));
+    addPrimaryContactValidator.addValidator($('#add-primarycontact-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+
+    addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.RequiredValidator('Email'));
+    addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+    addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.EmailValidator());
+
+    var addPrimaryContactUrlValidator = new CrateIt.Validation.UrlValidator();
+    addPrimaryContactValidator.addValidator($('#add-primarycontact-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+    addPrimaryContactValidator.addValidator($('#add-primarycontact-identifier'), new CrateIt.Validation.OptionalValidator(addPrimaryContactUrlValidator));
+
+    // TODO: this doesn't need to be dynamically attached, maybe create a second helper
+    $('#add-primarycontact').click(function() {
+        attachModalHandlers($addPrimaryContactModal, addPrimaryContact);
+    });
+
     var activityDefinition = {
         manifestField: 'activities',
         actions: {
@@ -924,7 +1012,7 @@ function initSearchHandlers() {
     var activitySelectedList = manifest.activities;
     var activity$resultsUl = $('#search_activity_results');
     var activity$selectedUl = $('#selected_activities');
-    var activity$notification = $('#activites_search_notification');
+    var activity$notification = $('#activities_search_notification');
     var activity$editModal = $('#editActivitiesModal');
     var editActivityValidator = new CrateIt.Validation.FormValidator(activity$editModal);
     editActivityValidator.addValidator($('#edit-activities-grant_number'), new CrateIt.Validation.RequiredValidator('Grant number'));

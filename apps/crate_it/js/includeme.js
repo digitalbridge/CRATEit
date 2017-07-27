@@ -625,6 +625,7 @@ function reloadCrateData(manifest) {
     indentTree();
     // TODO Have a registry of search managers and loop over them
     CreatorSearchManager.loadManifestData(manifest);
+    PrimarySearchManager.loadManifestData(manifest);
     ActivitySearchManager.loadManifestData(manifest);
     ForSearchManager.loadManifestData(manifest);
 }
