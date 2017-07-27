@@ -18,6 +18,7 @@ class cratemanager
         if (\OCP\User::isLoggedIn()) {
             $this->ensureDefaultCrateExists();
             $this->ensureCrateIsSelected();
+            $this->ensurePrimaryContactsExists();
         }
     }
 
@@ -111,6 +112,16 @@ class cratemanager
         }
     }
 
+    private function ensurePrimaryContactsExists()
+    {
+        $crate = $this->getCrate($_SESSION['selected_crate']);
+        $manifest = $crate->getManifest();
+        if(! array_key_exists('primarycontacts', $manifest)) {
+            $manifest['primarycontacts'] = array();
+            $crate->setManifest($manifest);
+        }
+    }
+
     public function getReadme($crateName)
     {
         $crate = $this->getCrate($crateName);
@@ -175,6 +186,7 @@ class cratemanager
         $crate->deleteCrate();
         $this->ensureDefaultCrateExists();
         $this->ensureCrateIsSelected();
+        $this->ensurePrimaryContactsExists();
     }
 
     public function renameCrate($crateName, $newCrateName)
