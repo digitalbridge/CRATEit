@@ -135,7 +135,7 @@
                         </h6>
                         <div id="search_for_box" class="input-group">
                             <label for="keyword_for" class="element-invisible">Search FORs</label>
-                            <input type="text" name="keyword_for" id="keyword_for" class="form-control" placeholder="Search FORs..."/>
+                            <input type="text" name="keyword_for" id="keyword_for" class="form-control" placeholder="Search FORs..." />
                             <span class="input-group-btn">
                                 <button type="button" id="search_for" value="Search FOR" class="btn btn-default"><i class="fa fa-search"></i></button>
                             </span>
@@ -144,6 +144,13 @@
 
                         <div id="search_for_result_box">
                             <ul id="search_for_results"></ul>
+                        </div>
+
+                        <h6 class="for_keywords_heading">Keywords</h6>
+                        <div id="for_keywords_container">
+                            <input type="text" name="for_keywords" id="for_keywords" class="form-control" placeholder="Enter Keywords" />
+                            <input type="button" id="save_keywords" value="Save" />
+                            <p class="message">Keywords saved.</p>
                         </div>
                     </div>
                 </div>

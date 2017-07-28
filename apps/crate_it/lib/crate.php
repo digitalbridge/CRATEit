@@ -42,6 +42,7 @@ class crate extends BagIt
             'primarycontacts' => array(),
             'activities' => array(),
             'fors' => array(),
+            'for_keywords' => null,
             'vfs' => array(
                 array(
                     'id' => 'rootfolder',

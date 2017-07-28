@@ -100,6 +100,7 @@ $(document).ready(function() {
         updateCrateSize();
         //setupNameOps();
         setupDescriptionOps();
+        setupForKeywordsOps();
         setupRetentionPeriodOps();
         setupEmbargoDetailsOps();
         initSearchHandlers();

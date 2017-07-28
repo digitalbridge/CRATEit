@@ -480,6 +480,34 @@ div.jqtree-element {
     border-bottom: 1px solid #EEE;
 }
 
+.container-metadata h6.for_keywords_heading {
+    margin-top: 3em;
+    padding-bottom: 5px;
+}
+
+#for_keywords_container {
+    position: relative;
+    overflow: hidden;
+}
+
+#for_keywords_container #for_keywords {
+    margin: 1em 0 0 0;
+    padding-right: 58px;
+}
+
+#for_keywords_container #save_keywords {
+    position: absolute;
+    top: 14px; right: 0;
+    margin: 0;
+}
+
+#for_keywords_container .message {
+    display: none;
+    padding: 7px 10px;
+    text-align: right;
+    color: #0ba755;
+}
+
 .container-metadata li .metadata_heading {
     padding-right:34px;
     font-weight:bold;

@@ -664,6 +664,40 @@ function setupRetentionPeriodOps() {
     });
 }
 
+function setupForKeywordsOps() {
+    manifest = getManifest();
+    $('#for_keywords_container #for_keywords').val(manifest.for_keywords);
+
+    $('#for_keywords_container #save_keywords').click(function(e) {
+        var c_url = OC.generateUrl('apps/crate_it/crate/update');
+
+        $.ajax({
+            url: c_url,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'fields': [{
+                    'field': 'for_keywords',
+                    'value': $('#for_keywords').val()
+                }]
+            },
+            success: function(data) {
+                $('#for_keywords_container .message').show();
+                setTimeout(function() {
+                    $('#for_keywords_container .message').animate({
+                        opacity: 0
+                    }, 400, function() {
+                        $('#for_keywords_container .message').hide().css('opacity', 100);
+                    });
+                }, 1500);
+            },
+            error: function(jqXHR) {
+                displayError(jqXHR.responseJSON.msg);
+            }
+        });
+    });
+}
+
 function setupEmbargoDetailsOps() {
     var oldEmbargoEnabled;
     var oldEmbargoDisabled;
