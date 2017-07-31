@@ -611,14 +611,14 @@ function reloadCrateData(manifest) {
         $('textarea#embargo_details').val('');
     }
 
-    if (manifest['embargo_access_conditions']) {
-        $('span#embargo_access_conditions').html(manifest['embargo_access_conditions']);
-        $('#embargo_closed').prop("checked", manifest['embargo_access_conditions'] === 'closed');
-        $('#embargo_open').prop("checked", manifest['embargo_access_conditions'] === 'open');
-        $('#embargo_shared').prop("checked", manifest['embargo_access_conditions'] === 'shared');
+    if (manifest['access_conditions']) {
+        $('span#access_conditions').html(manifest['access_conditions']);
+        $('#embargo_closed').prop("checked", manifest['access_conditions'] === 'closed');
+        $('#embargo_open').prop("checked", manifest['access_conditions'] === 'open');
+        $('#embargo_shared').prop("checked", manifest['access_conditions'] === 'shared');
     } else {
-        $('span#embargo_access_conditions').html('');
-        $('input[name=embargo_access_conditions]').attr('checked', false);
+        $('span#access_conditions').html('');
+        $('input[name=access_conditions]').attr('checked', false);
     }
 
     buildFileTree(manifest);

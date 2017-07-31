@@ -410,7 +410,7 @@ function initCrateActions() {
         $('#publish-embargo-enabled').text($('span#embargo_enabled').text());
         $('#publish-embargo-date').text($('span#embargo_until').text());
         $('#publish-embargo-note').text($('span#embargo_note').text());
-        $('#publish-embargo-access-conditions').text($('span#embargo_access_conditions').text());
+        $('#publish-embargo-access-conditions').text($('span#access_conditions').text());
 
         $('#publish-creators').children().remove();
         // TODO: create proper render functions
@@ -714,18 +714,18 @@ function setupEmbargoDetailsOps() {
         oldEmbargoDisabled = $('#embargo_enabled_no').is(':checked');
         oldEmbargoDate = $('input#embargo_date').val();
         oldEmbargoDetails = $('textarea#embargo_details').val();
-        oldEmbargoAccessConditions = $('input[name=embargo_access_conditions]:checked').val();
+        oldEmbargoAccessConditions = $('input[name=access_conditions]:checked').val();
     });
 
     $('input[name="embargo_enabled"]').change(function(e) {
         if ($(this).val() == 'no') {
             $('#embargo_date').next('.add-on').hide();
             $('#embargo_details').prop('disabled', true);
-            $('input[name="embargo_access_conditions"]').prop('disabled', true);
+            $('input[name="access_conditions"]').prop('disabled', true);
         } else {
             $('#embargo_date').next('.add-on').show();
             $('#embargo_details').prop('disabled', false);
-            $('input[name="embargo_access_conditions"]').prop('disabled', false);
+            $('input[name="access_conditions"]').prop('disabled', false);
         }
     });
 
@@ -737,7 +737,7 @@ function setupEmbargoDetailsOps() {
         var embargoDisabled = $('#embargo_enabled_no').is(':checked');
         var embargoDate = $('input#embargo_date').val();
         var embargoDetails = $('textarea#embargo_details').val();
-        var embargoAccessConditions = $('input[name=embargo_access_conditions]:checked').val();
+        var embargoAccessConditions = $('input[name=access_conditions]:checked').val();
 
         var errors = false;
         $('#embargo-details-modal-ul').html('');
@@ -771,7 +771,7 @@ function setupEmbargoDetailsOps() {
             embargoDetails = '';
             $('textarea#embargo_details').val('');
             embargoAccessConditions = '';
-            $('input[name=embargo_access_conditions]').attr('checked', false);
+            $('input[name=access_conditions]').attr('checked', false);
         }
 
         // Show the modal
@@ -795,7 +795,7 @@ function setupEmbargoDetailsOps() {
                     'field': 'embargo_details',
                     'value': embargoDetails
                 }, {
-                    'field': 'embargo_access_conditions',
+                    'field': 'access_conditions',
                     'value': embargoAccessConditions
                 }]
             },
@@ -803,7 +803,7 @@ function setupEmbargoDetailsOps() {
                 $('span#embargo_enabled').html(data.values['embargo_enabled'] === 'true' ? 'Yes' : 'No');
                 $('span#embargo_until').html(data.values['embargo_date']);
                 $('span#embargo_note').html(data.values['embargo_details'].replace(/\n/g, '<br />'));
-                $('span#embargo_access_conditions').html(data.values['embargo_access_conditions']);
+                $('span#access_conditions').html(data.values['access_conditions']);
                 $('#embargo-summary').show();
                 $('#edit_embargo_details').hide();
             },

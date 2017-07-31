@@ -24,7 +24,7 @@
   "validate_embargo_enabled": "true",
   "validate_embargo_date": "true",
   "validate_embargo_details": "true",
-  "validate_embargo_access_conditions": "true",
+  "validate_access_conditions": "true",
   "fascinator": {
     "status": "off",
     "downloadURL": "http://localhost:9997/portal/default/download/",

@@ -62,7 +62,7 @@
                     <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
 
                     <h5>Embargo Access Conditions</h5>
-                    <span><?php p($_['embargo_access_conditions']) ?></span>
+                    <span><?php p($_['access_conditions']) ?></span>
                 <?php } ?>
             <?php } ?>
 
