@@ -62,8 +62,8 @@
               <div id="publish-embargo-note"></div>
             </div>
             <div>
-              <h6>Embargo Access Conditions:</h6>
-              <div id="publish-embargo-access-conditions"></div>
+              <h6>Access Conditions:</h6>
+              <div id="publish-access-conditions"></div>
             </div>
           </div>
         </div>

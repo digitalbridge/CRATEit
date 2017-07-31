@@ -277,7 +277,7 @@
                         </div>
 
                         <div>
-                            Embargo Access Conditions
+                            Access Conditions
                             <div>
                                 <input type="radio" name="access_conditions" id="embargo_closed" value="closed" <?php p($_['access_conditions'] === 'closed' ? 'checked' : '') ?>>
                                 <label for="embargo_closed">Closed (No Public Access)</label>
@@ -310,8 +310,8 @@
                             <span id="embargo_note" class="standard"><?php echo str_replace('\n', '<br />', $_['embargo_details']) ?></span>
                         </div>
 
-                        <div class="embargo-access-conditions">
-                            <h6 class="info">Embargo Access Conditions</h6>
+                        <div class="access-conditions">
+                            <h6 class="info">Access Conditions</h6>
                             <span id="access_conditions" class="standard"><?php p($_['access_conditions']) ?></span>
                         </div>
                     </div>
