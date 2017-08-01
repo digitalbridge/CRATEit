@@ -930,6 +930,9 @@ function initSearchHandlers() {
     // Primary Contact
     var primaryContactDefinition = {
         manifestField: 'primarycontacts',
+        actions: {
+            search: 'people'
+        },
         mapping: {
             'id': 'id',
             'identifier': 'dc_identifier',
@@ -945,7 +948,7 @@ function initSearchHandlers() {
     var primaryContactSelectedList = manifest.primarycontacts;
     var primaryContactResultsUl = $('#search_primarycontacts_results');
     var primaryContactSelectedUl = $('#selected_primarycontacts');
-    var primaryContactNotification = $('#primarycontact_search_notification');
+    var primaryContactNotification = $('#primarycontacts_search_notification');
     var primaryContactEditModal = $('#editPrimaryContactsModal');
 
     var editPrimaryContactValidator = new CrateIt.Validation.FormValidator(primaryContactEditModal);
@@ -962,7 +965,7 @@ function initSearchHandlers() {
     editPrimaryContactValidator.addValidator($('#edit-primarycontacts-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editPrimaryContactUrlValidator));
 
     PrimaryContactSearchManager = new SearchManager(primaryContactDefinition, primaryContactSelectedList, primaryContactResultsUl, primaryContactSelectedUl, primaryContactNotification, primaryContactEditModal);
-    $('#search_primarycontact').click(function() {
+    $('#search_primarycontacts').click(function() {
         PrimaryContactSearchManager.search($.trim($('#keyword_primarycontact').val()));
     });
 

@@ -463,12 +463,13 @@ div.jqtree-element {
     border-bottom: 1px solid #EEE;
 }
 
-.container-metadata .data-primarycontacts #search_primarycontacts_box {
-    display: none;
-}
-
 .container-metadata .data-primarycontacts #search_primarycontacts_result_box {
     clear: both;
+}
+
+.container-metadata .data-primarycontacts li {
+    padding: 14px 0;
+    border-bottom: 1px solid #EEE;
 }
 
 .container-metadata .data-fors ul#for {
@@ -544,6 +545,7 @@ div.jqtree-element {
 
 .container-metadata .grant-numbers label,
 .container-metadata .data-creators label,
+.container-metadata .data-primarycontacts label,
 .container-metadata .data-fors label,
 .container-metadata .crate-size label,
 .container-metadata .embargo-enabled label,
