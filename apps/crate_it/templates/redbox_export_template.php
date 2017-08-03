@@ -39,6 +39,31 @@
             <?php } ?>
         </my:Creators>
     <?php } ?>
+    <?php if (array_key_exists('primarycontacts', $_)) { ?>
+        <my:PrimaryContacts>
+            <?php foreach ($_['primarycontacts'] as $primarycontact) { ?>
+                <?php $isOverride = isset($primarycontact["overrides"]) ?>
+                <my:PrimaryContact>
+                    <my:PrimaryContactName>
+                        <?php if ($isOverride) {
+                            print_unescaped($primarycontact['overrides']['name']);
+                        } else {
+                            print_unescaped($primarycontact['name']);
+                        }
+                        ?>
+                    </my:PrimaryContactName>
+                    <my:PrimaryContactEmail>
+                        <?php if ($isOverride) {
+                            print_unescaped($primarycontact['overrides']['email']);
+                        } else {
+                            print_unescaped($primarycontact['email']);
+                        }
+                        ?>
+                    </my:PrimaryContactEmail>
+                </my:PrimaryContact>
+            <?php } ?>
+        </my:PrimaryContacts>
+    <?php } ?>
     <?php if (array_key_exists('activities', $_)) { ?>
         <my:GrantNumbers>
             <?php foreach ($_['activities'] as $activity) { ?>
@@ -64,6 +89,21 @@
             <?php } ?>
         </my:GrantNumbers>
     <?php } ?>
+    <?php if (array_key_exists('fors', $_)) { ?>
+        <my:FieldOfResearch>
+            <?php foreach ($_['fors'] as $fieldOfResearch) { ?>
+                <my:Research>
+                    <my:ResearchID>
+                        <?php print_unescaped($fieldOfResearch['id']) ?>
+                    </my:ResearchID>
+                    <my:ResearchTitle>
+                        <?php print_unescaped($fieldOfResearch['title']) ?>
+                    </my:ResearchTitle>
+                </my:Research>
+            <?php } ?>
+        </my:FieldOfResearch>
+    <?php } ?>
+    <my:FieldOfResearchKeywords><?php if(array_key_exists('for_keywords',$_)) {p($_['for_keywords']);} ?></my:FieldOfResearchKeywords>
     <my:Submitter>
         <my:SubmitterDisplayname><?php p($_['submitter']['displayname']) ?></my:SubmitterDisplayname>
         <my:SubmitterEmail><?php p($_['submitter']['email']) ?></my:SubmitterEmail>
