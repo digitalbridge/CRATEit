@@ -34,14 +34,14 @@
 
         <?php if (array_key_exists('embargo_enabled', $_)) { ?>
             <h1>Embargo Details</h1>
-            <h2>Embargo Enabled</h2>
+            <h4>Embargo Enabled</h4>
             <span><?php if ($_['embargo_enabled']) {p($_['embargo_enabled'] === 'true' ? 'Yes' : 'No');} ?></span>
 
             <?php if ($_['embargo_enabled'] === 'true') { ?>
-                <h2>Embargo Until</h2>
+                <h4>Embargo Until</h4>
                 <span><?php p($_['embargo_date']) ?></span>
 
-                <h2>Embargo Note</h2>
+                <h4>Embargo Note</h4>
                 <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
             <?php } ?>
         <?php } ?>
