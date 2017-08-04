@@ -32,21 +32,7 @@
             <span><?php p($_['data_retention_period']) ?> (years)</span>
         <?php } ?>
 
-        <?php if (array_key_exists('embargo_enabled', $_)) { ?>
-            <h1>Embargo Details</h1>
-            <h4>Embargo Enabled</h4>
-            <span><?php if ($_['embargo_enabled']) {p($_['embargo_enabled'] === 'true' ? 'Yes' : 'No');} ?></span>
-
-            <?php if ($_['embargo_enabled'] === 'true') { ?>
-                <h4>Embargo Until</h4>
-                <span><?php p($_['embargo_date']) ?></span>
-
-                <h4>Embargo Note</h4>
-                <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
-            <?php } ?>
-        <?php } ?>
-
-         <?php if (array_key_exists('access_conditions', $_)) { ?>
+        <?php if (array_key_exists('access_conditions', $_)) { ?>
             <h1>Access Conditions</h1>
             <span><?php p($_['access_conditions']) ?></span>
         <?php } ?>

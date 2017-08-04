@@ -47,20 +47,6 @@
                 <span><?php p($_['data_retention_period']) ?> (years)</span>
             <?php } ?>
 
-            <?php if (array_key_exists('embargo_enabled', $_)) { ?>
-                <h4>Embargo Details</h4>
-                <h5>Embargo Enabled</h5>
-                <span><?php if ($_['embargo_enabled']) {p($_['embargo_enabled'] === 'true' ? 'Yes' : 'No');} ?></span>
-
-                <?php if ($_['embargo_enabled'] === 'true') { ?>
-                    <h5>Embargo Until</h5>
-                    <span><?php p($_['embargo_date']) ?></span>
-
-                    <h5>Embargo Note</h5>
-                    <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
-                <?php } ?>
-            <?php } ?>
-
             <?php if (array_key_exists('access_conditions', $_)) { ?>
                 <h4>Access Conditions</h4>
                 <span><?php p($_['access_conditions']) ?></span>
