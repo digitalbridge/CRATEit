@@ -472,6 +472,20 @@ div.jqtree-element {
     border-bottom: 1px solid #EEE;
 }
 
+#access_conditions_options .message.success {
+    display: none;
+    padding: 7px 10px;
+    text-align: right;
+    color: #0ba755;
+}
+
+#access_conditions_options .message.error {
+    display: none;
+    padding: 7px 10px;
+    text-align: right;
+    color: #e43434;
+}
+
 .container-metadata .data-fors ul#for {
     padding: 0 0 20px 0;
 }

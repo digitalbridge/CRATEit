@@ -48,6 +48,10 @@
             <h4 class="margin-bottom">Data Retention Period</h4>
             <div id='publish-data-retention-period'></div>
 
+            <h4 class="margin-top margin-bottom">Access Conditions</h4>
+            <div id='publish-access-conditions'></div>
+
+<?php /*
             <h4 class="margin-top margin-bottom">Embargo Details</h4>
             <div>
               <h6>Embargo Enabled:</h6>
@@ -65,6 +69,7 @@
               <h6>Access Conditions:</h6>
               <div id="publish-access-conditions"></div>
             </div>
+*/ ?>
           </div>
         </div>
 

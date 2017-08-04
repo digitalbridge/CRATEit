@@ -102,6 +102,7 @@ $(document).ready(function() {
         setupDescriptionOps();
         setupForKeywordsOps();
         setupRetentionPeriodOps();
+        setupAccessConditionsOps();
         setupEmbargoDetailsOps();
         initSearchHandlers();
         initAutoResizeMetadataTabs();

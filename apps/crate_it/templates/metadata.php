@@ -230,6 +230,45 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
+                    <a href="#access-conditions" id="access-conditions-head" data-toggle="collapse" data-parent="#meta-data">
+                        Access Conditions
+                        <i class="pull-right fa fa-caret-down"></i>
+                    </a>
+                </h4>
+            </div>
+
+            <div id="access-conditions" class="panel-collapse collapse standard">
+                <div class="panel-body">
+                    <div id="access_conditions_list">
+                        <div id="access_conditions_options" class="metadata">
+                            <input type="radio" name="access_conditions" id="access_closed" value="closed" <?php p($_['access_conditions'] === 'closed' ? 'checked' : '') ?>>
+                            <label for="access_closed">Closed (No Public Access)</label>
+
+                            <br />
+
+                            <input type="radio" name="access_conditions" id="access_open" value="open" <?php p($_['access_conditions'] === 'open' ? 'checked' : '') ?>>
+                            <label for="access_open">Open (Public Access)</label>
+
+                            <br />
+
+                            <input type="radio" name="access_conditions" id="access_shared" value="shared" <?php p($_['access_conditions'] === 'shared' ? 'checked' : '') ?>>
+                            <label for="access_shared">Shared</label>
+
+                            <br /><br />
+
+                            <input type="button" id="save_access_conditions" value="Save">
+                            <p class="message error">Access Conditions must not be blank.</p>
+                            <p class="message success">Access Conditions saved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<?php /*
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
                     <a href="#embargo-details" id="embargo-details-head" data-toggle="collapse" data-parent="#meta-data">
                         Embargo Details
                         <i class="pull-right fa fa-caret-down"></i>
@@ -318,5 +357,6 @@
                 </div>
             </div>
         </div>
+*/ ?>
     </div>
 </div>

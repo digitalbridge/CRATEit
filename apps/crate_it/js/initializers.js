@@ -390,7 +390,7 @@ function initCrateActions() {
                 }
             },
             error: function(jqXHR) {
-                $('#publish-consistency').text('Unable ot determine crate consistency');
+                $('#publish-consistency').text('Unable to determine crate consistency');
             },
             complete: function() {
                 $('div#checkingCrateModal').modal('hide');
@@ -410,7 +410,7 @@ function initCrateActions() {
         $('#publish-embargo-enabled').text($('span#embargo_enabled').text());
         $('#publish-embargo-date').text($('span#embargo_until').text());
         $('#publish-embargo-note').text($('span#embargo_note').text());
-        $('#publish-access-conditions').text($('span#access_conditions').text());
+        $('#publish-access-conditions').text($('label[for="' + $('input[name=access_conditions]:checked').attr('id') + '"]').text());
 
         $('#publish-creators').children().remove();
         // TODO: create proper render functions
@@ -688,6 +688,52 @@ function setupForKeywordsOps() {
                         opacity: 0
                     }, 400, function() {
                         $('#for_keywords_container .message').hide().css('opacity', 100);
+                    });
+                }, 1500);
+            },
+            error: function(jqXHR) {
+                displayError(jqXHR.responseJSON.msg);
+            }
+        });
+    });
+}
+
+function setupAccessConditionsOps() {
+    $('#save_access_conditions').click(function(event) {
+        var c_url = OC.generateUrl('apps/crate_it/crate/update');
+        var accessConditions = $('input[name=access_conditions]:checked').val();
+        var errors = false;
+
+        $('#access_conditions_options .message').hide();
+        $('#embargo-details-modal-ul').html('');
+
+        if (typeof(accessConditions) === 'undefined') {
+            errors = true;
+        }
+
+        if (errors) {
+            $('#access_conditions_options .message.error').show().css('display', 'inline-block');
+            return;
+        }
+
+        $.ajax({
+            url: c_url,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'fields': [{
+                    'field': 'access_conditions',
+                    'value': accessConditions
+                }]
+            },
+            success: function(data) {
+                $('#access_conditions_options .message.success').show().css('display', 'inline-block');
+
+                setTimeout(function() {
+                    $('#access_conditions_options .message.success').animate({
+                        opacity: 0
+                    }, 400, function() {
+                        $('#access_conditions_options .message.success').hide().css('opacity', 100);
                     });
                 }, 1500);
             },
