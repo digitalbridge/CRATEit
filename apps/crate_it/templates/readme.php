@@ -7,12 +7,10 @@
     <h1>"<?php p($_['crate_name']) ?>" Data Package README file</h1>
     <section resource="creative work" typeof="http://schema.org/CreativeWork">
         <h1>Package Title</h1>
-        <span
-            property="http://schema.org/name http://purl.org/dc/elements/1.1/title"><?php p($_['crate_name']) ?></span>
+        <span property="http://schema.org/name http://purl.org/dc/elements/1.1/title"><?php p($_['crate_name']) ?></span>
 
         <h1>Package Creation Date</h1>
-        <span content="<?php p($_['created_date']) ?>"
-              property="http://schema.org/dateCreated"><?php p($_['created_date_formatted']) ?></span>
+        <span content="<?php p($_['created_date']) ?>" property="http://schema.org/dateCreated"><?php p($_['created_date_formatted']) ?></span>
 
         <h1>Package File Name</h1>
         <span property="http://schema.org/name"><?php p($_['crate_name'].'.zip') ?></span>
@@ -20,15 +18,14 @@
         <h1>ID</h1>
         <span property="http://schema.org/id"><?php p($_['crate_name']) ?></span>
 
-     	<h1>Location</h1>
-        <span property="http://schema.org/location"><?php p(nl2br($_['location'])) ?></span>
+        <h1>Description</h1>
+        <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
 
      	<h1>URL</h1>
         <span property="http://schema.org/url"><?php p(nl2br($_['url'])) ?></span>
 
-        <h1>Description</h1>
-        <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
-
+        <h1>Location</h1>
+        <span property="http://schema.org/location"><?php p(nl2br($_['location'])) ?></span>
 
         <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] !== "") { ?>
             <h1>Data Retention Period</h1>
@@ -46,10 +43,12 @@
 
                 <h2>Embargo Note</h2>
                 <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
-
-                <h2>Access Conditions</h2>
-                <span><?php p($_['access_conditions']) ?></span>
             <?php } ?>
+        <?php } ?>
+
+         <?php if (array_key_exists('access_conditions', $_)) { ?>
+            <h1>Access Conditions</h1>
+            <span><?php p($_['access_conditions']) ?></span>
         <?php } ?>
 
         <h1>Creators</h1>
@@ -90,8 +89,48 @@
             </table>
         <?php } else { ?>
             <span>None.</span>
-
         <?php } ?>
+
+        <h1>Primary Contacts</h1>
+            <?php if (array_key_exists('primarycontacts', $_) && !empty($_['primarycontacts']))  { ?>
+                <table border="1">
+                    <thead>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Identifier</th>
+                    <th>Source</th>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_['primarycontacts'] as $primarycontact) {
+                        if (array_key_exists('overrides', $primarycontact)) {
+                            $p = $primarycontact['overrides'];
+                        } else {
+                            $p = $primarycontact;
+                        }
+                        print_unescaped('<tr>');
+                        print_unescaped('<td>');
+                        p($p['name']);
+                        print_unescaped('</td>');
+                        print_unescaped('<td>');
+                        p($p['email']);
+                        print_unescaped('</td>');
+                        print_unescaped('<td xmlns:dc="http://purl.org/dc/elements/1.1/">');
+                        if (array_key_exists('url', $p)) {
+                            print_unescaped();
+                            print_unescaped('<a href="' . $p['identifier'] . '"><span property="dc:identifier">' . $p['identifier'] . '</span></a>');
+                        } else {
+                            print_unescaped('<span property="dc:identifier">' . $p['identifier'] . '</span>');
+                        }
+                        print_unescaped('</td>');
+                        print_unescaped('<td>' . $primarycontact['source'] . '</td>');
+                        print_unescaped('</tr>');
+                    } ?>
+                    </tbody>
+                </table>
+            <?php } else { ?>
+                <span>None.</span>
+            <?php } ?>
+
         <h1>Grants</h1>
         <?php if (array_key_exists('activities', $_) && !empty($_['activities'])) { ?>
             <table border="1">
@@ -192,8 +231,39 @@
             </table>
         <?php } else { ?>
             <span>None.</span>
-
         <?php } ?>
+
+        <h1>Field of Research</h1>
+        <?php if ((array_key_exists('for_keywords', $_) && !empty($_['for_keywords'])) || (array_key_exists('fors', $_) && !empty($_['fors']))) { ?>
+            <?php if (array_key_exists('for_keywords', $_) && !empty($_['for_keywords']))  { ?>
+                <p>
+                    Keywords: <span property="http://schema.org/name"><?php p($_['for_keywords']) ?></span>
+                </p>
+            <?php } ?>
+            <?php if (array_key_exists('fors', $_) && !empty($_['fors']))  { ?>
+                <table border="1">
+                    <thead>
+                    <th>Id</th>
+                    <th>Title</th>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_['fors'] as $fieldOfResearch) {
+                        print_unescaped('<tr>');
+                        print_unescaped('<td>');
+                        p($fieldOfResearch['id']);
+                        print_unescaped('</td>');
+                        print_unescaped('<td>');
+                        p($fieldOfResearch['title']);
+                        print_unescaped('</td>');
+                        print_unescaped('</tr>');
+                    } ?>
+                    </tbody>
+                </table>
+            <?php } ?>
+        <?php } else { ?>
+            <span>None.</span>
+        <?php } ?>
+
         <h1>Software Information</h1>
         <section property="http://purl.org/dc/terms/creator" typeof="http://schema.org/softwareApplication" resource="">
             <table border="1">

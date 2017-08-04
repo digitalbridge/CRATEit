@@ -18,15 +18,14 @@
         <p>
             Your crate submission report is listed below:
         </p>
+
         <h4>"<?php p($_['crate_name']) ?>" Submission Report</h4>
         <section resource="creative work" typeof="http://schema.org/CreativeWork">
             <h4>Package Title</h4>
-        <span
-            property="http://schema.org/name http://purl.org/dc/elements/1.1/title"><?php p($_['crate_name']) ?></span>
+            <span property="http://schema.org/name http://purl.org/dc/elements/1.1/title"><?php p($_['crate_name']) ?></span>
 
             <h4>Package Creation Date</h4>
-        <span content="<?php p($_['created_date']) ?>"
-              property="http://schema.org/dateCreated"><?php p($_['created_date_formatted']) ?></span>
+            <span content="<?php p($_['created_date']) ?>" property="http://schema.org/dateCreated"><?php p($_['created_date_formatted']) ?></span>
 
             <h4>Package File Name</h4>
             <span property="http://schema.org/name"><?php p($_['file_name']) ?></span>
@@ -38,11 +37,10 @@
             <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
 
             <h4>URL</h4>
-            <span property="http://schema.org/description"><?php p(nl2br($_['url'])) ?></span>
+            <span property="http://schema.org/url"><?php p(nl2br($_['url'])) ?></span>
 
             <h4>Location</h4>
-            <span property="http://schema.org/description"><?php p(nl2br($_['location'])) ?></span>
-
+            <span property="http://schema.org/location"><?php p(nl2br($_['location'])) ?></span>
 
             <?php if (array_key_exists('data_retention_period', $_) && $_['data_retention_period'] !== "") { ?>
                 <h4>Data Retention Period</h4>
@@ -60,12 +58,11 @@
 
                     <h5>Embargo Note</h5>
                     <span><?php echo str_replace("\n", "<br>", $_['embargo_details']) ?></span>
-
                 <?php } ?>
             <?php } ?>
 
             <?php if (array_key_exists('access_conditions', $_)) { ?>
-                <h5>Access Conditions</h5>
+                <h4>Access Conditions</h4>
                 <span><?php p($_['access_conditions']) ?></span>
             <?php } ?>
 
@@ -107,7 +104,6 @@
                 </table>
             <?php } else { ?>
                 <span>None.</span>
-
             <?php } ?>
 
             <h4>Primary Contacts</h4>
@@ -148,7 +144,6 @@
                 </table>
             <?php } else { ?>
                 <span>None.</span>
-
             <?php } ?>
 
             <h4>Grants</h4>
@@ -251,7 +246,6 @@
                 </table>
             <?php } else { ?>
                 <span>None.</span>
-
             <?php } ?>
 
             <h4>Field of Research</h4>
@@ -286,8 +280,7 @@
             <?php } ?>
 
             <h4>Software Information</h4>
-            <section property="http://purl.org/dc/terms/creator" typeof="http://schema.org/softwareApplication"
-                     resource="">
+            <section property="http://purl.org/dc/terms/creator" typeof="http://schema.org/softwareApplication" resource="">
                 <table border="1">
                     <tbody>
                     <tr>
