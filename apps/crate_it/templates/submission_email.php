@@ -236,11 +236,6 @@
 
             <h4>Field of Research</h4>
             <?php if ((array_key_exists('for_keywords', $_) && !empty($_['for_keywords'])) || (array_key_exists('fors', $_) && !empty($_['fors']))) { ?>
-                <?php if (array_key_exists('for_keywords', $_) && !empty($_['for_keywords']))  { ?>
-                    <p>
-                        Keywords: <span property="http://schema.org/name"><?php p($_['for_keywords']) ?></span>
-                    </p>
-                <?php } ?>
                 <?php if (array_key_exists('fors', $_) && !empty($_['fors']))  { ?>
                     <table border="1">
                         <thead>
@@ -260,6 +255,11 @@
                         } ?>
                         </tbody>
                     </table>
+                <?php } ?>
+                <?php if (array_key_exists('for_keywords', $_) && !empty($_['for_keywords']))  { ?>
+                    <p>
+                        Keywords: <span property="http://schema.org/name"><?php p($_['for_keywords']) ?></span>
+                    </p>
                 <?php } ?>
             <?php } else { ?>
                 <span>None.</span>
