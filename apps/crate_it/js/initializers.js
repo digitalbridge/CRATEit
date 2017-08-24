@@ -366,7 +366,7 @@ function initCrateActions() {
 
     $('#publish').click(function() {
         if (treeHasNoFiles()) {
-            displayNotification('No items in the crate to package');
+            displayNotification('You must add files to crate to publish.');
             return;
         }
         // TODO: Migrate to a single  client side shared model of the manifest
