@@ -246,7 +246,7 @@ class cratecontroller extends Controller
         header('Content-Disposition: attachment; filename="' . $filename . '"');
 
         $fp = fopen('php://output', 'w');
-        fputcsv($fp, ['User Name', 'Crate Name', 'Size', 'Description', 'Publisher', 'Retention Period', 'Submission Date']);
+        fputcsv($fp, ['User Name', 'Crate Name', 'Size', 'Description', 'Publisher', 'Retention Period', 'Access Conditions', 'Submission Date']);
 
         $userObject = \OC::$server->getUserSession()->getUser();
         $crateDetails = $this->crateManager->getCrateDetailsList();
@@ -258,6 +258,7 @@ class cratecontroller extends Controller
                 $crateDetail['manifest']['description'],
                 $crateDetail['manifest']['submitter']['displayname'] . '(' . $crateDetail['manifest']['submitter']['email'] . ')',
                 $crateDetail['manifest']['data_retention_period'],
+                $crateDetail['manifest']['access_conditions'],
                 $crateDetail['manifest']['publish_details']['submitted_date']
             ]);
         }
