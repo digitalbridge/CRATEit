@@ -48,7 +48,6 @@ function initCrateActions() {
     };
 
     var syncCrate = function() {
-        console.log('clicked');
         var c_url = OC.generateUrl('apps/crate_it/crate/sync');
         var crate_filename = $(this).data('filename');
 

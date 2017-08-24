@@ -64,7 +64,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
             // TODO: using faIcon as a flag again
             if (faIcon == 'fa-minus') {
                 $toggleButton.next().click(function() {
-                    console.log('record.id', record.id);
                     displayEditRecordModal(record.id);
                 });
             }
@@ -196,7 +195,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
     }
 
     this.addRecord = function(overrides) {
-        console.log('hello2');
         var record = createEmptyRecord();
         addOverrides(record, overrides);
         record['id'] = hashCode(record);
@@ -207,8 +205,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
     function displayEditRecordModal(id) {
         var record = getRecord(id, 'selected');
-
-        console.log('isEditable', isEditable(record));
 
         if (isEditable(record)) {
             var editPrefix = '#edit-' + definition.manifestField + '-';
@@ -301,7 +297,6 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
                 if ($destLi.find('#' + record.id + ' > i').hasClass('fa-minus')) { // TODO: clean this up, hack and nasty
                     $destLi.find('#' + record.id).next().click(function() {
-                        console.log('hello');
                         displayEditRecordModal(record.id);
                     });
                 }
@@ -411,7 +406,7 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
         // TODO: using the icon as a switch, should probably just have a flag
         if (faIcon == 'fa-minus') {
-            html += '<button class="pull-right" data-record="' + record.id + '"' + editable + '>';
+            html += '<button class="pull-right ' + record.source + '" data-record="' + record.id + '"' + editable + '>';
             html += '<i class="fa fa-edit"></i></button>';
         }
 
