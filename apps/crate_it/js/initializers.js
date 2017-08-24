@@ -365,6 +365,10 @@ function initCrateActions() {
     publishConfirmValidator.addValidator($('#publish-confirm-email'), new CrateIt.Validation.EmailValidator());
 
     $('#publish').click(function() {
+        if (treeHasNoFiles()) {
+            displayNotification('No items in the crate to package');
+            return;
+        }
         // TODO: Migrate to a single  client side shared model of the manifest
         // TODO: let this be handled by the search managers perhaps?
         $('div#checkingCrateModal').modal();
