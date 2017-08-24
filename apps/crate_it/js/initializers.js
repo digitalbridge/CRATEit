@@ -369,6 +369,15 @@ function initCrateActions() {
             displayNotification('You must add files to crate to publish.');
             return;
         }
+
+        $crateName = manifest.vfs[0].name;
+        if ($crateName == 'default_crate') {
+            displayNotification('Crate name cannot be "default_crate". Please update and try again.');
+            return;
+        }
+
+        $('#publishModalLabel .crate-name').text(' - ' + $crateName);
+
         // TODO: Migrate to a single  client side shared model of the manifest
         // TODO: let this be handled by the search managers perhaps?
         $('div#checkingCrateModal').modal();
