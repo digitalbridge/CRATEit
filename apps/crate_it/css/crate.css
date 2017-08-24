@@ -435,8 +435,10 @@ div.jqtree-element {
 }
 
 .container-metadata #description_box textarea {
+    width: 100%;
+    min-height: 100px;
     margin: 0;
-    width: 230px !important;
+    resize: vertical;
 }
 
 .container-metadata #name_box label {

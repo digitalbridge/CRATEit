@@ -547,7 +547,7 @@ function setupDescriptionOps() {
     $('#edit_description').click(function(event) {
         var old_description = $('#description').text();
         $('#description').text('');
-        $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" style="width: 40%;" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><br /><div id="edit_description_validation_error" style="color: red;"></div><input type="button" id="save_description" value="Save" /><input type="button" id="cancel_description" value="Cancel" />');
+        $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><br /><div id="edit_description_validation_error" style="color: red;"></div><input type="button" id="save_description" value="Save" /><input type="button" id="cancel_description" value="Cancel" />');
         setupEditDescriptionOp();
         $('#edit_description').addClass('hidden');
         $('#save_description').click(function(event) {
