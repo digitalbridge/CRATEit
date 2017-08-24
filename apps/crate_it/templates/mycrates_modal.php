@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
                 <h2 class="modal-title" id="mycratesModalLabel">Published Crates</h2>
-                <p class="crate-message">Message Placeholder</p>
+                <p class="crate-message">A summary of Published crates</p>
             </div>
 
             <div class="modal-body">
