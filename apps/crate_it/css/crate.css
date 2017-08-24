@@ -492,6 +492,10 @@ div.jqtree-element {
     color: #e43434;
 }
 
+#selected_fors .mint {
+    display: none;
+}
+
 .container-metadata .data-fors ul#for {
     padding: 0 0 20px 0;
 }
