@@ -52,22 +52,25 @@ function SearchManager(definition, selectedList, $resultsUl, $selectedUl, $notif
 
     var drawList = function($li, list, faIcon, faIcon2) {
         $li.empty();
-        list.forEach(function(record) {
-            var html = renderRecord(record, faIcon);
-            $li.append(html);
 
-            var $toggleButton = $li.find('#' + record.id);
-            $toggleButton.click(function() {
-                toggle(record.id);
-            });
+        if (list) {
+            list.forEach(function(record) {
+                var html = renderRecord(record, faIcon);
+                $li.append(html);
 
-            // TODO: using faIcon as a flag again
-            if (faIcon == 'fa-minus') {
-                $toggleButton.next().click(function() {
-                    displayEditRecordModal(record.id);
+                var $toggleButton = $li.find('#' + record.id);
+                $toggleButton.click(function() {
+                    toggle(record.id);
                 });
-            }
-        });
+
+                // TODO: using faIcon as a flag again
+                if (faIcon == 'fa-minus') {
+                    $toggleButton.next().click(function() {
+                        displayEditRecordModal(record.id);
+                    });
+                }
+            });
+        }
     };
 
     this.addEventListener = function(callback) {

@@ -515,20 +515,36 @@ div.jqtree-element {
     overflow: hidden;
 }
 
-#for_keywords_container #for_keywords {
+#for_keywords_container #for_keyword {
     margin: 1em 0 0 0;
     padding-right: 58px;
 }
 
-#for_keywords_container #save_keywords {
+#for_keywords_container #save_keyword {
     position: absolute;
     top: 14px; right: 0;
     margin: 0;
 }
 
-#for_keywords_container .message {
+#keywords_list li {
+    padding: 7px;
+}
+
+#keywords_list li a {
+    float: right;
+    padding: 4px;
+    line-height: 1;
+    color: #ccc;
+}
+
+#keywords_list li a:hover {
+    color: #333;
+}
+
+.for_keywords_heading .message {
+    float: right;
     display: none;
-    padding: 7px 10px;
+    padding: 0;
     text-align: right;
     color: #0ba755;
 }

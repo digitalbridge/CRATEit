@@ -146,11 +146,12 @@
                             <ul id="search_for_results"></ul>
                         </div>
 
-                        <h6 class="for_keywords_heading">Keywords</h6>
+                        <h6 class="for_keywords_heading">Keywords <span class="message"></span></h6>
                         <div id="for_keywords_container">
-                            <input type="text" name="for_keywords" id="for_keywords" class="form-control" placeholder="Enter Keywords" />
-                            <input type="button" id="save_keywords" value="Save" />
-                            <p class="message">Keywords saved.</p>
+                            <input type="text" name="for_keyword" id="for_keyword" class="form-control" placeholder="Enter Keywords" />
+                            <input type="button" id="save_keyword" value="Add" />
+
+                            <ul id="keywords_list" class="metadata"></ul>
                         </div>
                     </div>
                 </div>

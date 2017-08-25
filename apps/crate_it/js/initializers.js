@@ -678,10 +678,46 @@ function setupRetentionPeriodOps() {
 
 function setupForKeywordsOps() {
     manifest = getManifest();
-    $('#for_keywords_container #for_keywords').val(manifest.for_keywords);
 
-    $('#for_keywords_container #save_keywords').click(function(e) {
+    if (typeof manifest.for_keywords == 'string') {
+        $keywords = [];
+        if (manifest.for_keywords) {
+            $keywords.push(manifest.for_keywords);
+        }
+    } else {
+        $keywords = manifest.for_keywords;
+    }
+
+    if ($keywords) {
+        updateKeywordsList($keywords);
+    }
+
+    $('#for_keywords_container #save_keyword').click(function(e) {
+        $new_keywords = $('#for_keyword').val().split(',');
+
+        $.each($new_keywords, function(key, value) {
+            if ($.inArray(value, $keywords) == -1) {
+                $keywords.push(value.trim());
+            }
+        });
+
+        updateKeywords($keywords, 'add', 'Keywords updated');
+    });
+
+    $(document).on('click', '#keywords_list li a', function(e) {
+        e.preventDefault();
+
+        if (! $('#keywords_list').hasClass('disabled')) {
+            $del = $(this).data('index');
+            $keywords.splice($del, 1);
+            updateKeywords($keywords, 'remove', 'Keyword removed');
+        }
+    });
+
+    function updateKeywords(keywords, action, message) {
         var c_url = OC.generateUrl('apps/crate_it/crate/update');
+
+        $('#keywords_list').addClass('disabled');
 
         $.ajax({
             url: c_url,
@@ -690,24 +726,39 @@ function setupForKeywordsOps() {
             data: {
                 'fields': [{
                     'field': 'for_keywords',
-                    'value': $('#for_keywords').val()
+                    'value': keywords
                 }]
             },
             success: function(data) {
-                $('#for_keywords_container .message').show();
+                $('.for_keywords_heading .message').text(message).show();
                 setTimeout(function() {
-                    $('#for_keywords_container .message').animate({
+                    $('.for_keywords_heading .message').animate({
                         opacity: 0
                     }, 400, function() {
-                        $('#for_keywords_container .message').hide().css('opacity', 100);
+                        $('#keywords_list').removeClass('disabled');
+                        $('.for_keywords_heading .message').empty().hide().css('opacity', 100);
                     });
                 }, 1500);
+
+                if (action == 'add') {
+                    $('#for_keyword').val('');
+                }
+
+                updateKeywordsList(keywords);
             },
             error: function(jqXHR) {
                 displayError(jqXHR.responseJSON.msg);
             }
         });
-    });
+    }
+
+    function updateKeywordsList(keywords) {
+        $('#for_keywords_container #keywords_list').empty();
+
+        $.each(keywords, function(key, value) {
+            $('#for_keywords_container #keywords_list').append('<li>' + value + '<a href="#" data-index="' + key + '"><i class="fa fa-times"></i></a></li>');
+        });
+    }
 }
 
 function setupAccessConditionsOps() {
