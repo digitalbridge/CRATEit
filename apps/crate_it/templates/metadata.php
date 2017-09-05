@@ -5,12 +5,12 @@
                 <h4 class="panel-title">
                     <a href="#crate-information" id="crate-information-head" data-toggle="collapse" data-parent="#meta-data">
                         Crate Information
-                        <i class="pull-right fa fa-caret-up"></i>
+                        <i class="pull-right fa fa-caret-down"></i>
                     </a>
                 </h4>
             </div>
 
-            <div id="crate-information" class="panel-collapse collapse in standard">
+            <div id="crate-information" class="panel-collapse collapse standard">
                 <div class="panel-body">
                     <div id="description_box">
                         <h6>

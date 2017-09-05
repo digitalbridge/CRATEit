@@ -441,10 +441,12 @@ function initCrateActions() {
 
         $('#publish-fors').children().remove();
         records = ForSearchManager.getSelected();
-        records.forEach(function(record) {
-            var html = ForSearchManager.renderSummary(record);
-            $('#publish-fors').append(html);
-        });
+        if (records) {
+            records.forEach(function(record) {
+                var html = ForSearchManager.renderSummary(record);
+                $('#publish-fors').append(html);
+            });
+        }
     });
 
     if ($('#publish-collection > option').length == 0) {
@@ -557,10 +559,31 @@ function setupDescriptionOps() {
     //     }
     // });
 
+    $(window).load(function() {
+        $('#crate-information-head').click();
+
+        setDescriptionHeight();
+    });
+
+    function setDescriptionHeight() {
+        var panelBody = $('#crate-information .panel-body').height();
+        var descTitle = $('#description_box h6').outerHeight();
+        var crateSize = $('#crate-information .crate-size').outerHeight();
+        var margTop = parseInt($('#description').css('margin-bottom').replace('px', ''));
+        var margBot = parseInt($('#description').css('margin-bottom').replace('px', ''));
+        var paddTop = parseInt($('#description').css('padding-bottom').replace('px', ''));
+        var paddBot = parseInt($('#description').css('padding-bottom').replace('px', ''));
+        var selfMarPad = margTop + margBot + paddTop + paddBot;
+
+        var descHeight = panelBody - descTitle - crateSize - selfMarPad - 10;
+        $('#description').css('max-height', descHeight);
+    }
+
     $('#edit_description').click(function(event) {
         var old_description = $('#description').text();
-        $('#description').text('');
+        $('#description').text('').addClass('no-border');
         $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><br /><div id="edit_description_validation_error" style="color: red;"></div><input type="button" id="save_description" value="Save" /><input type="button" id="cancel_description" value="Cancel" />');
+        $('#description textarea').height($(this).closest('.panel-body').height() / 2);
         setupEditDescriptionOp();
         $('#edit_description').addClass('hidden');
         $('#save_description').click(function(event) {
@@ -598,7 +621,7 @@ function setupDescriptionOps() {
                     }]
                 },
                 success: function(data) {
-                    $('#description').html('');
+                    $('#description').html('').removeClass('no-border');
                     $('#description').text(data.values['description']);
                     $('#edit_description').removeClass('hidden');
                     calulateHeights();
@@ -615,7 +638,7 @@ function setupDescriptionOps() {
             // $('#description').html(escaped.replace(/\n/g, '<br />'));
             // $('#edit_description').removeClass('hidden');
 
-            $('#description').html('');
+            $('#description').html('').removeClass('no-border');
             $('#description').text(old_description);
             $('#edit_description').removeClass('hidden');
         });

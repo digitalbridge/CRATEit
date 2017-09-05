@@ -436,7 +436,7 @@ div.jqtree-element {
 
 .container-metadata #description_box textarea {
     width: 100%;
-    min-height: 100px;
+    min-height: 120px;
     margin: 0;
     resize: vertical;
 }
@@ -637,7 +637,7 @@ div.jqtree-element {
 
 .panel-body {
     padding: 20px 20px 10px 20px;
-    overflow:scroll;
+    overflow-y: scroll;
 }
 
 .panel-body h6 {
@@ -716,7 +716,7 @@ footer.attribution {
     font: normal 14px "Helvetica Neue", Helvetica, Arial, FreeSans, sans-serif;
 }
 
-.modal-header .close {
+#publishModal .modal-header .close {
     margin-top: -2px;
 }
 
@@ -737,6 +737,10 @@ button.close {
     text-shadow: 0 1px 0 #fff;
     opacity: .2;
     filter: alpha(opacity=20);
+}
+
+.modal-header .btn {
+    float: right;
 }
 
 h4, .h4 {
@@ -846,12 +850,20 @@ h4, .h4 {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: pre-line;
 }
 
 #description {
     max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 10px;
+    border: 1px solid #eee;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#description.no-border {
+    padding: 0;
+    border: 0 none;
 }
 
 i.embargo_datetime_icon {
