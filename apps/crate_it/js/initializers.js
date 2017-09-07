@@ -104,37 +104,113 @@ function initCrateActions() {
     };
 
     var createCrate = function() {
-        var params = {
-            'name': $('#crate_input_name').val(),
-            'description': $('#crate_input_description').val(),
-            'data_retention_period': ''
-        };
+        var $errors = 0;
 
-        var c_url = OC.generateUrl('apps/crate_it/crate/create');
+        var $name = $('#crate_input_name');
+        var $description = $('#crate_input_description');
 
-        $.ajax({
-            url: c_url,
-            type: 'post',
-            dataType: 'json',
-            async: false,
-            data: params,
-            success: function(data) {
-                var crateName = data.crateName;
-                $('#crate_input_name').val('');
-                $('#crate_input_description').val('');
-                $('#createCrateModal').modal('hide');
-                $('#crates').append('<option id="' + crateName + '" value="' + crateName + '">' + crateName + '</option>');
-                $('#crates').val(crateName);
-                $('#crates').trigger('change');
-                displayNotification('Crate ' + crateName + ' successfully created', 6000);
-                location.reload();
-            },
-            error: function(jqXHR) {
-                 // TODO: Make sure all ajax errors are this form instrad of data.msg
-                displayError(jqXHR.responseJSON.msg);
+        var $error_name = $('#crate_name_validation_error');
+        var $error_description = $('#crate_description_validation_error');
+
+        $error_name.text('').hide();
+        $error_description.text('').hide();
+
+        if (templateVars['validate_crate_name']) {
+            var $nameError = validateCrateName($name);
+
+            if ($nameError != '') {
+                $error_name.text($nameError).show();
+                $errors++;
             }
-        });
+        }
+
+        if (templateVars['validate_crate_description']) {
+            var $descriptionError = validateCrateDescription($description);
+
+            if ($descriptionError != '') {
+                $error_description.text($descriptionError).show();
+                $errors++;
+            }
+        }
+
+        if ($errors > 0) {
+            return false;
+        } else {
+            var params = {
+                'name': $name.val(),
+                'description': $description.val(),
+                'data_retention_period': ''
+            };
+
+            var c_url = OC.generateUrl('apps/crate_it/crate/create');
+
+            $.ajax({
+                url: c_url,
+                type: 'post',
+                dataType: 'json',
+                async: false,
+                data: params,
+                success: function(data) {
+                    var crateName = data.crateName;
+                    $('#crate_input_name').val('');
+                    $('#crate_input_description').val('');
+                    $('#createCrateModal').modal('hide');
+                    $('#crates').append('<option id="' + crateName + '" value="' + crateName + '">' + crateName + '</option>');
+                    $('#crates').val(crateName);
+                    $('#crates').trigger('change');
+                    displayNotification('Crate ' + crateName + ' successfully created', 6000);
+                    location.reload();
+                },
+                error: function(jqXHR) {
+                    // TODO: Make sure all ajax errors are this form instead of data.msg
+                    displayError(jqXHR.responseJSON.msg);
+                }
+            });
+        }
     };
+
+    $('#createCrateModal').find('.btn-primary').click(createCrate);
+
+    // Create Crate Keyup Validations
+    $('#crate_input_name').keyup(function(e) {
+        if (e.which === 9) {
+            return false;
+        }
+
+        if (templateVars['validate_crate_name']) {
+            var $name = $(this);
+            var $error_name = $('#crate_name_validation_error');
+            var $nameError = validateCrateName($name);
+
+            if ($nameError != '') {
+                $error_name.text($nameError);
+                $error_name.show();
+            } else {
+                $error_name.text('');
+                $error_name.hide();
+            }
+        }
+    });
+
+    $('#crate_input_description').keyup(function(e) {
+        if (e.which === 9) {
+            return false;
+        }
+
+        if (templateVars['validate_crate_description']) {
+            var $description = $(this);
+            var $error_description = $('#crate_description_validation_error');
+            var $descriptionError = validateCrateDescription($description);
+
+            if ($descriptionError != '') {
+                $error_description.text($descriptionError);
+                $error_description.show();
+            } else {
+                $error_description.text('');
+                $error_description.hide();
+            }
+        }
+    });
 
     var deleteCrate = function() {
         var current_crate = $('#crates').val();
@@ -180,65 +256,19 @@ function initCrateActions() {
         location.reload();
     });
 
-    // Validate new CRATE
-    $('#crate_input_name').keyup(function() {
-        var $name = $(this);
-        var $description = $('#crate_input_description');
-        var $error_name = $('#crate_name_validation_error');
-        var $error_description = $('#crate_description_validation_error');
-        var $confirm = $('#create_crate_submit');
-
-        var $nameError = validateCrateName($name);
-        var $descriptionError = validateCrateDescription($description);
-
-        if ($nameError != '') {
-            $error_name.text($nameError);
-            $error_name.show();
-            $confirm.prop('disabled', true);
-        } else {
-            $error_name.text('');
-            $error_name.hide();
-            if ($descriptionError != '') {
-                $confirm.prop('disabled', true);
-            } else {
-                $confirm.prop('disabled', false);
-            }
-        }
-    });
-
-    $('#crate_input_description').keyup(function() {
-        var $description = $(this);
-        var $name = $('#crate_input_name');
-        var $error_name = $('#crate_name_validation_error');
-        var $error_description = $('#crate_description_validation_error');
-        var $confirm = $('#create_crate_submit');
-
-        var $nameError = validateCrateName($name);
-        var $descriptionError = validateCrateDescription($description);
-
-        if ($descriptionError != '') {
-            $error_description.text($descriptionError);
-            $error_description.show();
-            $confirm.prop('disabled', true);
-        } else {
-            $error_description.text('');
-            $error_description.hide();
-            if ($nameError != '') {
-                $confirm.prop('disabled', true);
-            } else {
-                $confirm.prop('disabled', false);
-            }
-        }
-    });
-
-    $('#createCrateModal').find('.btn-primary').click(createCrate);
-
     $('#createCrateModal').on('show.bs.modal', function() {
+        if (templateVars['validate_crate_name']) {
+            $('label[for="crate_input_name"]').addClass('req');
+        }
+
+        if (templateVars['validate_crate_description']) {
+            $('label[for="crate_input_description"]').addClass('req');
+        }
+
         $('#crate_input_name').val('');
         $('#crate_input_description').val('');
         $('#crate_name_validation_error').hide();
         $('#crate_description_validation_error').hide();
-        $(this).find('.btn-primary').prop('disabled', true);
     });
 
     $('#clearCrateModal').find('.btn-primary').click(function() {

@@ -700,6 +700,30 @@ footer.attribution {
     margin-bottom: 5px;
 }
 
+.modal label {
+    display: block;
+    margin: 1em 0 0.25em 0;
+}
+
+.modal label.req:after {
+    content: ' *';
+}
+
+.modal input[type="text"] {
+    display: block;
+    margin: 0;
+}
+
+.modal textarea {
+    display: block;
+    margin: 0;
+}
+
+.modal label.error {
+    margin: 0.25em 0 0 0;
+    color: red;
+}
+
 .modal-footer button {
     margin: .3em;
     padding: .6em .5em .4em;
