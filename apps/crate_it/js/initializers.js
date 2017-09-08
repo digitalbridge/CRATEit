@@ -1358,9 +1358,12 @@ function initSearchHandlers() {
     var for$selectedUl = $('#selected_fors');
     var for$notification = $('#for_search_notification');
     var for$editModal = $('#editForsModal');
+
     var editForsValidator = new CrateIt.Validation.FormValidator(for$editModal);
-    editForsValidator.addValidator($('#edit-fors-title'), new CrateIt.Validation.RequiredValidator('Title'));
-    editForsValidator.addValidator($('#edit-fors-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    if (templateVars['validate_for_title']) {
+        editForsValidator.addValidator($('#edit-fors-title'), new CrateIt.Validation.RequiredValidator('Title'));
+        editForsValidator.addValidator($('#edit-fors-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    }
 
     // TODO: add this to a namespace rather than exposing globally
     ForSearchManager = new SearchManager(forDefinition, forSelectedList, for$resultsUl, for$selectedUl, for$notification, for$editModal);
@@ -1398,8 +1401,14 @@ function initSearchHandlers() {
     var $addForModal = $('#addForModal');
 
     var addForValidator = new CrateIt.Validation.FormValidator($addForModal);
-    addForValidator.addValidator($('#add-for-title'), new CrateIt.Validation.RequiredValidator('Title'));
-    addForValidator.addValidator($('#add-for-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    if (templateVars['validate_for_title']) {
+        addForValidator.addValidator($('#add-for-title'), new CrateIt.Validation.RequiredValidator('Title'));
+        addForValidator.addValidator($('#add-for-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    }
+
+    if (! templateVars['validate_for_title']) {
+        $('#addForModal .modal-footer .btn-primary, #editForsModal .modal-footer .btn-primary').removeAttr('disabled').addClass('noval');
+    }
 
     $('#add-for').click(function() {
         attachModalHandlers($addForModal, addFor);
