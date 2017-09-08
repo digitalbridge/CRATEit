@@ -1230,18 +1230,27 @@ function initSearchHandlers() {
     var activity$selectedUl = $('#selected_activities');
     var activity$notification = $('#activities_search_notification');
     var activity$editModal = $('#editActivitiesModal');
+
     var editActivityValidator = new CrateIt.Validation.FormValidator(activity$editModal);
-    editActivityValidator.addValidator($('#edit-activities-grant_number'), new CrateIt.Validation.RequiredValidator('Grant number'));
-    editActivityValidator.addValidator($('#edit-activities-grant_number'), new CrateIt.Validation.MaxLengthValidator('Grant number', 256));
+    if (templateVars['validate_grants_number']) {
+        editActivityValidator.addValidator($('#edit-activities-grant_number'), new CrateIt.Validation.RequiredValidator('Grant number'));
+        editActivityValidator.addValidator($('#edit-activities-grant_number'), new CrateIt.Validation.MaxLengthValidator('Grant number', 256));
+    }
 
-    editActivityValidator.addValidator($('#edit-activities-date'), new CrateIt.Validation.RequiredValidator('Year'));
-    editActivityValidator.addValidator($('#edit-activities-date'), new CrateIt.Validation.YearValidator());
+    if (templateVars['validate_grants_year']) {
+        editActivityValidator.addValidator($('#edit-activities-date'), new CrateIt.Validation.RequiredValidator('Year'));
+        editActivityValidator.addValidator($('#edit-activities-date'), new CrateIt.Validation.YearValidator());
+    }
 
-    editActivityValidator.addValidator($('#edit-activities-institution'), new CrateIt.Validation.RequiredValidator('Institution'));
-    editActivityValidator.addValidator($('#edit-activities-institution'), new CrateIt.Validation.MaxLengthValidator('Institution', 256));
+    if (templateVars['validate_grants_institution']) {
+        editActivityValidator.addValidator($('#edit-activities-institution'), new CrateIt.Validation.RequiredValidator('Institution'));
+        editActivityValidator.addValidator($('#edit-activities-institution'), new CrateIt.Validation.MaxLengthValidator('Institution', 256));
+    }
 
-    editActivityValidator.addValidator($('#edit-activities-title'), new CrateIt.Validation.RequiredValidator('Title'));
-    editActivityValidator.addValidator($('#edit-activities-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    if (templateVars['validate_grants_title']) {
+        editActivityValidator.addValidator($('#edit-activities-title'), new CrateIt.Validation.RequiredValidator('Title'));
+        editActivityValidator.addValidator($('#edit-activities-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    }
 
     // TODO: add this to a namespace rather than exposing globally
     ActivitySearchManager = new SearchManager(activityDefinition, activitySelectedList, activity$resultsUl, activity$selectedUl, activity$notification, activity$editModal);
@@ -1285,17 +1294,29 @@ function initSearchHandlers() {
     var $addActivityModal = $('#addGrantModal');
 
     var addGrantValidator = new CrateIt.Validation.FormValidator($addActivityModal);
-    addGrantValidator.addValidator($('#add-grant-number'), new CrateIt.Validation.RequiredValidator('Grant number'));
-    addGrantValidator.addValidator($('#add-grant-number'), new CrateIt.Validation.MaxLengthValidator('Grant number', 256));
+    if (templateVars['validate_grants_number']) {
+        addGrantValidator.addValidator($('#add-grant-number'), new CrateIt.Validation.RequiredValidator('Grant number'));
+        addGrantValidator.addValidator($('#add-grant-number'), new CrateIt.Validation.MaxLengthValidator('Grant number', 256));
+    }
 
-    addGrantValidator.addValidator($('#add-grant-year'), new CrateIt.Validation.RequiredValidator('Year'));
-    addGrantValidator.addValidator($('#add-grant-year'), new CrateIt.Validation.YearValidator());
+    if (templateVars['validate_grants_year']) {
+        addGrantValidator.addValidator($('#add-grant-year'), new CrateIt.Validation.RequiredValidator('Year'));
+        addGrantValidator.addValidator($('#add-grant-year'), new CrateIt.Validation.YearValidator());
+    }
 
-    addGrantValidator.addValidator($('#add-grant-institution'), new CrateIt.Validation.RequiredValidator('Institution'));
-    addGrantValidator.addValidator($('#add-grant-institution'), new CrateIt.Validation.MaxLengthValidator('Institution', 256));
+    if (templateVars['validate_grants_institution']) {
+        addGrantValidator.addValidator($('#add-grant-institution'), new CrateIt.Validation.RequiredValidator('Institution'));
+        addGrantValidator.addValidator($('#add-grant-institution'), new CrateIt.Validation.MaxLengthValidator('Institution', 256));
+    }
 
-    addGrantValidator.addValidator($('#add-grant-title'), new CrateIt.Validation.RequiredValidator('Title'));
-    addGrantValidator.addValidator($('#add-grant-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    if (templateVars['validate_grants_title']) {
+        addGrantValidator.addValidator($('#add-grant-title'), new CrateIt.Validation.RequiredValidator('Title'));
+        addGrantValidator.addValidator($('#add-grant-title'), new CrateIt.Validation.MaxLengthValidator('Title', 256));
+    }
+
+    if (! templateVars['validate_grants_number'] && ! templateVars['validate_grants_year'] && ! templateVars['validate_grants_institution'] && ! templateVars['validate_grants_title']) {
+        $('#addGrantModal .modal-footer .btn-primary').removeAttr('disabled');
+    }
 
     $('#add-activity').click(function() {
         attachModalHandlers($addActivityModal, addActivity);
