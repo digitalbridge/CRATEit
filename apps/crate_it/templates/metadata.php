@@ -220,7 +220,7 @@
                              if (($_['data_retention_period'] !== null) && ($_['data_retention_period'] !== '')) {
                                 echo $_['data_retention_period'];
                              } else {
-                                echo 'Please Select';
+                                echo 'Please select a Data Retention Period';
                              }
                         ?></div>
                     </div>

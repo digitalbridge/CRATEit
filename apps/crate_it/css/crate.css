@@ -593,9 +593,14 @@ div.jqtree-element {
 .container-metadata .embargo-info label  {
     font-weight: bold;
 }
+
 .container-metadata .nothing-selected {
     color:#777;
     margin-top:15px;
+}
+
+#retention_period_value .message.error {
+    color: #e43434;
 }
 
 /*

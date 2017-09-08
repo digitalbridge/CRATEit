@@ -677,10 +677,10 @@ function setupDescriptionOps() {
 
 function setupRetentionPeriodOps() {
     var radio_button_list = [
-        '<input type="radio" name="retention_radio" id="radio1" value="5"><label for="radio1">5</label>',
-        '<input type="radio" name="retention_radio" id="radio2" value="20"><label for="radio2">20</label>',
-        '<input type="radio" name="retention_radio" id="radio3" value="Perpetuity"><label for="radio3">Perpetuity</label>',
-        '<input type="radio" name="retention_radio" id="radio4" value="None"><label for="radio4">None</label>'
+        '<input type="radio" name="retention_radio" id="radio1" value="5">&nbsp;<label for="radio1">5</label>',
+        '<input type="radio" name="retention_radio" id="radio2" value="20">&nbsp;<label for="radio2">20</label>',
+        '<input type="radio" name="retention_radio" id="radio3" value="Perpetuity">&nbsp;<label for="radio3">Perpetuity</label>',
+        '<input type="radio" name="retention_radio" id="radio4" value="None">&nbsp;<label for="radio4">None</label>'
     ];
 
     var html = '';
@@ -688,7 +688,9 @@ function setupRetentionPeriodOps() {
         html += radio_button_list[i] + '<br />';
     }
 
-    html += '<input id="save_retention_period" type="button" value="Save" />' + '<input id="cancel_retention_period" type="button" value="Cancel" />';
+    html += '<input id="save_retention_period" type="button" value="Save" />';
+    html += '<input id="cancel_retention_period" type="button" value="Cancel" />';
+    html += '<span class="message error"></span>';
 
     $('#choose_retention_period').click(function(event) {
         var old_retention_period = $('#retention_period_value').text(); // this does the same thing
@@ -696,31 +698,40 @@ function setupRetentionPeriodOps() {
         $('#retention_period_value').text('');
         $('#retention_period_value').html(html);
         $('#choose_retention_period').addClass('hidden');
-
         $('input[value="' + old_retention_period + '"]').prop('checked', true);
-        $('#save_retention_period').click(function(event) {
-            var c_url = OC.generateUrl('apps/crate_it/crate/update');
 
-            $.ajax({
-                url: c_url,
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    'fields': [{
-                        'field': 'data_retention_period',
-                        'value': $('input[type="radio"]:checked').val()
-                    }]
-                },
-                success: function(data) {
-                    $('#retention_period_value').html('');
-                    $('#retention_period_value').text(data.values['data_retention_period']);
-                    $('#choose_retention_period').removeClass('hidden');
-                },
-                error: function(jqXHR) {
-                    displayError(jqXHR.responseJSON.msg);
-                }
-            });
+        $('#save_retention_period').click(function(event) {
+            var $retentionPeriod = $('#retention_period_value input[type="radio"]:checked').val();
+
+            if (templateVars['validate_data_retention_period'] && ! $retentionPeriod) {
+                $('#retention_period_value .message').text('Please select an option');
+                return;
+            } else {
+                $('#retention_period_value .message').text('');
+                var c_url = OC.generateUrl('apps/crate_it/crate/update');
+
+                $.ajax({
+                    url: c_url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        'fields': [{
+                            'field': 'data_retention_period',
+                            'value': $('input[type="radio"]:checked').val()
+                        }]
+                    },
+                    success: function(data) {
+                        $('#retention_period_value').html('');
+                        $('#retention_period_value').text(data.values['data_retention_period']);
+                        $('#choose_retention_period').removeClass('hidden');
+                    },
+                    error: function(jqXHR) {
+                        displayError(jqXHR.responseJSON.msg);
+                    }
+                });
+            }
         });
+
         $('#cancel_retention_period').click(function(event) {
             $('#retention_period_value').html('');
             $('#retention_period_value').text(old_retention_period);
