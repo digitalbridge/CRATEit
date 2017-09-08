@@ -611,8 +611,9 @@ function setupDescriptionOps() {
 
     $('#edit_description').click(function(event) {
         var old_description = $('#description').text();
+        var description_length = templateVars['description_length'];
         $('#description').text('').addClass('no-border');
-        $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><br /><div id="edit_description_validation_error" style="color: red;"></div><input type="button" id="save_description" value="Save" /><input type="button" id="cancel_description" value="Cancel" />');
+        $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><br /><div id="edit_description_validation_error" style="color: red;"></div><input type="button" id="save_description" value="Save" /><input type="button" id="cancel_description" value="Cancel" /><span class="message error"></span>');
         $('#description textarea').height($(this).closest('.panel-body').height() / 2);
         setupEditDescriptionOp();
         $('#edit_description').addClass('hidden');
@@ -620,22 +621,14 @@ function setupDescriptionOps() {
             var c_url = OC.generateUrl('apps/crate_it/crate/update');
 
             // Perform validation
-            if (templateVars['validate_crate_description'] == 'true') {
-                var crateDescription = $('input#description').val();
-                var errors = false;
-                $('#crate-information-modal-ul').html('');
+            if (templateVars['validate_crate_description']) {
+                var crateDescription = $('#description').find('textarea').val();
 
                 if (! crateDescription) {
-                    errors = true;
-                    $('#crate-information-modal-ul').append('<li>You must enter a CRATE description</li>');
-                } else if (crateDescription.val.length > description_length) {
-                    errors = true;
-                    $('#crate-information-modal-ul').append('<li>The CRATE description must be less than: ' + description_length + ' characters</li>');
-                }
-
-                // Show the Error modal
-                if (errors) {
-                    $('#crate-information-submission-modal').modal({});
+                    $('#description_box .message').text('You must enter a CRATE description');
+                    return;
+                } else if (crateDescription.length > description_length) {
+                    $('#description_box .message').text('The CRATE description must be less than ' + description_length + ' characters');
                     return;
                 }
             }

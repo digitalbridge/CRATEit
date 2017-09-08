@@ -599,7 +599,8 @@ div.jqtree-element {
     margin-top:15px;
 }
 
-#retention_period_value .message.error {
+.message.error {
+    margin-left: 1em;
     color: #e43434;
 }
 
