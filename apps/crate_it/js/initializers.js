@@ -1098,7 +1098,7 @@ function initSearchHandlers() {
     }
 
     if (! templateVars['validate_data_creators_name'] && ! templateVars['validate_data_creators_email'] && ! templateVars['validate_data_creators_url']) {
-        $('#addCreatorModal .modal-footer .btn-primary').removeAttr('disabled');
+        $('#addCreatorModal .modal-footer .btn-primary, #editCreatorsModal .modal-footer .btn-primary').removeAttr('disabled').addClass('noval');
     }
 
     // TODO: this doesn't need to be dynamically attached, maybe create a second helper
@@ -1207,7 +1207,7 @@ function initSearchHandlers() {
     }
 
     if (! templateVars['validate_primary_contact_name'] && ! templateVars['validate_primary_contact_email'] && ! templateVars['validate_primary_contact_url']) {
-        $('#addPrimaryContactModal .modal-footer .btn-primary').removeAttr('disabled');
+        $('#addPrimaryContactModal .modal-footer .btn-primary, #addPrimaryContactsModal .modal-footer .btn-primary').removeAttr('disabled').addClass('noval');
     }
 
     // TODO: this doesn't need to be dynamically attached, maybe create a second helper
@@ -1332,7 +1332,7 @@ function initSearchHandlers() {
     }
 
     if (! templateVars['validate_grants_number'] && ! templateVars['validate_grants_year'] && ! templateVars['validate_grants_institution'] && ! templateVars['validate_grants_title']) {
-        $('#addGrantModal .modal-footer .btn-primary').removeAttr('disabled');
+        $('#addGrantModal .modal-footer .btn-primary, #editActivitiesModal .modal-footer .btn-primary').removeAttr('disabled').addClass('noval');
     }
 
     $('#add-activity').click(function() {

@@ -13,11 +13,11 @@
     <span id="validate_primary_contact_name"><?php p($_['validate_primary_contact_name']) ?></span>
     <span id="validate_primary_contact_email"><?php p($_['validate_primary_contact_email']) ?></span>
     <span id="validate_primary_contact_url"><?php p($_['validate_primary_contact_url']) ?></span>
+    <span id="validate_for_title"><?php p($_['validate_for_title']) ?></span>
     <span id="validate_grants_number"><?php p($_['validate_grants_number']) ?></span>
     <span id="validate_grants_year"><?php p($_['validate_grants_year']) ?></span>
     <span id="validate_grants_institution"><?php p($_['validate_grants_institution']) ?></span>
     <span id="validate_grants_title"><?php p($_['validate_grants_title']) ?></span>
-    <span id="validate_for_title"><?php p($_['validate_for_title']) ?></span>
     <span id="validate_data_retention_period"><?php p($_['validate_data_retention_period']) ?></span>
     <span id="validate_embargo_enabled"><?php p($_['validate_embargo_enabled']) ?></span>
     <span id="validate_embargo_date"><?php p($_['validate_embargo_date']) ?></span>

@@ -77,10 +77,12 @@ CrateIt.Validation = {
           break;
         }
       }
-      if (valid) {
-        $submit.prop('disabled', false);
-      } else {
-        $submit.prop('disabled', true);
+      if (! $submit.hasClass('noval')) {
+        if (valid) {
+          $submit.prop('disabled', false);
+        } else {
+          $submit.prop('disabled', true);
+        }
       }
     };
 
