@@ -478,20 +478,6 @@ div.jqtree-element {
     border-bottom: 1px solid #EEE;
 }
 
-#access_conditions_options .message.success {
-    display: none;
-    padding: 7px 10px;
-    text-align: right;
-    color: #0ba755;
-}
-
-#access_conditions_options .message.error {
-    display: none;
-    padding: 7px 10px;
-    text-align: right;
-    color: #e43434;
-}
-
 #selected_fors .mint {
     display: none;
 }
@@ -599,8 +585,15 @@ div.jqtree-element {
     margin-top:15px;
 }
 
-.message.error {
+span.message {
     margin-left: 1em;
+}
+
+span.message.success {
+    color: #0ba755;
+}
+
+span.message.error {
     color: #e43434;
 }
 

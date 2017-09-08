@@ -820,47 +820,41 @@ function setupForKeywordsOps() {
 
 function setupAccessConditionsOps() {
     $('#save_access_conditions').click(function(event) {
-        var c_url = OC.generateUrl('apps/crate_it/crate/update');
         var accessConditions = $('input[name=access_conditions]:checked').val();
-        var errors = false;
+        $('#access_conditions_options .message').text('').removeClass('error').removeClass('success');
 
-        $('#access_conditions_options .message').hide();
-        $('#embargo-details-modal-ul').html('');
-
-        if (typeof(accessConditions) === 'undefined') {
-            errors = true;
-        }
-
-        if (errors) {
-            $('#access_conditions_options .message.error').show().css('display', 'inline-block');
+        if (templateVars['validate_access_conditions'] && ! accessConditions) {
+            $('#access_conditions_options .message').text('Please select an option.').addClass('error');
             return;
+        } else {
+            var c_url = OC.generateUrl('apps/crate_it/crate/update');
+
+            $.ajax({
+                url: c_url,
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'fields': [{
+                        'field': 'access_conditions',
+                        'value': accessConditions
+                    }]
+                },
+                success: function(data) {
+                    $('#access_conditions_options .message').text('Access Conditions saved.').addClass('success')
+
+                    setTimeout(function() {
+                        $('#access_conditions_options .message.success').animate({
+                            opacity: 0
+                        }, 400, function() {
+                            $('#access_conditions_options .message.success').removeClass('success').text('').css('opacity', 100);
+                        });
+                    }, 1500);
+                },
+                error: function(jqXHR) {
+                    displayError(jqXHR.responseJSON.msg);
+                }
+            });
         }
-
-        $.ajax({
-            url: c_url,
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'fields': [{
-                    'field': 'access_conditions',
-                    'value': accessConditions
-                }]
-            },
-            success: function(data) {
-                $('#access_conditions_options .message.success').show().css('display', 'inline-block');
-
-                setTimeout(function() {
-                    $('#access_conditions_options .message.success').animate({
-                        opacity: 0
-                    }, 400, function() {
-                        $('#access_conditions_options .message.success').hide().css('opacity', 100);
-                    });
-                }, 1500);
-            },
-            error: function(jqXHR) {
-                displayError(jqXHR.responseJSON.msg);
-            }
-        });
     });
 }
 

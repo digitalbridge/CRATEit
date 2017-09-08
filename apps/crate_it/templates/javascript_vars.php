@@ -19,9 +19,7 @@
     <span id="validate_grants_institution"><?php p($_['validate_grants_institution']) ?></span>
     <span id="validate_grants_title"><?php p($_['validate_grants_title']) ?></span>
     <span id="validate_data_retention_period"><?php p($_['validate_data_retention_period']) ?></span>
-    <span id="validate_embargo_enabled"><?php p($_['validate_embargo_enabled']) ?></span>
-    <span id="validate_embargo_date"><?php p($_['validate_embargo_date']) ?></span>
-    <span id="validate_embargo_details"><?php p($_['validate_embargo_details']) ?></span>
+    <span id="validate_access_conditions"><?php p($_['validate_access_conditions']) ?></span>
     <span id="selected_crate"><?php p($_['selected_crate']) ?></span>
     <span id="sword_enabled"><?php
         $swordEnabled = false;
