@@ -1021,17 +1021,23 @@ function initSearchHandlers() {
 
     // TODO: for add it's 'creator', but edit it's 'creators' logic works on field name, so make them call creators
     var editCreatorValidator = new CrateIt.Validation.FormValidator(creator$editModal);
-    editCreatorValidator.addValidator($('#edit-creators-name'), new CrateIt.Validation.RequiredValidator('Name'));
-    editCreatorValidator.addValidator($('#edit-creators-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    if (templateVars['validate_data_creators_name']) {
+        editCreatorValidator.addValidator($('#edit-creators-name'), new CrateIt.Validation.RequiredValidator('Name'));
+        editCreatorValidator.addValidator($('#edit-creators-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    }
 
-    editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.RequiredValidator('Email'));
-    editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
-    editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.EmailValidator());
+    if (templateVars['validate_data_creators_email']) {
+        editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.RequiredValidator('Email'));
+        editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+        editCreatorValidator.addValidator($('#edit-creators-email'), new CrateIt.Validation.EmailValidator());
+    }
 
     var editCreatorUrlValidator = new CrateIt.Validation.UrlValidator();
-    editCreatorUrlValidator = new CrateIt.Validation.OptionalValidator(editCreatorUrlValidator);
-    editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
-    editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editCreatorUrlValidator));
+    if (templateVars['validate_data_creators_url']) {
+        editCreatorUrlValidator = new CrateIt.Validation.OptionalValidator(editCreatorUrlValidator);
+        editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+        editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editCreatorUrlValidator));
+    }
 
     // TODO: add this to a namespace rather than exposing globally
     CreatorSearchManager = new SearchManager(creatorDefinition, creatorSelectedList, creator$resultsUl, creator$selectedUl, creator$notification, creator$editModal);
@@ -1073,16 +1079,27 @@ function initSearchHandlers() {
     var $addCreatorConfirm = $addCreatorModal.find('.btn-primary');
 
     var addCreatorValidator = new CrateIt.Validation.FormValidator($addCreatorModal);
-    addCreatorValidator.addValidator($('#add-creator-name'), new CrateIt.Validation.RequiredValidator('Name'));
-    addCreatorValidator.addValidator($('#add-creator-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    if (templateVars['validate_data_creators_name']) {
+        addCreatorValidator.addValidator($('#add-creator-name'), new CrateIt.Validation.RequiredValidator('Name'));
+        addCreatorValidator.addValidator($('#add-creator-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    }
 
-    addCreatorValidator.addValidator($('#add-creator-email'), new CrateIt.Validation.RequiredValidator('Email'));
-    addCreatorValidator.addValidator($('#add-creator-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
-    addCreatorValidator.addValidator($('#add-creator-email'), new CrateIt.Validation.EmailValidator());
+    if (templateVars['validate_data_creators_email']) {
+        addCreatorValidator.addValidator($('#add-creator-email'), new CrateIt.Validation.RequiredValidator('Email'));
+        addCreatorValidator.addValidator($('#add-creator-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+        addCreatorValidator.addValidator($('#add-creator-email'), new CrateIt.Validation.EmailValidator());
+    }
 
     var addCreatorUrlValidator = new CrateIt.Validation.UrlValidator();
-    addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
-    addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.OptionalValidator(addCreatorUrlValidator));
+    if (templateVars['validate_data_creators_url']) {
+        addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.RequiredValidator('Creator Identifier URL'));
+        addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+        addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.OptionalValidator(addCreatorUrlValidator));
+    }
+
+    if (! templateVars['validate_data_creators_name'] && ! templateVars['validate_data_creators_email'] && ! templateVars['validate_data_creators_url']) {
+        $('#addCreatorModal .modal-footer .btn-primary').removeAttr('disabled');
+    }
 
     // TODO: this doesn't need to be dynamically attached, maybe create a second helper
     $('#add-creator').click(function() {

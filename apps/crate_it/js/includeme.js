@@ -66,7 +66,7 @@ function attachModalHandlers($modal, confirmCallback) {
         if ($input) {
             $input.val('');
         }
-        var $label = $modal.find('label');
+        var $label = $modal.find('label.error');
         if ($label) {
             $label.hide();
         }
