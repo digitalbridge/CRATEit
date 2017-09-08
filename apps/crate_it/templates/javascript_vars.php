@@ -10,6 +10,9 @@
     <span id="validate_data_creators_name"><?php p($_['validate_data_creators_name']) ?></span>
     <span id="validate_data_creators_email"><?php p($_['validate_data_creators_email']) ?></span>
     <span id="validate_data_creators_url"><?php p($_['validate_data_creators_url']) ?></span>
+    <span id="validate_primary_contact_name"><?php p($_['validate_primary_contact_name']) ?></span>
+    <span id="validate_primary_contact_email"><?php p($_['validate_primary_contact_email']) ?></span>
+    <span id="validate_primary_contact_url"><?php p($_['validate_primary_contact_url']) ?></span>
     <span id="validate_grants_number"><?php p($_['validate_grants_number']) ?></span>
     <span id="validate_grants_year"><?php p($_['validate_grants_year']) ?></span>
     <span id="validate_grants_institution"><?php p($_['validate_grants_institution']) ?></span>

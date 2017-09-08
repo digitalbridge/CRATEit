@@ -1092,7 +1092,7 @@ function initSearchHandlers() {
 
     var addCreatorUrlValidator = new CrateIt.Validation.UrlValidator();
     if (templateVars['validate_data_creators_url']) {
-        addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.RequiredValidator('Creator Identifier URL'));
+        addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.RequiredValidator('Identifier'));
         addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
         addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.OptionalValidator(addCreatorUrlValidator));
     }
@@ -1131,17 +1131,23 @@ function initSearchHandlers() {
     var primaryContactEditModal = $('#editPrimaryContactsModal');
 
     var editPrimaryContactValidator = new CrateIt.Validation.FormValidator(primaryContactEditModal);
-    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-name'), new CrateIt.Validation.RequiredValidator('Name'));
-    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    if (templateVars['validate_primary_contact_name']) {
+        editPrimaryContactValidator.addValidator($('#edit-primarycontacts-name'), new CrateIt.Validation.RequiredValidator('Name'));
+        editPrimaryContactValidator.addValidator($('#edit-primarycontacts-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    }
 
-    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.RequiredValidator('Email'));
-    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
-    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.EmailValidator());
+    if (templateVars['validate_primary_contact_email']) {
+        editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.RequiredValidator('Email'));
+        editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+        editPrimaryContactValidator.addValidator($('#edit-primarycontacts-email'), new CrateIt.Validation.EmailValidator());
+    }
 
     var editPrimaryContactUrlValidator = new CrateIt.Validation.UrlValidator();
-    editPrimaryContactUrlValidator = new CrateIt.Validation.OptionalValidator(editPrimaryContactUrlValidator);
-    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
-    editPrimaryContactValidator.addValidator($('#edit-primarycontacts-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editPrimaryContactUrlValidator));
+    if (templateVars['validate_primary_contact_url']) {
+        editPrimaryContactUrlValidator = new CrateIt.Validation.OptionalValidator(editPrimaryContactUrlValidator);
+        editPrimaryContactValidator.addValidator($('#edit-primarycontacts-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+        editPrimaryContactValidator.addValidator($('#edit-primarycontacts-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editPrimaryContactUrlValidator));
+    }
 
     PrimaryContactSearchManager = new SearchManager(primaryContactDefinition, primaryContactSelectedList, primaryContactResultsUl, primaryContactSelectedUl, primaryContactNotification, primaryContactEditModal);
     $('#search_primarycontacts').click(function() {
@@ -1182,16 +1188,27 @@ function initSearchHandlers() {
     var $addPrimaryContactConfirm = $addPrimaryContactModal.find('.btn-primarycontact');
 
     var addPrimaryContactValidator = new CrateIt.Validation.FormValidator($addPrimaryContactModal);
-    addPrimaryContactValidator.addValidator($('#add-primarycontact-name'), new CrateIt.Validation.RequiredValidator('Name'));
-    addPrimaryContactValidator.addValidator($('#add-primarycontact-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    if (templateVars['validate_primary_contact_name']) {
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-name'), new CrateIt.Validation.RequiredValidator('Name'));
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-name'), new CrateIt.Validation.MaxLengthValidator('Name', 256));
+    }
 
-    addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.RequiredValidator('Email'));
-    addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
-    addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.EmailValidator());
+    if (templateVars['validate_primary_contact_email']) {
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.RequiredValidator('Email'));
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.MaxLengthValidator('Email', 128));
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-email'), new CrateIt.Validation.EmailValidator());
+    }
 
     var addPrimaryContactUrlValidator = new CrateIt.Validation.UrlValidator();
-    addPrimaryContactValidator.addValidator($('#add-primarycontact-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
-    addPrimaryContactValidator.addValidator($('#add-primarycontact-identifier'), new CrateIt.Validation.OptionalValidator(addPrimaryContactUrlValidator));
+    if (templateVars['validate_primary_contact_url']) {
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-identifier'), new CrateIt.Validation.RequiredValidator('Identifier'));
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
+        addPrimaryContactValidator.addValidator($('#add-primarycontact-identifier'), new CrateIt.Validation.OptionalValidator(addPrimaryContactUrlValidator));
+    }
+
+    if (! templateVars['validate_primary_contact_name'] && ! templateVars['validate_primary_contact_email'] && ! templateVars['validate_primary_contact_url']) {
+        $('#addPrimaryContactModal .modal-footer .btn-primary').removeAttr('disabled');
+    }
 
     // TODO: this doesn't need to be dynamically attached, maybe create a second helper
     $('#add-primarycontact').click(function() {

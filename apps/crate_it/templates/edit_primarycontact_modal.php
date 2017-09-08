@@ -6,31 +6,29 @@
                 <h4 id="editPrimaryContactsModalLabel" class="modal-title">Edit Primary Contact</h4>
             </div>
 
-            <div></div>
-
             <div class="modal-body">
                 <div id="original-primarycontacts">
-                    <p>Orignal Name</p>
-                    <input type="text" id="original-primarycontacts-name" class="modal-input" readonly />
+                    <label for="original-primarycontacts-name">Orignal Name</label>
+                    <input type="text" name="original-primarycontacts-name" id="original-primarycontacts-name" class="modal-input" readonly />
 
-                    <p>Original Email</p>
-                    <input type="text" id="original-primarycontacts-email" class="modal-input" readonly />
+                    <label for="original-primarycontacts-email">Original Email</label>
+                    <input type="text" name="original-primarycontacts-email" id="original-primarycontacts-email" class="modal-input" readonly />
                 </div>
 
                 <input type="hidden" id="edit-primarycontacts-record" />
 
-                <p>Name</p>
-                <input type="text" id="edit-primarycontacts-name" class="modal-input" />
-                <p><label style="display: none;color: red;"></label></p>
+                <label for="edit-primarycontacts-name">Name</label>
+                <input type="text" name="edit-primarycontacts-name" id="edit-primarycontacts-name" class="modal-input" />
+                <span><label class="error"></label></span>
 
-                <p>Email</p>
-                <input type="text" id="edit-primarycontacts-email" class="modal-input" />
-                <p><label style="display: none; color: red;"></label></p>
+                <label for="edit-primarycontacts-email">Email</label>
+                <input type="text" name="edit-primarycontacts-email" id="edit-primarycontacts-email" class="modal-input" />
+                <span><label class="error"></label></span>
 
                 <div id="manual-primarycontacts">
-                    <p>Primary Contact Identifier URL</p>
-                    <input type="text" id="edit-primarycontacts-identifier" class="modal-input" />
-                    <p><label style="display: none; color: red;"></label></p>
+                    <label for="edit-primarycontacts-identifier">Primary Contact Identifier URL</label>
+                    <input type="text" name="edit-primarycontacts-identifier" id="edit-primarycontacts-identifier" class="modal-input" />
+                    <span><label class="error"></label></span>
                 </div>
             </div>
 

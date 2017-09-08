@@ -7,17 +7,17 @@
             </div>
 
             <div class="modal-body">
-                <p>Name</p>
+                <label for="add-primarycontact-name">Name</label>
                 <input type="text" name="add-primarycontact-name" id="add-primarycontact-name" class="modal-input" />
-                <p><label style="display: none; color: red;"></label></p>
+                <span><label class="error"></label></span>
 
-                <p>Email</p>
-                <input type="text" id="add-primarycontact-email" class="modal-input" />
-                <p><label style="display: none; color: red;"></label></p>
+                <label for="add-primarycontact-email">Email</label>
+                <input type="text" name="add-primarycontact-email" id="add-primarycontact-email" class="modal-input" />
+                <span><label class="error"></label></span>
 
-                <p>Primary Contact Identifier URL</p>
-                <input type="text" id="add-primarycontact-identifier" class="modal-input" />
-                <p><label style="display: none; color: red;"></label></p>
+                <label for="add-primarycontact-identifier">Primary Contact Identifier URL</label>
+                <input type="text" name="add-primarycontact-identifier" id="add-primarycontact-identifier" class="modal-input" />
+                <span><label class="error"></label></span>
             </div>
 
             <div class="modal-footer">
