@@ -736,13 +736,15 @@ function setupRetentionPeriodOps() {
 function setupForKeywordsOps() {
     manifest = getManifest();
 
-    if (typeof manifest.for_keywords == 'string') {
-        $keywords = [];
-        if (manifest.for_keywords) {
+    if (manifest.for_keywords) {
+        if (typeof manifest.for_keywords == 'string') {
+            $keywords = [];
             $keywords.push(manifest.for_keywords);
+        } else {
+            $keywords = manifest.for_keywords;
         }
     } else {
-        $keywords = manifest.for_keywords;
+        $keywords = [];
     }
 
     if ($keywords) {
@@ -808,14 +810,14 @@ function setupForKeywordsOps() {
             }
         });
     }
+}
 
-    function updateKeywordsList(keywords) {
-        $('#for_keywords_container #keywords_list').empty();
+function updateKeywordsList(keywords) {
+    $('#for_keywords_container #keywords_list').empty();
 
-        $.each(keywords, function(key, value) {
-            $('#for_keywords_container #keywords_list').append('<li>' + value + '<a href="#" data-index="' + key + '"><i class="fa fa-times"></i></a></li>');
-        });
-    }
+    $.each(keywords, function(key, value) {
+        $('#for_keywords_container #keywords_list').append('<li>' + value + '<a href="#" data-index="' + key + '"><i class="fa fa-times"></i></a></li>');
+    });
 }
 
 function setupAccessConditionsOps() {

@@ -576,58 +576,44 @@ function validateCrateDescription($description) {
 
 //TODO use something like this when the pages loads
 function reloadCrateData(manifest) {
-    $('#retention_period_value').text(manifest['data_retention_period']);
-    updateCrateSize();
-    $('#description').text(manifest['description']);
+    // Files
     $('#files').remove();
     $('#container').after('<div id="files"></div>');
-    // Make sure edit description icon shows up on startup
-    $('#edit_description').removeClass('hidden');
-    $('#choose_retention_period').removeClass('hidden');
-
-    if (manifest['embargo_enabled']) {
-        $('span#embargo_enabled').html(manifest['embargo_enabled'] === 'true' ? 'Yes' : 'No');
-        $('#embargo_enabled_yes').prop("checked", manifest['embargo_enabled'] === 'true');
-        $('#embargo_enabled_no').prop("checked", manifest['embargo_enabled'] === 'false');
-    } else {
-        $('span#embargo_enabled').html('');
-        $('#embargo_enabled_yes').prop("checked", false);
-        $('#embargo_enabled_no').prop("checked", false);
-    }
-
-    if (manifest['embargo_date']) {
-        $('span#embargo_until').html(manifest['embargo_date']);
-        $('input#embargo_date').val(manifest['embargo_date']);
-    } else {
-        $('span#embargo_until').html('');
-        $('input#embargo_date').val('');
-    }
-
-    if (manifest['embargo_details']) {
-        $('span#embargo_note').html(manifest['embargo_details'].replace(/\n/g, "<br>"));
-        $('textarea#embargo_details').val(manifest['embargo_details']);
-    } else {
-        $('span#embargo_note').html('');
-        $('textarea#embargo_details').val('');
-    }
-
-    if (manifest['access_conditions']) {
-        $('span#access_conditions').html(manifest['access_conditions']);
-        $('#embargo_closed').prop("checked", manifest['access_conditions'] === 'closed');
-        $('#embargo_open').prop("checked", manifest['access_conditions'] === 'open');
-        $('#embargo_shared').prop("checked", manifest['access_conditions'] === 'shared');
-    } else {
-        $('span#access_conditions').html('');
-        $('input[name=access_conditions]').attr('checked', false);
-    }
-
     buildFileTree(manifest);
     indentTree();
-    // TODO Have a registry of search managers and loop over them
+
+    // Crate Information
+    $('#description').text(manifest['description']);
+    $('#edit_description').removeClass('hidden');
+    updateCrateSize();
+
+    // Date Creators
     CreatorSearchManager.loadManifestData(manifest);
+
+    // Primary Contacts
     PrimaryContactSearchManager.loadManifestData(manifest);
-    ActivitySearchManager.loadManifestData(manifest);
+
+    // Fields of Research
     ForSearchManager.loadManifestData(manifest);
+
+    if (manifest['for_keywords']) {
+        updateKeywordsList(manifest['for_keywords']);
+    } else {
+        $('#keywords_list').html('');
+    }
+
+    // Grants
+    ActivitySearchManager.loadManifestData(manifest);
+
+    // Data Retention Period
+    $('#retention_period_value').text(manifest['data_retention_period'] || 'Please select a Data Retention Period');
+    $('#choose_retention_period').removeClass('hidden');
+
+
+    // Access Conditions
+    $('#access_closed').prop('checked', manifest['access_conditions'] === 'closed');
+    $('#access_open').prop('checked', manifest['access_conditions'] === 'open');
+    $('#access_shared').prop('checked', manifest['access_conditions'] === 'shared');
 }
 
 
