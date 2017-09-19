@@ -757,7 +757,7 @@ function setupForKeywordsOps() {
         $new_keywords = $('#for_keyword').val().split(',');
 
         $.each($new_keywords, function(key, value) {
-            if ($.inArray(value, $keywords) == -1) {
+            if ($.inArray(value.trim(), $keywords) == -1) {
                 $keywords.push(value.trim());
             }
         });
