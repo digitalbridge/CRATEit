@@ -749,6 +749,8 @@ function setupForKeywordsOps() {
 
     if ($keywords) {
         updateKeywordsList($keywords);
+    } else {
+        $('#keywords_list').html('');
     }
 
     $('#for_keywords_container #save_keyword').click(function(e) {

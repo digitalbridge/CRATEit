@@ -595,12 +595,7 @@ function reloadCrateData(manifest) {
 
     // Fields of Research
     ForSearchManager.loadManifestData(manifest);
-
-    if (manifest['for_keywords']) {
-        updateKeywordsList(manifest['for_keywords']);
-    } else {
-        $('#keywords_list').html('');
-    }
+    setupForKeywordsOps();
 
     // Grants
     ActivitySearchManager.loadManifestData(manifest);
