@@ -153,81 +153,81 @@
                     <th>Contributors</th>
                     </thead>
                     <tbody>
-                    <?php foreach ($_['activities'] as $activity) {
-                        if (array_key_exists('overrides', $activity)) {
-                            $a = $activity['overrides'];
-                        } else {
-                            $a = $activity;
-                        }
+                        <?php foreach ($_['activities'] as $activity) {
+                            if (array_key_exists('overrides', $activity)) {
+                                $a = $activity['overrides'];
+                            } else {
+                                $a = $activity;
+                            }
 
-                        print_unescaped('<tr>');
-                        print_unescaped('<td>');
-                        p($a['grant_number']);
-                        print_unescaped('</td>');
-                        print_unescaped('<td>');
-                        p($a['title']);
-                        print_unescaped('</td>');
-                        print_unescaped('<td>');
-                        p($a['description']);
-                        print_unescaped('</td>');
-                        print_unescaped('<td>');
-                        p($a['date']);
-                        print_unescaped('</td>');
-                        print_unescaped('<td>');
-                        p($a['date_submitted']);
-                        print_unescaped('</td>');
-                        print_unescaped('<td>');
-                        p($a['institution']);
-                        print_unescaped('</td>');
-
-                        $activity_identifier = $a['identifier'];
-                        $http = substr($activity_identifier, 0, strlen('http')) === 'http';
-                        $https = substr($activity_identifier, 0, strlen('https')) === 'https';
-
-                        if ($http || $https) {
+                            print_unescaped('<tr>');
                             print_unescaped('<td>');
-                            print_unescaped('<a href="' . $activity_identifier . '">' . $activity_identifier . '</a>');
+                            p(htmlspecialchars($a['grant_number']));
                             print_unescaped('</td>');
-                        } else {
                             print_unescaped('<td>');
-                            print_unescaped($a['identifier']);
+                            p(htmlspecialchars($a['title']));
                             print_unescaped('</td>');
-                        }
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['description']));
+                            print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['date']));
+                            print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['date_submitted']));
+                            print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['institution']));
+                            print_unescaped('</td>');
 
-                        print_unescaped('<td>');
-                        p($activity['source']);
-                        print_unescaped('</td>');
+                            $activity_identifier = $a['identifier'];
+                            $http = substr($activity_identifier, 0, strlen('http')) === 'http';
+                            $https = substr($activity_identifier, 0, strlen('https')) === 'https';
 
-                        print_unescaped('<td>');
-                        p($a['subject']);
-                        print_unescaped('</td>');
+                            if ($http || $https) {
+                                print_unescaped('<td>');
+                                print_unescaped('<a href="' . $activity_identifier . '">' . $activity_identifier . '</a>');
+                                print_unescaped('</td>');
+                            } else {
+                                print_unescaped('<td>');
+                                print_unescaped($a['identifier']);
+                                print_unescaped('</td>');
+                            }
 
-                        print_unescaped('<td>');
-                        p($a['format']);
-                        print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p($activity['source']);
+                            print_unescaped('</td>');
 
-                        print_unescaped('<td>');
-                        p($a['oai_set']);
-                        print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['subject']));
+                            print_unescaped('</td>');
 
-                        print_unescaped('<td>');
-                        p($a['repository_name']);
-                        print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['format']));
+                            print_unescaped('</td>');
 
-                        print_unescaped('<td>');
-                        p($a['repository_type']);
-                        print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['oai_set']));
+                            print_unescaped('</td>');
 
-                        print_unescaped('<td>');
-                        p($a['display_type']);
-                        print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['repository_name']));
+                            print_unescaped('</td>');
 
-                        print_unescaped('<td>');
-                        p($a['contributors']);
-                        print_unescaped('</td>');
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['repository_type']));
+                            print_unescaped('</td>');
 
-                        print_unescaped('</tr>');
-                    } ?>
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['display_type']));
+                            print_unescaped('</td>');
+
+                            print_unescaped('<td>');
+                            p(htmlspecialchars($a['contributors']));
+                            print_unescaped('</td>');
+
+                            print_unescaped('</tr>');
+                        } ?>
                     </tbody>
                 </table>
             <?php } else { ?>
