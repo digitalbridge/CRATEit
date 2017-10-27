@@ -264,6 +264,9 @@ class cratemanager
         $crate = $this->getCrate($crateName);
         $files = $crate->getAllFilesAndFolders();
         $result = array();
+        if(count($files) == 0) {
+            return false;
+        }
         foreach ($files as $filepath) {
             \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - checking ".$filepath, \OCP\Util::DEBUG);
             $file_exist = \OC\Files\Filesystem::file_exists($filepath);
