@@ -249,7 +249,7 @@
                             <label for="access_open">Open (Public Access)</label><br />
 
                             <input type="radio" name="access_conditions" id="access_shared" value="shared" <?php p($_['access_conditions'] === 'shared' ? 'checked' : '') ?>>
-                            <label for="access_shared">Shared</label><br /><br />
+                            <label for="access_shared">Shared (mediated)</label><br /><br />
 
                             <input type="button" id="save_access_conditions" value="Save">
                             <span class="message"></span>
@@ -317,7 +317,7 @@
                                 <input type="radio" name="access_conditions" id="embargo_open" value="open" <?php p($_['access_conditions'] === 'open' ? 'checked' : '') ?>>
                                 <label for="embargo_open">Open (Public Access)</label>
                                 <input type="radio" name="access_conditions" id="embargo_shared" value="shared" <?php p($_['access_conditions'] === 'shared' ? 'checked' : '') ?>>
-                                <label for="embargo_shared">Shared</label>
+                                <label for="embargo_shared">Shared (mediated)</label>
                             </div>
                         </div>
 
