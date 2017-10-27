@@ -92,18 +92,28 @@
     <?php if (array_key_exists('fors', $_)) { ?>
         <my:FieldOfResearch>
             <?php foreach ($_['fors'] as $fieldOfResearch) { ?>
+                <?php $isOverride = isset($fieldOfResearch["overrides"]) ?>
                 <my:Research>
                     <my:ResearchID>
                         <?php print_unescaped($fieldOfResearch['id']) ?>
                     </my:ResearchID>
                     <my:ResearchTitle>
-                        <?php print_unescaped($fieldOfResearch['title']) ?>
+                        <?php if ($isOverride) {
+                            print_unescaped($fieldOfResearch['overrides']['title']);
+                        } else {
+                            print_unescaped($fieldOfResearch['title']);
+                        }
+                        ?>
                     </my:ResearchTitle>
                 </my:Research>
             <?php } ?>
         </my:FieldOfResearch>
     <?php } ?>
-    <my:FieldOfResearchKeywords><?php if(array_key_exists('for_keywords',$_)) {p($_['for_keywords']);} ?></my:FieldOfResearchKeywords>
+    <?php if(array_key_exists('for_keywords',$_)) { ?>
+        <my:FieldOfResearchKeywords>
+            <?php p(implode(', ', $_['for_keywords'])) ?>
+        </my:FieldOfResearchKeywords>
+    <?php } ?>
     <my:Submitter>
         <my:SubmitterDisplayname><?php p($_['submitter']['displayname']) ?></my:SubmitterDisplayname>
         <my:SubmitterEmail><?php p($_['submitter']['email']) ?></my:SubmitterEmail>

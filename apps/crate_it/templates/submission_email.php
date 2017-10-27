@@ -244,12 +244,15 @@
                         </thead>
                         <tbody>
                         <?php foreach ($_['fors'] as $fieldOfResearch) {
+                            if (array_key_exists('overrides', $fieldOfResearch)) {
+                                $f = $fieldOfResearch['overrides'];
+                            }
                             print_unescaped('<tr>');
                             print_unescaped('<td>');
                             p($fieldOfResearch['id']);
                             print_unescaped('</td>');
                             print_unescaped('<td>');
-                            p($fieldOfResearch['title']);
+                            p($f['title']);
                             print_unescaped('</td>');
                             print_unescaped('</tr>');
                         } ?>
@@ -258,7 +261,7 @@
                 <?php } ?>
                 <?php if (array_key_exists('for_keywords', $_) && !empty($_['for_keywords']))  { ?>
                     <p>
-                        Keywords: <span property="http://schema.org/name"><?php p($_['for_keywords']) ?></span>
+                        Keywords: <span property="http://schema.org/name"><?php p(implode(', ', $_['for_keywords'])); ?></span>
                     </p>
                 <?php } ?>
             <?php } else { ?>
