@@ -162,22 +162,22 @@
 
                             print_unescaped('<tr>');
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['grant_number']));
+                            p($a['grant_number']);
                             print_unescaped('</td>');
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['title']));
+                            p($a['title']);
                             print_unescaped('</td>');
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['description']));
+                            p($a['description']);
                             print_unescaped('</td>');
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['date']));
+                            p($a['date']);
                             print_unescaped('</td>');
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['date_submitted']));
+                            p($a['date_submitted']);
                             print_unescaped('</td>');
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['institution']));
+                            p($a['institution']);
                             print_unescaped('</td>');
 
                             $activity_identifier = $a['identifier'];
@@ -199,31 +199,31 @@
                             print_unescaped('</td>');
 
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['subject']));
+                            p($a['subject']);
                             print_unescaped('</td>');
 
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['format']));
+                            p($a['format']);
                             print_unescaped('</td>');
 
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['oai_set']));
+                            p($a['oai_set']);
                             print_unescaped('</td>');
 
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['repository_name']));
+                            p($a['repository_name']);
                             print_unescaped('</td>');
 
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['repository_type']));
+                            p($a['repository_type']);
                             print_unescaped('</td>');
 
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['display_type']));
+                            p($a['display_type']);
                             print_unescaped('</td>');
 
                             print_unescaped('<td>');
-                            p(htmlspecialchars($a['contributors']));
+                            p($a['contributors']);
                             print_unescaped('</td>');
 
                             print_unescaped('</tr>');

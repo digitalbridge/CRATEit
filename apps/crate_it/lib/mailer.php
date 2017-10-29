@@ -20,7 +20,7 @@ class mailer
         }
         $headers = "From: " . $from . "\r\n";
         $headers = "Cc: " . $cc . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
         $result = mail($to, $subject, $content, $headers, '-f ' . $from);
         if (!$result) {
             \OCP\Util::writeLog('Unable to send email: ', $result, \OCP\Util::ERROR);
