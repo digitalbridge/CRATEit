@@ -74,6 +74,23 @@
 */ ?>
                     </div>
 
+                    <div class="col-1"></div>
+
+                    <div class="col-3">
+                        <h4 class="margin-bottom">Keywords</h4>
+                        <p id="publish-keywords"></p>
+                    </div>
+
+                    <div class="col-3">
+                        <h4 class="margin-bottom">Fields of Research</h4>
+                        <ul id="publish-fors"></ul>
+                    </div>
+
+                    <div class="col-3">
+                        <h4 class="margin-bottom">Primary Contacts</h4>
+                        <ul id="publish-primarycontacts"></ul>
+                    </div>
+
                     <div class="col-1" style="margin-top: 50px;">
                         <h4 class="margin-bottom">Description</h4>
                         <h6>Crate Size: <span id="crate_size_human_publish" class="standard"></span></h6>

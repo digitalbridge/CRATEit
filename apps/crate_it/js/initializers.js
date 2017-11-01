@@ -408,7 +408,7 @@ function initCrateActions() {
 
         $('#publishModalLabel .crate-name').text(' - ' + $crateName);
 
-        // TODO: Migrate to a single  client side shared model of the manifest
+        // TODO: Migrate to a single client side shared model of the manifest
         // TODO: let this be handled by the search managers perhaps?
         $('div#checkingCrateModal').modal();
         $('#publish-consistency').text('');
@@ -469,12 +469,24 @@ function initCrateActions() {
             $('#publish-activities').append(html);
         });
 
+        manifest = getManifest();
+        updateKeywordsPublishList(manifest.for_keywords);
+
         $('#publish-fors').children().remove();
         records = ForSearchManager.getSelected();
         if (records) {
             records.forEach(function(record) {
                 var html = ForSearchManager.renderSummary(record);
                 $('#publish-fors').append(html);
+            });
+        }
+
+        $('#publish-primarycontacts').children().remove();
+        records = PrimaryContactSearchManager.getSelected();
+        if (records) {
+            records.forEach(function(record) {
+                var html = PrimaryContactSearchManager.renderSummary(record);
+                $('#publish-primarycontacts').append(html);
             });
         }
     });
@@ -819,6 +831,20 @@ function updateKeywordsList(keywords) {
 
     $.each(keywords, function(key, value) {
         $('#for_keywords_container #keywords_list').append('<li>' + value + '<a href="#" data-index="' + key + '"><i class="fa fa-times"></i></a></li>');
+    });
+}
+
+function updateKeywordsPublishList(keywords) {
+    $('#publish-keywords').empty();
+
+    $count = 0;
+    $.each(keywords, function(key, value) {
+        if ($count === 0) {
+            $('#publish-keywords').append(value);
+        } else {
+            $('#publish-keywords').append(', ' + value);
+        }
+        $count++;
     });
 }
 
