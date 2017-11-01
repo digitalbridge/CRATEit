@@ -898,6 +898,13 @@ textarea#embargo_details {
     height: 60px;
 }
 
+#access_permissions_statement {
+    width: 100%;
+    min-height: 120px;
+    margin: 0;
+    resize: vertical;
+}
+
 div.bootstrap-datetimepicker-widget {
     background-color: #FFFFFF !important;
 }

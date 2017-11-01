@@ -30,19 +30,23 @@ class crate extends BagIt
     {
         \OCP\Util::writeLog('crate_it', "Crate::createManifest(".$description.",".$data_retention_period.")", \OCP\Util::DEBUG);
         $description = null ? '' : $description;
-        $data_retention_period = null ? '': $data_retention_period;
+        $data_retention_period = null ? '' : $data_retention_period;
+        $access_conditions = null ? '' : $access_conditions;
+        $access_permissions_statement = null ? '' : $access_permissions_statement;
         $entry = array(
             'description' => $description,
+            'creators' => array(),
+            'primarycontacts' => array(),
+            'fors' => array(),
+            'for_keywords' => null,
+            'activities' => array(),
             'data_retention_period' => $data_retention_period,
+            'access_conditions' => $access_conditions,
+            'access_permissions_statement' => $access_permissions_statement,
             'submitter' => array(
                 'email' => \OC::$server->getUserSession()->getUser()->getEMailAddress(),
                 'displayname' => \OC::$server->getUserSession()->getUser()->getDisplayName(),
             ),
-            'creators' => array(),
-            'primarycontacts' => array(),
-            'activities' => array(),
-            'fors' => array(),
-            'for_keywords' => null,
             'vfs' => array(
                 array(
                     'id' => 'rootfolder',

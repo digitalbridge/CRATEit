@@ -23,6 +23,7 @@
   "validate_grants_title": true,
   "validate_data_retention_period": true,
   "validate_access_conditions": true,
+  "validate_access_permissions_statement": true,
   "fascinator": {
     "status": "off",
     "downloadURL": "http://localhost:9997/portal/default/download/",

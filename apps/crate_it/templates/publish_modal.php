@@ -50,6 +50,9 @@
                         <h4 class="margin-top margin-bottom">Access Conditions</h4>
                         <div id="publish-access-conditions"></div>
 
+                        <h4 class="margin-top margin-bottom">Access Permissions Statement</h4>
+                        <div id="publish-access-permissions-statement"></div>
+
 <?php /*
                         <h4 class="margin-top margin-bottom">Embargo Details</h4>
                         <div>
@@ -74,7 +77,7 @@
 */ ?>
                     </div>
 
-                    <div class="col-1"></div>
+                    <div class="col-1" style="margin-top: 50px;"></div>
 
                     <div class="col-3">
                         <h4 class="margin-bottom">Keywords</h4>

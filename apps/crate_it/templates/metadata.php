@@ -241,6 +241,8 @@
             <div id="access-conditions" class="panel-collapse collapse standard">
                 <div class="panel-body">
                     <div id="access_conditions_list">
+                        <h6>Access Conditions</h6>
+
                         <div id="access_conditions_options" class="metadata">
                             <input type="radio" name="access_conditions" id="access_closed" value="closed" <?php p($_['access_conditions'] === 'closed' ? 'checked' : '') ?>>
                             <label for="access_closed">Closed (No Public Access)</label><br />
@@ -250,10 +252,14 @@
 
                             <input type="radio" name="access_conditions" id="access_shared" value="shared" <?php p($_['access_conditions'] === 'shared' ? 'checked' : '') ?>>
                             <label for="access_shared">Shared (mediated)</label><br /><br />
-
-                            <input type="button" id="save_access_conditions" value="Save">
-                            <span class="message"></span>
                         </div>
+
+                        <h6>Access Permissions Statement</h6>
+                        <textarea name="access_permissions_statement" id="access_permissions_statement" placeholder="Enter details of what the access permissions are"><?php p($_['access_permissions_statement']) ?></textarea>
+                        <br /><br />
+
+                        <input type="button" id="save_access_conditions" value="Save">
+                        <span class="message"></span>
                     </div>
                 </div>
             </div>

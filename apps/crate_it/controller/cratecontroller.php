@@ -246,7 +246,7 @@ class cratecontroller extends Controller
         header('Content-Disposition: attachment; filename="' . $filename . '"');
 
         $fp = fopen('php://output', 'w');
-        fputcsv($fp, ['User Name', 'Crate Name', 'Size', 'Description', 'Publisher', 'Retention Period', 'Access Conditions', 'Submission Date']);
+        fputcsv($fp, ['User Name', 'Crate Name', 'Size', 'Description', 'Publisher', 'Retention Period', 'Access Conditions', 'Access Permissions Statement', 'Submission Date']);
 
         $userObject = \OC::$server->getUserSession()->getUser();
         $crateDetails = $this->crateManager->getCrateDetailsList();
@@ -259,6 +259,7 @@ class cratecontroller extends Controller
                 $crateDetail['manifest']['submitter']['displayname'] . '(' . $crateDetail['manifest']['submitter']['email'] . ')',
                 $crateDetail['manifest']['data_retention_period'],
                 $crateDetail['manifest']['access_conditions'],
+                $crateDetail['manifest']['access_permissions_statement'],
                 $crateDetail['manifest']['publish_details']['submitted_date']
             ]);
         }
@@ -285,6 +286,8 @@ class cratecontroller extends Controller
                         $crateDetail['manifest']['description'],
                         $crateDetail['manifest']['submitter']['displayname'] . '(' . $crateDetail['manifest']['submitter']['email'] . ')',
                         $crateDetail['manifest']['data_retention_period'],
+                        $crateDetail['manifest']['access_conditions'],
+                        $crateDetail['manifest']['access_permissions_statement'],
                         $crateDetail['manifest']['publish_details']['submitted_date']
                     ]);
                 }

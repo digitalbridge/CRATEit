@@ -453,6 +453,7 @@ function initCrateActions() {
         $('#publish-embargo-date').text($('span#embargo_until').text());
         $('#publish-embargo-note').text($('span#embargo_note').text());
         $('#publish-access-conditions').text($('label[for="' + $('input[name=access_conditions]:checked').attr('id') + '"]').text());
+        $('#publish-access-permissions-statement').text($('#access_permissions_statement').val());
 
         $('#publish-creators').children().remove();
         // TODO: create proper render functions
@@ -851,11 +852,14 @@ function updateKeywordsPublishList(keywords) {
 function setupAccessConditionsOps() {
     $('#save_access_conditions').click(function(event) {
         var accessConditions = $('input[name=access_conditions]:checked').val();
+        var accessPermissionStatement = $('#access_permissions_statement').val();
         $('#access_conditions_options .message').text('').removeClass('error').removeClass('success');
 
         if (templateVars['validate_access_conditions'] && ! accessConditions) {
-            $('#access_conditions_options .message').text('Please select an option.').addClass('error');
+            $('#access_conditions_list .message').text('Please select an Access Condition.').addClass('error');
             return;
+        } else if (templateVars['validate_access_permissions_statement'] && ! accessPermissionStatement) {
+            $('#access_conditions_list .message').text('Please complete the Access Permissions Statement field.').addClass('error');
         } else {
             var c_url = OC.generateUrl('apps/crate_it/crate/update');
 
@@ -867,16 +871,19 @@ function setupAccessConditionsOps() {
                     'fields': [{
                         'field': 'access_conditions',
                         'value': accessConditions
+                    }, {
+                        'field': 'access_permissions_statement',
+                        'value': accessPermissionStatement
                     }]
                 },
                 success: function(data) {
-                    $('#access_conditions_options .message').text('Access Conditions saved.').addClass('success')
+                    $('#access_conditions_list .message').text('Access Conditions saved.').addClass('success')
 
                     setTimeout(function() {
-                        $('#access_conditions_options .message.success').animate({
+                        $('#access_conditions_list .message.success').animate({
                             opacity: 0
                         }, 400, function() {
-                            $('#access_conditions_options .message.success').removeClass('success').text('').css('opacity', 100);
+                            $('#access_conditions_list .message.success').removeClass('success').text('').css('opacity', 100);
                         });
                     }, 1500);
                 },

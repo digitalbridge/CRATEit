@@ -50,6 +50,7 @@ class setupservice
         self::$params['embargo_date'] = array_key_exists('embargo_date', $manifestData) ? $manifestData['embargo_date'] : '';
         self::$params['embargo_details'] = array_key_exists('embargo_details', $manifestData) ? $manifestData['embargo_details'] : '';
         self::$params['access_conditions'] = array_key_exists('access_conditions', $manifestData) ? $manifestData['access_conditions'] : '';
+        self::$params['access_permissions_statement'] = array_key_exists('access_permissions_statement', $manifestData) ? $manifestData['access_permissions_statement'] : '';
 
         self::$params['crateDetails'] = $this->crateManager->getCrateDetailsList();
         //$info = self::getAppInfo('crate_it');

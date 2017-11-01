@@ -52,6 +52,11 @@
                 <span><?php p($_['access_conditions']) ?></span>
             <?php } ?>
 
+            <?php if (array_key_exists('access_permissions_statement', $_)) { ?>
+                <h1>Access Permissions Statement</h1>
+                <span><?php p($_['access_permissions_statement']) ?></span>
+            <?php } ?>
+
             <h4>Creators</h4>
             <?php if (array_key_exists('creators', $_) && !empty($_['creators']))  { ?>
                 <table border="1">

@@ -131,4 +131,5 @@
         <?php } ?>
     </my:Contents>
     <my:AccessConditions><?php if(array_key_exists('access_conditions',$_)) {p($_['access_conditions']);} ?></my:AccessConditions>
+    <my:AccessPermissionsStatement><?php if(array_key_exists('access_permissions_statement',$_)) {p($_['access_permissions_statement']);} ?></my:AccessPermissionsStatement>
 </my:RedboxCollection>

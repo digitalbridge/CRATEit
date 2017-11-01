@@ -20,6 +20,7 @@
     <span id="validate_grants_title"><?php p($_['validate_grants_title']) ?></span>
     <span id="validate_data_retention_period"><?php p($_['validate_data_retention_period']) ?></span>
     <span id="validate_access_conditions"><?php p($_['validate_access_conditions']) ?></span>
+    <span id="validate_access_permissions_statement"><?php p($_['validate_access_permissions_statement']) ?></span>
     <span id="selected_crate"><?php p($_['selected_crate']) ?></span>
     <span id="sword_enabled"><?php
         $swordEnabled = false;

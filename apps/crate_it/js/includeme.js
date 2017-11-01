@@ -604,11 +604,11 @@ function reloadCrateData(manifest) {
     $('#retention_period_value').text(manifest['data_retention_period'] || 'Please select a Data Retention Period');
     $('#choose_retention_period').removeClass('hidden');
 
-
     // Access Conditions
     $('#access_closed').prop('checked', manifest['access_conditions'] === 'closed');
     $('#access_open').prop('checked', manifest['access_conditions'] === 'open');
     $('#access_shared').prop('checked', manifest['access_conditions'] === 'shared');
+    $('#access_permissions_statement').text(manifest['access_permissions_statement'] ? manifest['access_permissions_statement'] : '');
 }
 
 
