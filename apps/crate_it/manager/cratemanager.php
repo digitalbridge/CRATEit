@@ -260,21 +260,56 @@ class cratemanager
 
     public function checkCrate($crateName)
     {
-        \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - ".$crateName, \OCP\Util::DEBUG);
+        \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - " . $crateName, \OCP\Util::DEBUG);
         $crate = $this->getCrate($crateName);
         $files = $crate->getAllFilesAndFolders();
         $result = array();
-        if(count($files) == 0) {
+
+        $msg = '';
+        $config = Util::getConfig();
+        $manifest = json_decode($this->getManifestFileContent($crateName), true);
+
+        if ($config['validate_crate_name'] && empty($crateName)) {
+            $msg .= 'Crate name cannot be blank.<br />';
+        }
+
+        if ($config['validate_crate_description'] && empty($manifest['description'])) {
+            $msg .= 'Crate description cannot be blank.<br />';
+        }
+
+        if ($config['validate_data_creators'] && empty($manifest['creators'])) {
+            $msg .= 'There must be at least 1 Data Creator.<br />';
+        }
+
+        if ($config['validate_data_retention_period'] && $manifest['data_retention_period'] == "Please Select") {
+            $msg .= 'Data Retention Period must be set.<br />';
+        }
+
+        if ($config['validate_access_conditions'] && empty($manifest['access_conditions'])) {
+            $msg .= 'Access Conditions must be set.<br />';
+        }
+
+        if ($config['validate_access_permissions_statement'] && empty($manifest['access_permissions_statement'])) {
+            $msg .= 'Access Permissions Statement cannot be blank.<br />';
+        }
+
+        // $result = 'validate_crate_name: ' . $config['validate_crate_name'];
+        // $result .= ', name: ' . $crateName;
+        return $msg;
+
+        if (count($files) == 0) {
             return false;
         }
+
         foreach ($files as $filepath) {
-            \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - checking ".$filepath, \OCP\Util::DEBUG);
+            \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - checking " . $filepath, \OCP\Util::DEBUG);
             $file_exist = \OC\Files\Filesystem::file_exists($filepath);
-            if (!$file_exist) {
-                \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - file does not exist: ".$filepath, \OCP\Util::DEBUG);
+            if (! $file_exist) {
+                \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - file does not exist: " . $filepath, \OCP\Util::DEBUG);
                 $result[basename($filepath)] = $file_exist;
             }
         }
+
         $this->updateCrateCheckIcons($crateName);
         return $result;
     }

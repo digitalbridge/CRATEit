@@ -81,7 +81,7 @@ function initCrateActions() {
             dataType: 'json',
             async: true,
             success: function(data) {
-                $('#result-message').text(data.msg);
+                $('#result-message').html(data);
                 res = data.result;
                 var key;
                 for (key in res) {

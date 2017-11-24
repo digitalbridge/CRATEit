@@ -358,7 +358,8 @@ class cratecontroller extends Controller
             $selected_crate = $_SESSION['selected_crate'];
             session_commit();
             $result = $this->crateManager->checkCrate($selected_crate);
-            if(! is_array($result)) {
+            return $result;
+            if (! is_array($result)) {
                 $msg = 'This crate contains no files';
             } else {
                 if (empty($result)) {
