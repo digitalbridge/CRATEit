@@ -682,17 +682,14 @@ function setupDescriptionOps() {
 }
 
 function setupRetentionPeriodOps() {
-    var radio_button_list = [
-        '<input type="radio" name="retention_radio" id="radio1" value="5">&nbsp;<label for="radio1">5</label>',
-        '<input type="radio" name="retention_radio" id="radio2" value="20">&nbsp;<label for="radio2">20</label>',
-        '<input type="radio" name="retention_radio" id="radio3" value="Perpetuity">&nbsp;<label for="radio3">Perpetuity</label>',
-        '<input type="radio" name="retention_radio" id="radio4" value="None">&nbsp;<label for="radio4">None</label>'
-    ];
-
     var html = '';
-    for (i = 0; i < radio_button_list.length; i++) {
-        html += radio_button_list[i] + '<br />';
+    html += '<select name="retention_radio" id="retention_period">';
+    html += '<option value="Please Select">Select Option</option>';
+    html += '<option value="Perpetuity">Perpetuity</option>';
+    for (i = 1; i < 51; i++) {
+        html += '<option value="' + i + '">' + i + '</option>';
     }
+    html += '</select><br /><br />';
 
     html += '<input id="save_retention_period" type="button" value="Save" />';
     html += '<input id="cancel_retention_period" type="button" value="Cancel" />';
@@ -704,12 +701,12 @@ function setupRetentionPeriodOps() {
         $('#retention_period_value').text('');
         $('#retention_period_value').html(html);
         $('#choose_retention_period').addClass('hidden');
-        $('input[value="' + old_retention_period + '"]').prop('checked', true);
+        $('#retention_period').val(old_retention_period);
 
         $('#save_retention_period').click(function(event) {
-            var $retentionPeriod = $('#retention_period_value input[type="radio"]:checked').val();
+            var $retentionPeriod = $('#retention_period').val();
 
-            if (templateVars['validate_data_retention_period'] && ! $retentionPeriod) {
+            if (templateVars['validate_data_retention_period'] && $retentionPeriod == 'Please Select') {
                 $('#retention_period_value .message').text('Please select an option');
                 return;
             } else {
@@ -723,7 +720,7 @@ function setupRetentionPeriodOps() {
                     data: {
                         'fields': [{
                             'field': 'data_retention_period',
-                            'value': $('input[type="radio"]:checked').val()
+                            'value': $retentionPeriod
                         }]
                     },
                     success: function(data) {
