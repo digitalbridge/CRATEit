@@ -10,6 +10,7 @@
   "crate_cc_email": "ccemail@crateit.dev",
   "validate_crate_name": "true",
   "validate_crate_description": "false",
+  "validate_data_creators": true,
   "validate_data_creators_name": true,
   "validate_data_creators_email": true,
   "validate_data_creators_url": true,
