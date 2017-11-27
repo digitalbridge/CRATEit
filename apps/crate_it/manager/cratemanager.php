@@ -266,6 +266,7 @@ class cratemanager
         $result = array();
 
         $msg = '';
+        $valid = false;
         $config = Util::getConfig();
         $manifest = json_decode($this->getManifestFileContent($crateName), true);
 
@@ -293,22 +294,35 @@ class cratemanager
             $msg .= 'Access Permissions Statement cannot be blank.<br />';
         }
 
-        // $result = 'validate_crate_name: ' . $config['validate_crate_name'];
-        // $result .= ', name: ' . $crateName;
-        return $msg;
-
         if (count($files) == 0) {
-            return false;
-        }
+            $msg .= 'This crate contains no files.<br />';
+        } else {
+            foreach ($files as $filepath) {
+                \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - checking " . $filepath, \OCP\Util::DEBUG);
+                $file_exist = \OC\Files\Filesystem::file_exists($filepath);
+                if (! $file_exist) {
+                    \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - file does not exist: " . $filepath, \OCP\Util::DEBUG);
+                    $result[basename($filepath)] = $file_exist;
+                    $missing_files[] = basename($filepath);
+                }
+            }
 
-        foreach ($files as $filepath) {
-            \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - checking " . $filepath, \OCP\Util::DEBUG);
-            $file_exist = \OC\Files\Filesystem::file_exists($filepath);
-            if (! $file_exist) {
-                \OCP\Util::writeLog('crate_it', "CrateManager::checkCrate() - file does not exist: " . $filepath, \OCP\Util::DEBUG);
-                $result[basename($filepath)] = $file_exist;
+            if (! empty($missing_files)) {
+                $msg .= 'The following item(s) no longer exist:<br />';
+
+                foreach($missing_files as $file) {
+                    $msg .= '&nbsp; - &nbsp;' . $file . '<br />';
+                }
             }
         }
+
+        if (empty($msg)) {
+            $msg = 'All items are valid.';
+            $valid = true;
+        }
+
+        $result['msg'] = $msg;
+        $result['valid'] = $valid;
 
         $this->updateCrateCheckIcons($crateName);
         return $result;

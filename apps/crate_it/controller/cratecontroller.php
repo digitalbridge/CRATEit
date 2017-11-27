@@ -357,23 +357,7 @@ class cratecontroller extends Controller
         try {
             $selected_crate = $_SESSION['selected_crate'];
             session_commit();
-            $result = $this->crateManager->checkCrate($selected_crate);
-            return $result;
-            if (! is_array($result)) {
-                $msg = 'This crate contains no files';
-            } else {
-                if (empty($result)) {
-                    $msg = 'All items are valid.';
-                } elseif (sizeof($result) === 1) {
-                    $msg = 'The following item no longer exists:';
-                } else {
-                    $msg = 'The following items no longer exist:';
-                }
-            }
-            return new JSONResponse(
-                array('msg' => $msg,
-                      'result' => $result)
-            );
+            return $this->crateManager->checkCrate($selected_crate);
         } catch (\Exception $e) {
             return new JSONResponse(array($e->getMessage(), 'error' => $e), Http::STATUS_INTERNAL_SERVER_ERROR);
         }

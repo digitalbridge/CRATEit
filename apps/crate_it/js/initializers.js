@@ -81,13 +81,7 @@ function initCrateActions() {
             dataType: 'json',
             async: true,
             success: function(data) {
-                $('#result-message').html(data);
-                res = data.result;
-                var key;
-                for (key in res) {
-                    newRow = '<tr><td>' + key + '</td></tr>';
-                    $('#check-results-table').last().append(newRow);
-                }
+                $('#result-message').html(data.msg);
             },
             error: function(data) {
                 // TODO Format errors
@@ -413,6 +407,7 @@ function initCrateActions() {
         $('div#checkingCrateModal').modal();
         $('#publish-consistency').text('');
         $('#publish-consistency-table').empty();
+        $('#publishModal .modal-footer .btn-primary').prop('disabled', false);
         updateCrateSize();
 
         var c_url = OC.generateUrl('apps/crate_it/crate/check');
@@ -423,12 +418,9 @@ function initCrateActions() {
             dataType: 'json',
             async: true,
             success: function(data) {
-                var inconsistencies = Object.keys(data.result);
-                if (inconsistencies.length > 0) {
-                    $('#publish-consistency').text('[Consistency Check] ' + data.msg);
-                    for (var i = 0; i < inconsistencies.length; i++) {
-                        $('#publish-consistency-table').last().append('<tr><td>' + inconsistencies[i] + '</td></tr>');
-                    }
+                if (! data.valid) {
+                    $('#publish-consistency').html('[Consistency Check]<br />' + data.msg);
+                    $('#publishModal .modal-footer .btn-primary').prop('disabled', true);
                 }
             },
             error: function(jqXHR) {
@@ -471,7 +463,9 @@ function initCrateActions() {
         });
 
         manifest = getManifest();
-        updateKeywordsPublishList(manifest.for_keywords);
+        if (manifest['for_keywords'] && manifest['for_keywords'].length) {
+            updateKeywordsPublishList(manifest.for_keywords);
+        }
 
         $('#publish-fors').children().remove();
         records = ForSearchManager.getSelected();
