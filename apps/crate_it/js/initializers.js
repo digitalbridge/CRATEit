@@ -407,7 +407,7 @@ function initCrateActions() {
         $('div#checkingCrateModal').modal();
         $('#publish-consistency').text('');
         $('#publish-consistency-table').empty();
-        $('#publishModal .modal-footer .btn-primary').prop('disabled', false);
+        $('#publishModal .btn-primary').prop('disabled', false);
         updateCrateSize();
 
         var c_url = OC.generateUrl('apps/crate_it/crate/check');
@@ -420,7 +420,7 @@ function initCrateActions() {
             success: function(data) {
                 if (! data.valid) {
                     $('#publish-consistency').html('[Consistency Check]<br />' + data.msg);
-                    $('#publishModal .modal-footer .btn-primary').prop('disabled', true);
+                    $('#publishModal .btn-primary').prop('disabled', true);
                 }
             },
             error: function(jqXHR) {
