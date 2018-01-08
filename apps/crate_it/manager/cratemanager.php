@@ -282,7 +282,7 @@ class cratemanager
             $msg .= 'There must be at least 1 Data Creator.<br />';
         }
 
-        if ($config['validate_data_retention_period'] && $manifest['data_retention_period'] == "Please Select") {
+        if ($config['validate_data_retention_period'] && $manifest['data_retention_period'] === "Please Select") {
             $msg .= 'Data Retention Period must be set.<br />';
         }
 
@@ -294,7 +294,7 @@ class cratemanager
             $msg .= 'Access Permissions Statement cannot be blank.<br />';
         }
 
-        if (count($files) == 0) {
+        if (count($files) === 0) {
             $msg .= 'This crate contains no files.<br />';
         } else {
             foreach ($files as $filepath) {
