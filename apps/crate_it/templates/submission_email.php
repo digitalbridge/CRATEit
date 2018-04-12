@@ -36,6 +36,9 @@
             <h4>Description</h4>
             <span property="http://schema.org/description"><?php p(nl2br($_['description'])) ?></span>
 
+            <h4>Crate Size</h4>
+            <span><?php p($_['size']) ?></span>
+
             <h4>URL</h4>
             <span property="http://schema.org/url"><?php p(nl2br($_['url'])) ?></span>
 
