@@ -31,7 +31,7 @@
                             <td><?=$crateDetail['name']; ?></td>
                             <td><?=$crateDetail['size']['human']; ?></td>
                             <!-- <td><?=$crateDetail['contents']['0']; ?></td> -->
-                            <td><?=$crateDetail['manifest']['description']; ?></td>
+                            <td class="crate-description"><?=$crateDetail['manifest']['description']; ?></td>
                             <td><?=$crateDetail['manifest']['submitter']['displayname']; ?> (<?=$crateDetail['manifest']['submitter']['email']; ?>)</td>
                             <td><?=$crateDetail['manifest']['data_retention_period']; ?></td>
                             <td><?=$crateDetail['manifest']['publish_details']['submitted_date']; ?></td>
@@ -69,7 +69,7 @@
                             <td><?=$crateDetail['name']; ?></td>
                             <td><?=$crateDetail['size']['human']; ?></td>
                             <!-- <td><?=$crateDetail['contents']['0']; ?></td> -->
-                            <td><?=$crateDetail['manifest']['description']; ?></td>
+                            <td class="crate-description"><?=$crateDetail['manifest']['description']; ?></td>
                             <td>
                                 <?=$crateDetail['manifest']['submitter']['displayname']; ?> (<?=$crateDetail['manifest']['submitter']['email']; ?>)
                             </td>

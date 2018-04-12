@@ -976,3 +976,7 @@ table.grid td {
     margin-right: 0;
     margin-left: 0;
 }
+
+#mycratesModal .crate-description {
+    white-space: normal;
+}
