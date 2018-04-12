@@ -620,10 +620,17 @@ function setupDescriptionOps() {
         var old_description = $('#description').text();
         var description_length = templateVars['description_length'];
         $('#description').text('').addClass('no-border');
-        $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><br /><div id="edit_description_validation_error" style="color: red;"></div><input type="button" id="save_description" value="Save" /><input type="button" id="cancel_description" value="Cancel" /><span class="message error"></span>');
+        $('#description').html('<textarea id="crate_description" maxlength="' + description_length + '" placeholder="Enter a description of the research data package for this Crate">' + old_description + '</textarea><div class="char-count"><span></span> / ' + description_length + '</div><br /><div id="edit_description_validation_error" style="color: red;"></div><input type="button" id="save_description" value="Save" /><input type="button" id="cancel_description" value="Cancel" /><span class="message error"></span>');
         $('#description textarea').height($(this).closest('.panel-body').height() / 2);
         setupEditDescriptionOp();
         $('#edit_description').addClass('hidden');
+
+        $('#description').find('textarea').on('keyup', function() {
+            chars = $(this).val().length;
+
+            $(this).next('.char-count').find('span').text(chars);
+        });
+
         $('#save_description').click(function(event) {
             var c_url = OC.generateUrl('apps/crate_it/crate/update');
 

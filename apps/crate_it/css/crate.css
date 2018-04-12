@@ -980,3 +980,8 @@ table.grid td {
 #mycratesModal .crate-description {
     white-space: normal;
 }
+
+.char-count {
+    float: right;
+    margin: 0 0.5rem;
+}
