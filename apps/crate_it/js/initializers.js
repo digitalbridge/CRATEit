@@ -1067,10 +1067,10 @@ function initSearchHandlers() {
 
     var editCreatorUrlValidator = new CrateIt.Validation.UrlValidator();
     if (templateVars['validate_data_creators_url']) {
-        editCreatorUrlValidator = new CrateIt.Validation.OptionalValidator(editCreatorUrlValidator);
+        editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.RequiredValidator('Identifier'));
         editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
-        editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.IgnoredWhenHiddenValidator(editCreatorUrlValidator));
     }
+    editCreatorValidator.addValidator($('#edit-creators-identifier'), new CrateIt.Validation.OptionalValidator(editCreatorUrlValidator));
 
     // TODO: add this to a namespace rather than exposing globally
     CreatorSearchManager = new SearchManager(creatorDefinition, creatorSelectedList, creator$resultsUl, creator$selectedUl, creator$notification, creator$editModal);
@@ -1127,8 +1127,8 @@ function initSearchHandlers() {
     if (templateVars['validate_data_creators_url']) {
         addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.RequiredValidator('Identifier'));
         addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.MaxLengthValidator('Identifier', 2000));
-        addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.OptionalValidator(addCreatorUrlValidator));
     }
+    addCreatorValidator.addValidator($('#add-creator-identifier'), new CrateIt.Validation.OptionalValidator(addCreatorUrlValidator));
 
     if (! templateVars['validate_data_creators_name'] && ! templateVars['validate_data_creators_email'] && ! templateVars['validate_data_creators_url']) {
         $('#addCreatorModal .modal-footer .btn-primary, #editCreatorsModal .modal-footer .btn-primary').removeAttr('disabled').addClass('noval');

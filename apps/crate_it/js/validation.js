@@ -129,13 +129,13 @@ CrateIt.Validation = {
     };
 
   },
-  
+
   // NOTE: This is unused atm - the crate name validation is done differently currently
   // Should modify to use this validation scheme instead (when we have time)
   CrateNameValidator: function() {
       this.invalidMessage = "Invalid name. Illegal characters '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed";
       var regex = /[\/\\\<\>:\"\|?\*]/;
-      
+
       this.isValid = function(value) {
         return !regex.test(value);
       };
@@ -144,7 +144,7 @@ CrateIt.Validation = {
   UrlValidator: function() {
     this.invalidMessage = 'Must be a valid URL';
 
-    var regex = /^https?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
+    var regex = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}|\\\^\[\]`]+)?$/;
 
     this.isValid = function(value) {
       return regex.test(value);
